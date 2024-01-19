@@ -7,8 +7,7 @@ const userService = new UserClass();
 
 const initializePassport = () => {
   // Github
-  passport.use(
-    "github",
+  passport.use("github",
     new GithubStrategy(
       {
         clientID: process.env.GITHUB_CLIENT_ID,
@@ -19,7 +18,7 @@ const initializePassport = () => {
         try {
           //console.log(profile);
           let user = await userService.getUserByMail(profile._json.email);
-          console.log(user);
+          //console.log(user);
           if (!user) {
             // para registrar en caso de que no exista
             let userNew = {
@@ -45,7 +44,7 @@ const initializePassport = () => {
     done(null, user.id);
   });
   passport.deserializeUser(async (id, done) => {
-    let user = await userService.geUsertBy({ _id: id });
+    let user = await userService.getUserById(id);
     done(null, user);
   });
 };

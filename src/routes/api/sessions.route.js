@@ -8,6 +8,7 @@ import {
 import { UserClass } from "../../daos/index.js";
 import { createHash, isValidPassword } from "../../helpers/passwords.js";
 import passport from "passport";
+import { authenticationToken, createToken } from "../../helpers/jwt.js";
 
 const router = Router();
 
@@ -24,11 +25,14 @@ router.post('/register', async (req, res) => {
 
     if (userFound) throw new CustomError(`Ya existe un usuario con ese email. pruebe con otro`,400,'POST /api/sessions/register')
 
-    if (req.body.uadmin) userData.admin = true;
+    //if (req.body.uadmin) userData.admin = true;
 
-    await users.createUser(userData)
+    const user = await users.createUser(userData)
+
+    const token = createToken({id: user._id})
 
     renderPage(res,"login","Login",{control: {answer: 'Se ha registrado satisfactoriamente' }});
+
   } catch (error) {
     console.error(error);
     if (error instanceof CustomError) {
@@ -45,12 +49,16 @@ router.post('/login', async (req, res) => {
   const userData = validateFields(req.body, requieredfield);
 
   try {
+    
     if (userData.email == process.env.USER_ADMIN && isValidPassword(userData.password, {password: process.env.USER_ADMIN_PASS}) ) {
-      req.session.user = {
-        first_name: "Admin",
-        email: userData.email,
-        role: "Admin"
-      };
+      
+      // req.session.user = {
+      //   first_name: "Admin",
+      //   email: userData.email,
+      //   role: "Admin"
+      // };
+      const token = createToken({id: 0, role: "Admin"})
+      res.token = token
       return res.redirect('/products');
     }
 
@@ -59,15 +67,18 @@ router.post('/login', async (req, res) => {
     if (!userFound || isValidPassword(createHash(userData.password), userFound)) {
       throw new CustomError(`Email o contraseña equivocado`,400,'POST .../api/sessions/login');
     }
-
-    req.session.user = {
-      user: userFound._id,
-      first_name: userFound.first_name,
-      last_name: userFound.last_name,
-      email: userFound.email,
-      role: userFound.role,
-    };
+    
+    // req.session.user = {
+    //   user: userFound._id,
+    //   first_name: userFound.first_name,
+    //   last_name: userFound.last_name,
+    //   email: userFound.email,
+    //   role: userFound.role,
+    // };
+    const token = createToken({id: userFound._id, role: userFound.role})
+    res.token = token
     res.redirect('/products');
+
   } catch (error) {
     console.error(error);
     if (error instanceof CustomError) {
@@ -95,5 +106,10 @@ router.get('/logout', (req, res) => {
   });
   res.redirect('/');
 });
+
+// GET http://localhost:PORT/api/sessions/current
+router.get('/api/sessions/current', authenticationToken,(req, res) => {
+  res.send("Datos sensibles")
+})
 
 export default router;
