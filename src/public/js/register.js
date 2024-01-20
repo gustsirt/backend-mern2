@@ -1,6 +1,6 @@
 const password = document.querySelector('#password')
 const pswRepeat = document.querySelector('#pswRepeat')
-const sigInSubmit = document.querySelector('#sigInSubmit')
+const submitButton = document.querySelector('#registerButton')
 const answer = document.querySelector('#answer')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 password.addEventListener('keyup', (e) => {
   if (password.value === pswRepeat.value && password.value.length >= 4) {
-    sigInSubmit.disabled = false
+    submitButton.disabled = false
     answer.innerHTML = ''
   } else {
-    sigInSubmit.disabled = true
+    submitButton.disabled = true
     answer.innerHTML = 'La contraseña debe tener una longitud mínima de 4 caracteres'
     setTimeout(()=>{
       answer.innerHTML = ''
@@ -23,11 +23,11 @@ password.addEventListener('keyup', (e) => {
 })
 pswRepeat.addEventListener('keyup', (e) => {
   if (password.value === pswRepeat.value && password.value.length >= 4 ) {
-    sigInSubmit.removeAttribute('disabled')
+    submitButton.removeAttribute('disabled')
     //.disabled = false;
     answer.innerHTML = ''
   } else {
-    sigInSubmit.disabled = true;
+    submitButton.disabled = true;
     answer.innerHTML = 'La contraseña deben ser iguales'
     setTimeout(()=>{
       answer.innerHTML = ''
