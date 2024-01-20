@@ -91,18 +91,18 @@ router.get('/github', passport.authenticate('github', {scope:['user:email']}), a
 
 // GET http://localhost:PORT/api/sessions/githubcallhub
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/'}),(req, res)=>{
-  //req.session.user = req.user
+  req.session.user = req.user
 
-  const token = createToken({id: req.user._id, role: req.user.role})
-  resJson(res, 200, "Log In a traves de Github exitoso", token)
-  //res.redirect('/products');
+  // const token = createToken({id: req.user._id, role: req.user.role})
+  // resJson(res, 200, "Log In a traves de Github exitoso", token)
+  res.redirect('/products');
 })
 
 // GET http://localhost:PORT/api/sessions/logout
 router.get('/logout', (req, res) => {
-  // req.session.destroy((err) => {
-  //   if (err) return res.send({ status: 'error', error: err });
-  // });
+  req.session.destroy((err) => {
+    if (err) return res.send({ status: 'error', error: err });
+  });
   res.redirect('/');
 });
 

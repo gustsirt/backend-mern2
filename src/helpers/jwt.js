@@ -18,4 +18,6 @@ export const authenticationToken = (req, res, next) => {
     req.user = userDecode;
     next();
   });
+
+  //renderPage(res,"register","Nuevo Registro",{control: {answer: error.message }});
 };
