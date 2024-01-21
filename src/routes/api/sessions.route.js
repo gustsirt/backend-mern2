@@ -5,12 +5,15 @@ import {
   validateFields,
   renderPage,
   resJson,
-  resError
+  resError,
+  resCJason
 } from "../../helpers/index.js";
 import { UserClass } from "../../daos/index.js";
 import { createHash, isValidPassword } from "../../helpers/passwords.js";
 import passport from "passport";
 import { authenticationToken, createToken } from "../../helpers/jwt.js";
+import passportCall from "../../helpers/passportCall.js";
+import authPJwt from '../../middleware/jwtPassport.middleware.js'
 
 const router = Router();
 
@@ -72,8 +75,9 @@ router.post('/login', async (req, res) => {
     //   role: userFound.role,
     // };
     const token = createToken({id: userFound._id, role: userFound.role})
-    resJson(res, 200, "Log In exitoso", token)
-    // res.token = token
+    resCJason(res, 200, "Log In exitoso", token)
+    //resJson(res, 200, "Log In exitoso", token)
+        // res.token = token
     // res.redirect('/products');
 
   } catch (error) {
@@ -107,8 +111,8 @@ router.get('/logout', (req, res) => {
 });
 
 // GET http://localhost:PORT/api/sessions/current
-router.get('/api/sessions/current', authenticationToken,(req, res) => {
-  res.send("Datos sensibles")
+router.get('/current', passportCall('jwt', {session: false}),authPJwt('admin'),(req, res) => {
+  res.send({message: "Datos sensibles", reqUser: req.user})
 })
 
 export default router;

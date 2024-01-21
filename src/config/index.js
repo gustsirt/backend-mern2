@@ -27,7 +27,7 @@ export const sessionAtlas = (app) => {
         },
         ttl: 3600, // milisegundos --> hs
       }),
-      secret: process.env.SECRETCODE,
+      secret: process.env.SECRET_CODE,
       resave: true,
       saveUninitialized: true,
     })

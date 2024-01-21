@@ -1,7 +1,7 @@
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { resError } from "./index.js";
-const JWT_PRIVATE_KEY = process.env.SECRETCODE;
+const JWT_PRIVATE_KEY = process.env.SECRET_CODE;
 
 export const createToken = (user) =>
   jwt.sign(user, JWT_PRIVATE_KEY, { expiresIn: "1d" });

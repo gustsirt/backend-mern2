@@ -3,7 +3,7 @@ import express from 'express';
 
 import {createServer} from 'node:http'
 // const serverIo = require('./middleware/serverIO.js');
-
+import cookieParser from 'cookie-parser'
 import appRouter from './routes/index.js'
 import { __dirname } from './helpers/index.js';
 import handlebars from 'express-handlebars';
@@ -19,12 +19,13 @@ const server = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser(process.env.SECRET_CODE))
 
 // serverIo(server);
 connectDB();
 
 // session
-sessionAtlas(app);
+//sessionAtlas(app);
 
 // passport
 initializePassport()

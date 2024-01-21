@@ -5,6 +5,7 @@ import {
   responseCatchError as resCatchError,
   responseError as resError,
   responseJson as resJson,
+  responseCookieJson as resCJason,
 } from "./responses.js";
 import { renderPage } from "./renders.js";
 
@@ -18,6 +19,7 @@ export {
   validateFields,
 
   resJson,
+  resCJason,
   resError,
   resCatchError,
 
