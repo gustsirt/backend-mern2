@@ -1,8 +1,10 @@
 import { Router } from "express";
 import viewsRouter from './views.route.js'
-import { productsRoute, sessionsRoute } from "./api/index.js";
+import { productsRoute, sessionsRoute  } from "./api/index.js";
+import UsersCRouter from "./api/usersClass.router.js";
 
 const router = Router()
+const usersRouter = new UsersCRouter();
 
 // definiendo vistas
 router.use('/', viewsRouter);
@@ -14,8 +16,6 @@ router.use('/api/carts/', ()=>{});
 router.use('/api/sessions/', sessionsRoute);
 router.delete('/api/messages', ()=>{});
 
-// router.get("/pruebas", (req, res) => {
-//   res.send(createHash(""))
-// })
+router.use('/api/users/', usersRouter.getRouter());
 
 export default router;
