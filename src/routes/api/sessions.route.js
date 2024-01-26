@@ -111,7 +111,7 @@ router.get('/logout', (req, res) => {
 });
 
 // GET http://localhost:PORT/api/sessions/current
-router.get('/current', passportCall('jwt', {session: false}),authPJwt('admin'),(req, res) => {
+router.get('/current', passportCall('jwt'),authPJwt('admin'),(req, res) => {
   res.send({message: "Datos sensibles", reqUser: req.user})
 })
 

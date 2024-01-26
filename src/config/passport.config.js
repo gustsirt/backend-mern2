@@ -67,15 +67,6 @@ const initializePassport = () => {
   );
   // passsport.use("nombre", instancia clase strategia --> (obj conf , callback))
   // funcion done(error, usuario, {message: "mensaje error"})
-
-  // guardar y recuperra credenciales del usuario de session
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-  passport.deserializeUser(async (id, done) => {
-    let user = await userService.getUserById(id);
-    done(null, user);
-  });
 };
 
 export default initializePassport;

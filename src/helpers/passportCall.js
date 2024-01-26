@@ -1,8 +1,8 @@
 import passport from "passport";
 
-const passportCall = (strategy, configObject) => {
+const passportCall = (strategy) => {
   return async (req, res, next) => {
-    passport.authenticate(strategy, configObject, function (err, user, info) {
+    passport.authenticate(strategy, {session: false}, function (err, user, info) {
       if (err) return next(err);
       if (!user)
         return res
