@@ -1,7 +1,7 @@
-import "dotenv/config";
+import configObject from "../config/index.js";
 import { Router } from "express";
-import { ProductClass } from "../daos/index.js";
-import { renderPage } from "../helpers/index.js";
+import { ProductClass } from "../dao/index.js";
+import { renderPage } from "../helpers/responses.js";
 
 const router = Router();
 
@@ -45,7 +45,7 @@ router.get("/products", async (req, res) => {
       availability = true,
     } = req.query;
     const category = initialCategory === "all" ? null : initialCategory;
-    const apiUrl = new URL(`http://localhost:${process.env.PORT}/api/products`);
+    const apiUrl = new URL(`http://localhost:${configObject.port}/api/products`);
     apiUrl.searchParams.set("page", page);
     apiUrl.searchParams.set("limit", "5");
     if (sort) apiUrl.searchParams.set("sort", sort);
@@ -121,7 +121,7 @@ router.get("/products", async (req, res) => {
 router.get("/products/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
-    const apiUrl = `http://localhost:8080/api/products/${pid}`;
+    const apiUrl = `http://localhost:${configObject.port}/api/products/${pid}`;
 
     const { error, data } = await (await fetch(apiUrl)).json();
 

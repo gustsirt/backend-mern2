@@ -1,9 +1,8 @@
-import "dotenv/config";
+import configObject from "../config/index.js";
 import passport from "passport";
-import GithubStrategy from "passport-github2";
 import jwt from "passport-jwt";
-import { UserClass } from "../daos/index.js";
-const JWT_PRIVATE_KEY = process.env.SECRET_CODE;
+import GithubStrategy from "passport-github2";
+import { UserClass } from "../dao/index.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -22,7 +21,7 @@ const initializePassport = () => {
   passport.use("jwt", new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: JWT_PRIVATE_KEY,
+        secretOrKey: configObject.jwt_code,
       },
       async (jwt_payload, done) => {
         try {
@@ -38,9 +37,9 @@ const initializePassport = () => {
   // Github
   passport.use("github",new GithubStrategy(
       {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: `http://localhost:${process.env.PORT}/api/sessions/githubcallback`,
+        clientID: configObject.gh_client_id,
+        clientSecret: configObject.gh_client_secret,
+        callbackURL: `http://localhost:${configObject.port}/api/sessions/githubcallback`,
       },
       async (accesToken, refreshToken, profile, done) => {
         try {

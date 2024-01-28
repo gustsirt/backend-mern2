@@ -1,4 +1,10 @@
-export const responseJson = (res, statusCode, data, token = null) => {
+const cookiesoptions = {
+  httpOnly: true,
+  //secure: true,
+  //sameSite:'strict'
+}
+
+export const resJson = (res, statusCode, data, token = null) => {
   res.status(statusCode).json({
     error: false,
     data,
@@ -6,12 +12,10 @@ export const responseJson = (res, statusCode, data, token = null) => {
   })
 };
 
-export const responseCookieJson = (res, statusCode, data, token, maxAge = (1000*60*60*24)) => {
+export const resCookieJson = (res, statusCode, data, token, maxAge = (1000*60*60*24)) => {
   res.cookie('token', token, {
     maxAge,
-    httpOnly: true,
-    //secure: true,
-    //sameSite:'strict'
+    ...cookiesoptions
   }).status(statusCode).json({
     error: false,
     data,
@@ -19,7 +23,7 @@ export const responseCookieJson = (res, statusCode, data, token, maxAge = (1000*
   })
 };
 
-export const responseError = (res, statusCode, message, context='', error = true ) => {
+export const resError = (res, statusCode, message, context='', error = true ) => {
   statusCode = Number.parseInt(statusCode);
   statusCode = Number.isNaN ? 500 : statusCode
   res.status(statusCode).json({
@@ -29,7 +33,7 @@ export const responseError = (res, statusCode, message, context='', error = true
   })
 };
 
-export const responseCatchError = (res, error) => {
+export const resCatchError = (res, error) => {
   //, statusCode, message, context=''
   let {statusCode} = error
   statusCode = Number.parseInt(statusCode);
@@ -38,5 +42,29 @@ export const responseCatchError = (res, error) => {
     error: true,
     message: error.message,
     context: error.context || ''
+  })
+};
+
+export const renderPage = (res, page, title, options = {}, others = {}) => {
+  const {user = {}, control = {}, arrays = {}, pageControl = {}} = options
+  res.render(page, {
+    title,
+    ...user,
+    ...control,
+    ...arrays,
+    ...pageControl,
+    ...others
+  })
+};
+
+export const renderPageC = (res, page, title, options = {}, others = {}) => {
+  const {user = {}, control = {}, arrays = {}, pageControl = {}} = options
+  res.render(page, {
+    title,
+    ...user,
+    ...control,
+    ...arrays,
+    ...pageControl,
+    ...others
   })
 };

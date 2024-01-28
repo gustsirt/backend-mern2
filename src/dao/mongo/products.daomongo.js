@@ -1,4 +1,5 @@
-import { CustomError, validateFields } from "../../helpers/index.js";
+import CustomError from "../../utils/errors.js";
+import validateFields from "../../utils/validatefiels.js";
 import productModel from "./models/products.model.js";
 
 class ProductDaoMongo {

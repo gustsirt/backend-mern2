@@ -1,6 +1,8 @@
+import configObject from "../config/index.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-const JWT_PRIVATE_KEY = process.env.SECRET_CODE;
+
+const JWT_PRIVATE_KEY = configObject.jwt_code;
 
 export default class CustomRouter {
   constructor() {

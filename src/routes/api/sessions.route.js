@@ -1,28 +1,27 @@
-import "dotenv/config";
+import configObject from "../../config/index.js";
 import { Router } from "express";
-import {
-  CustomError,
-  validateFields,
-  renderPage,
-  resJson,
-  resError,
-  resCJason
-} from "../../helpers/index.js";
-import { UserClass } from "../../daos/index.js";
-import { createHash, isValidPassword } from "../../helpers/passwords.js";
 import passport from "passport";
-import { authenticationToken, createToken } from "../../helpers/jwt.js";
-import passportCall from "../../helpers/passportCall.js";
-import authPJwt from '../../middleware/jwtPassport.middleware.js'
+import { UserClass } from "../../dao/index.js";
+
+import { createToken } from "../../jwt/createToken.js";
+import authPJwt from "../../jwt/authorization.middleware.js";
+import passportCall from "../../jwt/passportCall.middleware.js";
+
+import handleResponses from "../../middleware/handleResponses.js";
+import { resCookieJson, resError, renderPage } from "../../helpers/responses.js"; // reemplazado por middleware
+
+import { createHash, isValidPassword } from "../../utils/passwords.js";
+import CustomError from "../../utils/errors.js";
+import validateFields from "../../utils/validatefiels.js";
 
 const router = Router();
 
 const users = new UserClass();
 
-// POST http://localhost:PORT/api/sessions/register
-router.post('/register', async (req, res) => {
+// OK POST http://localhost:PORT/api/sessions/register
+router.post('/register', handleResponses, async (req, res) => {
   try {
-    const requieredfield = ['first_name', 'last_name', 'email', 'password'];
+    const requieredfield = ['first_name', 'last_name', 'email', 'birthday', 'password'];
     const userData = validateFields(req.body, requieredfield);
     userData.password = createHash(userData.password)
 
@@ -32,14 +31,17 @@ router.post('/register', async (req, res) => {
 
     const user = await users.createUser(userData)
 
-    renderPage(res,"login","Login",{control: {answer: 'Se ha registrado satisfactoriamente' }});
+    res.renderPage("login","Login", {answer: 'Se ha registrado satisfactoriamente' })
+    //renderPage(res,"login","Login",{control: {answer: 'Se ha registrado satisfactoriamente' }});
 
   } catch (error) {
     console.error(error);
     if (error instanceof CustomError) {
-      renderPage(res,"register","Nuevo Registro",{control: {answer: error.message }});
+      res.renderPage("register","Nuevo Registro", {answer: error.message })
+      //renderPage(res,"register","Nuevo Registro",{control: {answer: error.message }});
     } else {
-      renderPage(res,"register","Nuevo Registro",{control: {answer: 'Ocurrio un error, vuelva a intentarlo'}});
+      res.renderPage("register","Nuevo Registro", {answer: 'Ocurrio un error, vuelva a intentarlo' })
+      //renderPage(res,"register","Nuevo Registro",{control: {answer: 'Ocurrio un error, vuelva a intentarlo'}});
     }
   }
 });
@@ -50,16 +52,10 @@ router.post('/login', async (req, res) => {
   const userData = validateFields(req.body, requieredfield);
 
   try {
-    if (userData.email == process.env.USER_ADMIN && isValidPassword(userData.password, {password: process.env.USER_ADMIN_PASS}) ) {
-      // req.session.user = {
-      //   first_name: "Admin",
-      //   email: userData.email,
-      //   role: "Admin"
-      // };
+    if (userData.email == configObject.uadmin && isValidPassword(userData.password, {password: configObject.uadmin_pass}) ) {
+
       const token = createToken({id: 0, role: "Admin"})
-      resJson(res, 200, "Log In exitoso", token)
-      // res.token = token
-      // return res.redirect('/products');
+      return resCookieJson(res, 200, "Log In exitoso", token)
     }
 
     const userFound = await users.getUserByMail(userData.email);
@@ -67,18 +63,48 @@ router.post('/login', async (req, res) => {
       throw new CustomError(`Email o contraseña equivocado`,400,'POST .../api/sessions/login');
     }
     
-    // req.session.user = {
-    //   user: userFound._id,
-    //   first_name: userFound.first_name,
-    //   last_name: userFound.last_name,
-    //   email: userFound.email,
-    //   role: userFound.role,
-    // };
     const token = createToken({id: userFound._id, role: userFound.role})
-    resCJason(res, 200, "Log In exitoso", token)
-    //resJson(res, 200, "Log In exitoso", token)
-        // res.token = token
-    // res.redirect('/products');
+    resCookieJson(res, 200, "Log In exitoso", token)
+
+  } catch (error) {
+    console.error(error);
+    if (error instanceof CustomError) {
+      resError(res, 400, "Email o contraseña equivocado")
+    } else {
+      resError(res, 500, "Ocurrio un error, vuelva a intentarlo")
+    }
+  }
+});
+
+// POST http://localhost:PORT/api/sessions/login SESSION DESUSO
+router.post('/loginSession', async (req, res) => {
+  const requieredfield = ['email', 'password'];
+  const userData = validateFields(req.body, requieredfield);
+
+  try {
+    if (userData.email == configObject.uadmin && isValidPassword(userData.password, {password: configObject.uadmin_pass}) ) {
+      req.session.user = {
+        first_name: "Admin",
+        email: userData.email,
+        role: "Admin"
+      };
+      return res.redirect('/products');
+    }
+
+    const userFound = await users.getUserByMail(userData.email);
+    if (!userFound || isValidPassword(createHash(userData.password), userFound)) {
+      throw new CustomError(`Email o contraseña equivocado`,400,'POST .../api/sessions/login');
+    }
+    
+    req.session.user = {
+      user: userFound._id,
+      first_name: userFound.first_name,
+      last_name: userFound.last_name,
+      email: userFound.email,
+      role: userFound.role,
+    };
+    
+    res.redirect('/products');
 
   } catch (error) {
     console.error(error);
@@ -97,7 +123,7 @@ router.get('/github', passport.authenticate('github', {scope:['user:email']}), a
 router.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/'}),(req, res)=>{
   req.session.user = req.user
 
-  // const token = createToken({id: req.user._id, role: req.user.role})
+  const token = createToken({id: req.user._id, role: req.user.role})
   // resJson(res, 200, "Log In a traves de Github exitoso", token)
   res.redirect('/products');
 })
@@ -111,8 +137,11 @@ router.get('/logout', (req, res) => {
 });
 
 // GET http://localhost:PORT/api/sessions/current
-router.get('/current', passportCall('jwt'),authPJwt('admin'),(req, res) => {
-  res.send({message: "Datos sensibles", reqUser: req.user})
+//router.get('/current', passportCall('jwt'),authPJwt('admin'),(req, res) => {
+router.get('/current', handleResponses,(req, res) => {
+  //res.send({message: "Datos sensibles", reqUser: req.user})
+  const tokenP = "kaslkjaslkjdlkasjdlkajds"
+  res.sendTokenCookieSucess("pruebas", tokenP)
 })
 
 export default router;

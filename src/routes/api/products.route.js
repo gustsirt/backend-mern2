@@ -1,12 +1,7 @@
 import { Router } from "express";
-import { ProductClass } from "../../daos/index.js";
-import {
-  CustomError,
-  resCatchError,
-  resError,
-  resJson,
-} from "../../helpers/index.js";
-
+import { ProductClass } from "../../dao/index.js";
+import { resCatchError, resError, resJson } from "../../helpers/responses.js";
+import CustomError from "../../utils/errors.js";
 const router = Router();
 const products = new ProductClass();
 
