@@ -1,7 +1,7 @@
 import configObject from "../config/index.js";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-
+import handleResponses from "../middleware/handleResponses.js";
 const JWT_PRIVATE_KEY = configObject.jwt_code;
 
 export default class CustomRouter {
@@ -13,25 +13,25 @@ export default class CustomRouter {
   getRouter() { return this.router; } // export default routerClass
 
   get(path, policies, ...callbacksA) {
-    this.router.get(path, this.handlePolicies(policies), this.handleResponses, this.applyCallbacks(callbacksA));
+    this.router.get(path, handleResponses, this.handlePolicies(policies), this.applyCallbacks(callbacksA));
   }
   post(path, policies, ...callbacksA) {
-    this.router.post(path, this.handlePolicies(policies), this.handleResponses, this.applyCallbacks(callbacksA));
+    this.router.post(path, handleResponses, this.handlePolicies(policies), this.applyCallbacks(callbacksA));
   }
   put(path, policies, ...callbacksA) {
-    this.router.put(path, this.handlePolicies(policies), this.handleResponses, this.applyCallbacks(callbacksA));
+    this.router.put(path, handleResponses, this.handlePolicies(policies), this.applyCallbacks(callbacksA));
   }
   delete(path, policies, ...callbacksA) {
-    this.router.delete(path, this.handlePolicies(policies), this.handleResponses, this.applyCallbacks(callbacksA));
+    this.router.delete(path, handleResponses, this.handlePolicies(policies), this.applyCallbacks(callbacksA));
   }
 
   // Custom Responses
-  handleResponses = (req, res, next) => {
+  /*handleResponses = (req, res, next) => {
     res.sendSuccess = (data, statusCode = 200) => {res.status(statusCode).send({ isError: false, data })};
     res.sendUserError = (error, statusCode = 400) => {res.status(statusCode).send({ isError: true, error })};
     res.sendServerError = (error, statusCode = 500) => {res.status(statusCode).send({ isError: true, error })};
     next()
-  };
+  };*/
 
   // Policies => ['PUBLIC', 'USER', 'USER_PREMIUM', 'ADMIN']
   handlePolicies = policies => (req, res, next) => {

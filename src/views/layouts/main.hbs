@@ -28,8 +28,9 @@
         <ul>
           {{#unless userName}}<li> <a href="/">Inicio</a></li>{{/unless}}
           <li> <a href="/products">Productos</a></li>
-          {{#if userName}}<li> <a href="/realTimeProducts">Tiempo Real</a></li>{{/if}}
+          {{#if accessPremium}}<li> <a href="/realTimeProducts">Tiempo Real</a></li>{{/if}}
           <li> <a href="/chat">Chat</a></li>
+          {{#if development}}<li> <a href="/api/sessions/current">CURRENT</a></li>{{/if}}
         </ul>
       </div>
       <div class="navDiv">

@@ -1,4 +1,4 @@
-import configObject from "../config/index.js";
+import configObject from "./index.js";
 import passport from "passport";
 import jwt from "passport-jwt";
 import GithubStrategy from "passport-github2";
@@ -52,7 +52,7 @@ const initializePassport = () => {
               first_name: profile.username,
               last_name: profile.username,
               email: profile._json.email,
-              password: " ",
+              password: " "
             };
             let result = await userService.createUser(userNew);
             return done(null, result);

@@ -1,5 +1,5 @@
-import CustomError from "../utils/errors.js";
-import { renderPage } from "../helpers/responses.js";
+import CustomError from "../../utils/errors.js";
+import { renderPage } from "../../helpers/responses.js";
 
 // AUTORIZACION TOKEN - SIN PASSPORT
 // ------------------------------------------------------------------------------------

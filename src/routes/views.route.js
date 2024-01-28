@@ -1,25 +1,27 @@
 import configObject from "../config/index.js";
 import { Router } from "express";
 import { ProductClass } from "../dao/index.js";
+
+import handleResponses from "../middleware/handleResponses.js";
+import { handleAuth } from "../middleware/handlePoliciesPASP.js";
 import { renderPage } from "../helpers/responses.js";
 
 const router = Router();
 
+// * GET http://localhost:PORT/
 const productsMongo = new ProductClass();
-
-router.get("/", (req, res) => {
+router.get("/", handleResponses, (req, res) => {
   try {
-    renderPage(res, "login", "Login");
+    res.renderPage("login", "Login");
   } catch (error) {
     console.error(error);
-    renderPage(
-      res,
+    res.renderPageEstruc(
       "error",
       "Error",
       { control: { message: "Ocurrio un error, vuelva a intentarlo" }}
     );
   }
-}); //OK
+});
 
 router.get("/register", (req, res) => {
   try {

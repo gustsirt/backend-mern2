@@ -21,6 +21,7 @@ const configObject = {
   uadmin_pass: process.env.USER_ADMIN_PASS,
   gh_client_id: process.env.GITHUB_CLIENT_ID,
   gh_client_secret: process.env.GITHUB_CLIENT_SECRET,
+  development: opts.mode == 'development',
 
   connectDB: async () => {
     await mongoose.connect(process.env.MONGO_URI);

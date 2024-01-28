@@ -8,7 +8,7 @@ import appRouter from './routes/index.js'
 import __dirname from './utils/dirname.js';
 import handlebars from 'express-handlebars';
 import passport from 'passport';
-import initializePassport from './jwt/passport.config.js';
+import initializePassport from './config/passport.config.js';
 
 const {mode} = program.opts();
 console.log('Mode config: ' + mode);

@@ -13,8 +13,7 @@ const usersSchema = Schema({
       unique: true
   },
   birthday: {
-    type: Date,
-    required: true
+    type: Date
   },
   password: {
     type: String,
