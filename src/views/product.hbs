@@ -13,7 +13,7 @@
       <p>STOCK: {{product.stock}}</p>
       <p>{{product.description}}</p>
     </div>
-    {{#if userName}}<button onclick="addProduct('{{cart}}', '{{product._id}}')">Añadir producto al carrito</button>{{/if}}
+    {{#if userName}}<button onclick="addProduct('{{userCart}}', '{{product._id}}')">Añadir producto al carrito</button>{{/if}}
     <p id="addResponce"></p>
     {{/if}}
   </section>

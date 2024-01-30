@@ -3,41 +3,36 @@ import { Router } from "express";
 import { ProductClass } from "../dao/index.js";
 
 import handleResponses from "../middleware/handleResponses.js";
-import { handleAuth } from "../middleware/handlePoliciesPASP.js";
+import { handleAuthFront } from "../middleware/handlePoliciesPASP.js";
 import { renderPage } from "../helpers/responses.js";
 
 const router = Router();
 
-// * GET http://localhost:PORT/
+// * GET http://localhost:PORT/ (login)
 const productsMongo = new ProductClass();
-router.get("/", handleResponses, (req, res) => {
+router.get("/", handleAuthFront(['PUBLIC']), handleResponses, (req, res) => {
   try {
+    if(req.user) return res.redirect('/products')
     res.renderPage("login", "Login");
   } catch (error) {
     console.error(error);
-    res.renderPageEstruc(
-      "error",
-      "Error",
-      { control: { message: "Ocurrio un error, vuelva a intentarlo" }}
-    );
+    res.renderPage("error","Error", { message: "Ocurrio un error, vuelva a intentarlo" });
   }
 });
 
-router.get("/register", (req, res) => {
+// * GET http://localhost:PORT/register
+router.get("/register", handleAuthFront(['PUBLIC']), handleResponses, (req, res) => {
   try {
-    renderPage(res, "register", "Nuevo Registro");
+    if(req.user) return res.redirect('/products')
+    res.renderPage("register", "Nuevo Registro");
   } catch (error) {
     console.error(error);
-    renderPage(
-      res,
-      "error",
-      "Error",
-      { control: { message: "Ocurrio un error, vuelva a intentarlo" }}
-    );
+    res.renderPage("error","Error", { message: "Ocurrio un error, vuelva a intentarlo" });
   }
-}); //OK
+});
 
-router.get("/products", async (req, res) => {
+// * GET http://localhost:PORT/products
+router.get("/products", handleAuthFront(['PUBLIC']), handleResponses, async (req, res) => {
   try {
     // handle url API products
     const {
@@ -61,9 +56,7 @@ router.get("/products", async (req, res) => {
       Number(page) > Number(data.data.totalPages) ||
       Number(page) < 0
     ) {
-      return renderPage(res, "products", "Productos", {
-        control: { productError: true },
-      });
+      return res.renderPage("products", "Productos", { productError: true });
     }
 
     // update product
@@ -81,11 +74,7 @@ router.get("/products", async (req, res) => {
       return `/products?${params}`;
     };
 
-    renderPage(res, "products", "Productos", {
-      user: {
-        userName: req.session?.user?.first_name,
-        userRole: req.session?.user?.role,
-      },
+    res.renderPageEstruc("products", "Productos", {
       control: {
         productError: false,
       },
@@ -110,58 +99,42 @@ router.get("/products", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    renderPage(
-      res,
-      "error",
-      "Error",
-      {},
-      { message: "Ocurrio un error, vuelva a intentarlo" },
-    );
+    res.renderPage("error","Error",{ message: "Ocurrio un error, vuelva a intentarlo" });
   }
-}); //OK
+});
 
-router.get("/products/:pid", async (req, res) => {
+// * GET http://localhost:PORT/products/:id
+router.get("/products/:pid", handleAuthFront(['PUBLIC']), handleResponses, async (req, res) => {
   try {
     const { pid } = req.params;
     const apiUrl = `http://localhost:${configObject.port}/api/products/${pid}`;
 
     const { error, data } = await (await fetch(apiUrl)).json();
 
-    renderPage(
-      res,
-      "product",
-      "Producto",
+    res.renderPageEstruc("product","Producto",
       {
-        user: {
-          userName: req.session?.user?.first_name,
-          userRole: req.session?.user?.role,
-        },
         control: {
           productError: error,
         },
         arrays: {
           product: data,
         },
-      },
-      { cart: "6591b1a1419b33fbcb57e2b1" },
+      }
     );
 
   } catch (error) {
     console.error(error);
-    renderPage(
-      res,
-      "error",
-      "Error",
-      {},
-      { message: "Ocurrio un error, vuelva a intentarlo" },
-    );
+    res.renderPage("error","Error",{ message: "Ocurrio un error, vuelva a intentarlo" });
   }
-});//OK
+});
 
-router.get("/cart", (req, res) => res.render("cart")); // RE HACIENDO
+// ? GET http://localhost:PORT/cart // RE HACIENDO
+router.get("/cart", handleAuthFront(['USER', 'USER_PREMIUM']), handleResponses, (req, res) => res.renderPage("cart", "Carrito")); // RE HACIENDO
 
-router.get("/realTimeProducts", (req, res) => res.render("realTimeProducts")); // RE HACIENDO
+// ? GET http://localhost:PORT/realTimeProducts // RE HACIENDO
+router.get("/realTimeProducts", handleAuthFront(['USER_PREMIUM']), handleResponses,(req, res) => res.renderPage("realTimeProducts", "Productos en tiempo real"));
 
-router.get("/chat", (req, res) => res.render("chat")); // RE HACIENDO
+// ? GET http://localhost:PORT/chat // RE HACIENDO
+router.get("/chat", handleAuthFront(['USER', 'USER_PREMIUM']), handleResponses, (req, res) => res.renderPage("chat", "Chat")); // RE HACIENDO
 
 export default router;

@@ -132,12 +132,11 @@ router.get('/logout', (req, res) => {
   /*req.session.destroy((err) => {
     if (err) return res.send({ status: 'error', error: err });
   });*/
-  console.log('logout: ',req.user);
   res.clearCookie('token').redirect('/');
 });
 
 // ? GET http://localhost:PORT/api/sessions/current
-router.get('/current', handleAuthFront(['PUBLIC']), handleResponses, (req, res) => {
+router.get('/current', handleAuthFront(['USER']), handleResponses, (req, res) => {
 //router.get('/current', handleResponses, passportCall('jwt'), /*authPJwt('admin'),*/ (req, res) => {
   try{
     const datosP = {message: "Datos sensibles", reqUser: req.user}
