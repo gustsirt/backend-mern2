@@ -3,16 +3,16 @@ import { Router } from "express";
 import passport from "passport";
 import { UserClass } from "../../dao/index.js";
 
-import createToken from "../../utils/createToken.js";
-import authPJwt from "../../helpers/jwt/authorization.middleware.js";
-import passportCall from "../../helpers/jwt/passportCall.middleware.js";
+//import authPJwt from "../../helpers/jwt/authorization.middleware.js"; // reemplazado por middleware
+//import passportCall from "../../helpers/jwt/passportCall.middleware.js"; // reemplazado por middleware
 
 import handleResponses from "../../middleware/handleResponses.js";
-import { handleAuth, handleAuthFront } from "../../middleware/handlePoliciesPASP.js";
+import { handleAuthFront } from "../../middleware/handlePoliciesPASP.js";
 //import { resCookieJson, resError } from "../../helpers/responses.js"; // reemplazado por middleware
 
-import { createHash, isValidPassword } from "../../utils/passwords.js";
+import createToken from "../../utils/createToken.js";
 import CustomError from "../../utils/errors.js";
+import { createHash, isValidPassword } from "../../utils/passwords.js";
 import validateFields from "../../utils/validatefiels.js";
 
 const router = Router();

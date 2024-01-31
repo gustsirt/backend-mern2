@@ -4,7 +4,7 @@ import { ProductClass } from "../dao/index.js";
 
 import handleResponses from "../middleware/handleResponses.js";
 import { handleAuthFront } from "../middleware/handlePoliciesPASP.js";
-import { renderPage } from "../helpers/responses.js";
+//import { renderPage } from "../helpers/responses.js"; // reemplazado por middleware
 
 const router = Router();
 
@@ -132,7 +132,7 @@ router.get("/products/:pid", handleAuthFront(['PUBLIC']), handleResponses, async
 router.get("/cart", handleAuthFront(['USER', 'USER_PREMIUM']), handleResponses, (req, res) => res.renderPage("cart", "Carrito")); // RE HACIENDO
 
 // ? GET http://localhost:PORT/realTimeProducts // RE HACIENDO
-router.get("/realTimeProducts", handleAuthFront(['USER_PREMIUM']), handleResponses,(req, res) => res.renderPage("realTimeProducts", "Productos en tiempo real"));
+router.get("/realTimeProducts", handleAuthFront(['USER_PREMIUM']), handleResponses,(req, res) => res.renderPage("realTimeProducts", "Productos en tiempo real")); // RE HACIENDO
 
 // ? GET http://localhost:PORT/chat // RE HACIENDO
 router.get("/chat", handleAuthFront(['USER', 'USER_PREMIUM']), handleResponses, (req, res) => res.renderPage("chat", "Chat")); // RE HACIENDO
