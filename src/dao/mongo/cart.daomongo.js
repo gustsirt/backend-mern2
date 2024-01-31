@@ -8,13 +8,7 @@ class CartDaoMongo {
     this.model = cartModel;
   }
 
-  async create() {
-    try {
-      return await this.model.create({});
-    } catch (error) {
-      return 'Se ha producido un error al momento de crear el carrito';
-    }
-  }
+  create = async () => await this.model.create({});
 
   async getCarts(cid, populate = true) {
     let query = {};

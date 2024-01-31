@@ -11,3 +11,7 @@
 ### Se inicia con: npm run dev  o nom run nodemon
 
 ---
+Arreglar:
+
+* ProductDaoMongo
+* CartDaoMongo

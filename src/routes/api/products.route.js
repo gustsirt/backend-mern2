@@ -2,92 +2,15 @@ import { Router } from "express";
 import { ProductClass } from "../../dao/index.js";
 import { resCatchError, resError, resJson } from "../../helpers/responses.js";
 import CustomError from "../../utils/errors.js";
+import ProductsController from "../../controller/products.controller.js";
 const router = Router();
 const products = new ProductClass();
 
-// GET http://localhost:PORT/api/products + ? limit, page, sort, query
-router.get("/", async (req, res) => {
-  try {
-    let {
-      limit = 10,
-      page = 1,
-      category,
-      availability,
-      sort,
-      campo1,
-      filtro1,
-      campo2,
-      filtro2,
-      campo3,
-      filtro3,
-    } = req.query;
+const {getProducts, getProductsById, updateProductById} = new ProductsController
 
-    const query = {
-      ...(category && { category }),
-      ...(availability == "true" && { availability: true }),
-    };
-    const options = {
-      limit,
-      page,
-      ...(sort && { sort }),
-    };
-
-    if (campo1 && filtro1) query[campo1] = filtro1;
-    if (campo2 && filtro2) query[campo2] = filtro2;
-    if (campo3 && filtro3) query[campo3] = filtro3;
-
-    const resp = await products.getProducts(query, options);
-
-    const { prevPage, nextPage } = resp;
-    const prevLink = prevPage ? `&page=${prevPage}` : "";
-    const nextLink = nextPage ? `&page=${nextPage}` : "";
-
-    resJson(res, 200, {
-      ...resp,
-      prevLink: prevLink,
-      nextLink: nextLink,
-    });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof CustomError) {
-      resCatchError(res, error);
-    } else {
-      resError(
-        res,
-        "An error occurred in the API request",
-        500,
-        "GET http://localhost:PORT/api/products",
-      );
-    }
-  }
-});
-
-// GET http://localhost:PORT/api/products/:pid
-router.get("/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const product = await products.getProductsById(pid);
-
-    if (product) {
-      resJson(res, 200, product);
-    } else {
-      resError(
-        res,
-        "Product not found",
-        404,
-        "GET http://localhost:PORT/api/products/:pid",
-      );
-    }
-  } catch (error) {
-    console.error(error);
-    resError(
-      res,
-      "Internal Server Error",
-      500,
-      "GET http://localhost:PORT/api/products/:pid",
-    );
-  }
-});
+// * http://localhost:PORT/api/products
+router.get("/", getProducts ); // + ? limit, page, sort, query
+router.get("/:pid", getProductsById);
 
 // POST http://localhost:PORT/api/products/ + body: whole product
 router.post("/", async (req, res) => {
@@ -112,39 +35,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT http://localhost:PORT/api/products/:pid + body: whole product
-router.put("/:pid", async (req, res) => {
-  try {
-    const pid = req.params.pid;
-    const changedProduct = req.body;
-
-    const resp = await products.updateProduct(pid, changedProduct);
-
-    if (resp) {
-      resJson(res, 200, resp);
-    } else {
-      resError(
-        res,
-        "Code not found",
-        204,
-        "PUT http://localhost:PORT/api/products/:pid",
-        false,
-      );
-    }
-  } catch (error) {
-    console.error(error);
-    if (error instanceof CustomError) {
-      resCatchError(res, error);
-    } else {
-      resError(
-        res,
-        "Internal Server Error",
-        500,
-        "PUT http://localhost:PORT/api/products/:pid",
-      );
-    }
-  }
-});
+router.put("/:pid", updateProductById); // + body: whole product
 
 // DELETE http://localhost:PORT/api/products/:pid
 router.delete("/:pid", async (req, res) => {

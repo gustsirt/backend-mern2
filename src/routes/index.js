@@ -1,7 +1,10 @@
 import { Router } from "express";
 import viewsRouter from './views.route.js'
-import { productsRoute, sessionsRoute  } from "./api/index.js";
+import productsRoute from "./api/products.route.js";
+import sessionsRoute from "./api/sessions.route.js";
+
 import UsersCRouter from "./api/usersClass.router.js";
+import handleResponses from "../middleware/handleResponses.js";
 
 const router = Router()
 const usersRouter = new UsersCRouter();
@@ -10,7 +13,7 @@ const usersRouter = new UsersCRouter();
 router.use('/', viewsRouter);
 
 // definiendo las API
-router.use('/api/products/', productsRoute);
+router.use('/api/products/', handleResponses, productsRoute);
 router.use('/api/carts/', ()=>{});
 
 router.use('/api/sessions/', sessionsRoute);
