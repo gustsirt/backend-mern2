@@ -1,5 +1,4 @@
 import { ProductClass } from "../dao/index.js";
-import { resCatchError, resError, resJson } from "../helpers/responses.js";
 import CustomError from "../utils/errors.js";
 
 class ProductsController {
@@ -62,44 +61,61 @@ class ProductsController {
     try {
       const { pid } = req.params;
       const product = await this.service.getProductsById(pid);
-  
-      if (product) {
-        res.sendSucess(product);
-      } else {
-        res.sendUserError("Product not found",);
-      }
+      this.sendVariableOrNotFound (product, "Id")
     } catch (error) {
-      console.error(error);
       res.sendServerError("Internal Server Error");
     }
   }
 
-  
-
-
+  createProduct = async (req, res) => {
+    const newProduct = req.body;
+    try {
+      const product = await this.service.addProduct(newProduct);
+      res.sendSucess(product);
+    } catch (error) {
+      res.sendServerError("Internal Server Error");
+    }
+  }
 
   updateProductById = async (req, res) => {
     try {
       const pid = req.params.pid;
       const changedProduct = req.body;
-  
-      const resp = await this.service.updateProduct(pid, changedProduct);
-  
-      if (resp) {
-        res.sendSucess(resp);
-      } else {
-        res.sendUserError("Code not found",);
-      }
+      const product = await this.service.updateProduct(pid, changedProduct);
+      this.sendVariableOrNotFound (product, "Id")
     } catch (error) {
-      console.error(error);
-      if (error instanceof CustomError) {
-        res.sendUserError(error.error);
-      } else {
-        res.sendServerError("Internal Server Error");
-      }
+      res.sendServerError("Internal Server Error");
     }
   }
 
+  deleteProductById = async (req, res) => {
+    try {
+      const pid = req.params.pid;
+      const product = await this.service.deleteProductById(pid);
+      this.sendVariableOrNotFound (product, "Id")
+    } catch (error) {
+      res.sendServerError("Internal Server Error");
+    }
+  }
+
+  deleteProductByCode = async (req, res) => {
+    try {
+      const pcode = req.query.code;
+      const product = await this.service.deleteProductByCode(pcode);
+      this.sendVariableOrNotFound (product, "Code")
+    } catch (error) {
+      res.sendServerError("Internal Server Error");
+    }
+  };
+
+  getCategorys = async (req, res) => {
+    try {
+      const categorys = await this.service.getCategorys();
+      this.sendVariableOrNotFound (categorys, "Categorys")
+    } catch (error) {
+      res.sendServerError("Internal Server Error");
+    }
+  }
 
   // AUXILIARES
   convertSort = (option, element) => {
@@ -120,6 +136,14 @@ class ProductsController {
     const categories = await this.service.getCategorys();
     return categories.includes(category);
   } // return boolean
+
+  sendVariableOrNotFound = (variable, title) => {
+    if (variable) {
+      res.sendSucess(variable);
+    } else {
+      res.sendUserError(`${title} not found`);
+    }
+  }
 }
 
 export default ProductsController;
