@@ -1,10 +1,11 @@
 import { ProductClass } from "../dao/index.js";
-import CustomError from "../utils/errors.js";
+import { convertSort, convertAvailability, checkCategory } from "../helpers/mongoHelper.js";
+import validateFields from "../utils/validatefiels.js";
 
 class ProductsController {
   constructor() {
     this.service = new ProductClass();
-  }
+  };
 
   getProducts = async (req, res) => {
     try {
@@ -23,13 +24,13 @@ class ProductsController {
       } = req.query;
 
       const query = {
-        ...(await this.checkCategory(category) && {category: category}),
-        ...this.convertAvailability(availability),
+        ...(await checkCategory(category) && {category: category}),
+        ...convertAvailability(availability),
       };
       const options = {
         limit: parseInt(limit) ,
         page: parseInt(page),
-        sort: this.convertSort(sort, "price"),
+        sort: convertSort(sort, "price"),
       };
   
       if (campo1 && filtro1) query[campo1] = filtro1;
@@ -48,102 +49,83 @@ class ProductsController {
         nextLink: nextLink,
       });
     } catch (error) {
-      console.log(error);
-      if (error instanceof CustomError) {
-        res.sendUserError(error.error);
-      } else {
-        res.sendServerError("An error occurred in the API request");
-      }
+      res.sendCatchError(error, "An error occurred in the API request");
     }
-  }
+  }; // OK
+  
 
   getProductsById = async (req, res) => {
     try {
       const { pid } = req.params;
       const product = await this.service.getProductsById(pid);
-      this.sendVariableOrNotFound (product, "Id")
+      res.sendSuccessOrNotFound (product, "Id")
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  }
+  }; // OK
 
   createProduct = async (req, res) => {
-    const newProduct = req.body;
+    const fields = req.body;
+
+    const requiredFields = [
+      "title",
+      "description",
+      "code",
+      "price",
+      "stock",
+      "status",
+      "category",
+      "thumbnail",
+    ];
+
     try {
+      const newProduct = validateFields(fields, requiredFields);
       const product = await this.service.addProduct(newProduct);
       res.sendSucess(product);
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  }
+  }; // OK
 
   updateProductById = async (req, res) => {
     try {
       const pid = req.params.pid;
       const changedProduct = req.body;
       const product = await this.service.updateProduct(pid, changedProduct);
-      this.sendVariableOrNotFound (product, "Id")
+      res.sendSuccessOrNotFound (product, "Id")
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  }
+  }; // OK
 
   deleteProductById = async (req, res) => {
     try {
       const pid = req.params.pid;
       const product = await this.service.deleteProductById(pid);
-      this.sendVariableOrNotFound (product, "Id")
+      res.sendSuccessOrNotFound (product, "Id")
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  }
+  };
 
   deleteProductByCode = async (req, res) => {
     try {
       const pcode = req.query.code;
       const product = await this.service.deleteProductByCode(pcode);
-      this.sendVariableOrNotFound (product, "Code")
+      res.sendSuccessOrNotFound (product, "Code")
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  };
+  }; // OK
 
   getCategorys = async (req, res) => {
     try {
       const categorys = await this.service.getCategorys();
-      this.sendVariableOrNotFound (categorys, "Categorys")
+      res.sendSuccessOrNotFound (categorys, "Categorys")
     } catch (error) {
-      res.sendServerError("Internal Server Error");
+      res.sendCatchError(error)
     }
-  }
-
-  // AUXILIARES
-  convertSort = (option, element) => {
-    const sortOptions = {
-      "1": 1,
-      "-1": -1,
-      asc: "asc",
-      desc: "desc",
-    };
-    const objectReturn = {}
-    objectReturn[element] = sortOptions[option];
-    return objectReturn;
-  } // return object
-  convertAvailability = (availability) => {
-    if (availability == "true") return { stock: { $gt: 0 } }
-  } // return object
-  checkCategory = async (category) => {
-    const categories = await this.service.getCategorys();
-    return categories.includes(category);
-  } // return boolean
-
-  sendVariableOrNotFound = (variable, title) => {
-    if (variable) {
-      res.sendSucess(variable);
-    } else {
-      res.sendUserError(`${title} not found`);
-    }
-  }
+  }; // OK
 }
 
 export default ProductsController;

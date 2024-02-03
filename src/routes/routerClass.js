@@ -25,14 +25,6 @@ export default class CustomRouter {
     this.router.delete(path, handleResponses, this.handlePolicies(policies), this.applyCallbacks(callbacksA));
   }
 
-  // Custom Responses
-  /*handleResponses = (req, res, next) => {
-    res.sendSuccess = (data, statusCode = 200) => {res.status(statusCode).send({ isError: false, data })};
-    res.sendUserError = (error, statusCode = 400) => {res.status(statusCode).send({ isError: true, error })};
-    res.sendServerError = (error, statusCode = 500) => {res.status(statusCode).send({ isError: true, error })};
-    next()
-  };*/
-
   // Policies => ['PUBLIC', 'USER', 'USER_PREMIUM', 'ADMIN']
   handlePolicies = policies => (req, res, next) => {
     try {

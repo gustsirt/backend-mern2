@@ -26,7 +26,7 @@ export const handleAuthFront = (policies) => {
         if (!user) return res.clearCookie('token').render("login", {title: "Login", answer: 'Usuario no logueado' })
 
         if(user.role.toUpperCase() === 'ADMIN') return next();
-        if(!policies.includes(user.role.toUpperCase())) return res.render('error', {title: 'Ha ocurrido un error', message: 'User not authorized', ...req.user})
+        if(!policies.includes(user.role.toUpperCase())) return res.render('error', {title: 'Ha ocurrido un error', answer: 'User not authorized', ...req.user})
 
         next();
       })(req, res, next);      

@@ -13,5 +13,10 @@
 ---
 Arreglar:
 
-* ProductDaoMongo
+* Borrar los "// OK"
 * CartDaoMongo
+* revisar view router TERMINAR FALTANTES
+
+REVISADO:
+
+* Products

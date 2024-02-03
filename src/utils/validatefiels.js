@@ -12,7 +12,7 @@ const validateFields = (fields, requiredFields) => {
     }
   }
   if (missingFields.length > 0) {
-    throw new CustomError(`ERROR: Debe completar los siguientes campos: ${missingFields.join(', ')}`,400,'validateFields',);
+    throw new CustomError(`ERROR: Debe completar los siguientes campos: ${missingFields.join(', ')}`);
   }
   return correctObject;
 };
