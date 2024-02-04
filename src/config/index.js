@@ -7,9 +7,10 @@ dotenv.config({
   path: opts.mode == 'production' ? './.env.production' : './.env.development'
 })
 
-import mongoose from 'mongoose';
+import {connect} from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+
 
 const configObject = {
   //conexion Mongo Atlas a traves de mongoose
@@ -24,9 +25,11 @@ const configObject = {
   development: opts.mode == 'development',
 
   connectDB: async () => {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Base de datos conectada');
+    //await mongoose.connect(process.env.MONGO_URI);
+    //console.log('Base de datos conectada');
+    MongoSingleton.getInstance();
   },
+
   //conexion Mongo Atlas session
   sessionAtlas: (app) => {
     app.use(
@@ -46,4 +49,21 @@ const configObject = {
     );
   },
 }
+
+class MongoSingleton {
+  static instance //
+  constructor() {
+    connect(process.env.MONGO_URI);
+  }
+
+  static getInstance() {
+    if(!this.instance){
+      console.log('Conectado a Base de Datos');
+      return this.instance = new MongoSingleton();
+    }
+    console.log('Base de Datos ya conectada');
+    return this.instance;
+  }
+}
+
 export default configObject

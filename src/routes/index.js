@@ -17,7 +17,9 @@ router.use('/api/products/', handleResponses, productsRoute);
 router.use('/api/carts/', handleResponses, cartRouter);
 router.use('/api/sessions/', handleResponses, sessionsRoute);
 router.use('/api/messages', handleResponses, messagesRoute);
-
 router.use('/api/users/', () => {});
+
+router.use('*', (req, res) => res.status(404).send('Not Found'))
+router.use((err, req, res, next) => res.status(500).json({message: "Error Server", err}))
 
 export default router;
