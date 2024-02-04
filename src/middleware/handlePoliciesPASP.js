@@ -1,6 +1,7 @@
 import passport from "passport";
-import { UserClass } from "../dao/index.js";
-const userService = new UserClass();
+import UsersController from "../controller/users.controller.js";
+
+const uControl = new UsersController();
 
 // Policies => ['PUBLIC', 'USER', 'USER_PREMIUM', 'ADMIN']
 export const handleAuthFront = (policies) => {
@@ -10,15 +11,8 @@ export const handleAuthFront = (policies) => {
         if (err) next(err)
 
         if (user) {
-          const result = await userService.getUserById(user.id)
-          req.user = {
-            userId: user.id,
-            userName: result.first_name,
-            userLName: result.last_name,
-            userEmail: result.email,
-            userRole: user.role,
-            userCart: result.cart
-          };
+          req.user = await uControl.getDataUserById(user.id)
+          //console.log(req.user);
         }
 
         if(policies[0] === 'PUBLIC') return next();
@@ -36,22 +30,14 @@ export const handleAuthFront = (policies) => {
   };
 };
 
-export const handleAuth = (policies) => {
+export const handleAuth = async (policies) => {
   return async (req, res, next) => {
     try {
       passport.authenticate('jwt', {session: false}, async function (err, user, info) {
         if (err) next(err)
 
         if (user) {
-          const result = await userService.getUserById(user.id)
-          req.user = {
-            userId: user.id,
-            userName: result.first_name,
-            userLName: result.last_name,
-            userEmail: result.email,
-            userRole: user.role,
-            userCart: result.cart
-          };
+          req.user = await uControl.getDataUserById(user.id)
         }
 
         if(policies[0] === 'PUBLIC') return next();
@@ -60,7 +46,6 @@ export const handleAuth = (policies) => {
 
         if(user.role.toUpperCase() === 'ADMIN') return next();
         if(!policies.includes(user.role.toUpperCase())) return res.sendUserError('User not authorized')
-
         next();
       })(req, res, next);      
     } catch (error) {

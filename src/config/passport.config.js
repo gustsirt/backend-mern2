@@ -25,8 +25,7 @@ const initializePassport = () => {
       },
       async (jwt_payload, done) => {
         try {
-          //console.log(jwt_payload); // resultado token
-          return done(null, jwt_payload);
+          return done(null, jwt_payload); // resultado token
         } catch (error) {
           return done(error);
         }
@@ -43,9 +42,7 @@ const initializePassport = () => {
       },
       async (accesToken, refreshToken, profile, done) => {
         try {
-          //console.log(profile);
           let user = await userService.getUserByMail(profile._json.email);
-          //console.log(user);
           if (!user) {
             // para registrar en caso de que no exista
             let userNew = {

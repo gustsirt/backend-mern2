@@ -1,5 +1,6 @@
 import configObject from "../config/index.js";
 import { ProductClass } from "../dao/index.js";
+import CustomError from "../utils/errors.js";
 
 const productsService = new ProductClass()
 
@@ -99,12 +100,15 @@ class ViewsController {
       const { pid } = req.params;
       const apiUrl = `http://localhost:${configObject.port}/api/products/${pid}`;
   
-      const { error, data } = await (await fetch(apiUrl)).json();
+      const resp = await (await fetch(apiUrl)).json();
+      //console.log("resp: ",resp);
+      //console.log("user: ",req.user);
+      const { isError, data } = resp
   
       res.renderPageEstruc("product","Producto",
         {
           control: {
-            productError: error,
+            productError: isError,
           },
           arrays: {
             product: data,
@@ -117,9 +121,54 @@ class ViewsController {
     }
   }
 
-  // ! RE HACIENDO
-  cart = (req, res) => res.renderPage("cart", "Carrito")
-  realTimeProducts = (req, res) => res.renderPage("realTimeProducts", "Productos en tiempo real")
-  chat = (req, res) => res.renderPage("chat", "Chat")
+  cart = async (req, res) => {
+    try {
+    const cart = req.user.userCart;
+
+    let resp = await fetch(`http://localhost:${configObject.port}/api/carts/${cart}`);
+    const products = (await resp.json()).data.products;
+
+    products.forEach( product => product.total = product.product.price * product.quantity );
+  
+    const objectRender = {
+      cartError: false,
+      cartId: cart,
+      cartNoEmpty: products.length !== 0,
+      products: products.length !== 0 ? products : undefined
+    };
+    res.renderPage('cart', 'Carrito', objectRender);
+  } catch (error) {
+    res.renderError('Hubo un problema al cargar el carrito', error);
+  }
+  };
+
+  realTimeProducts = async (req, res) => {
+    try {
+      const apiUrl = `http://localhost:${configObject.port}/api/products?limit=100`;
+      const resp = (await (await fetch(apiUrl)).json()).data.docs;
+      //console.log('resp: ',resp);
+      const product = resp.map((prd) => ({
+        ...prd,
+        price: prd.price.toLocaleString('es-ES', { style: 'decimal' }),
+      }));
+  
+      res.renderPageEstruc('realTimeProducts', 'Productos en tiempo Real', {}, {
+        product,
+        cssPlus: `https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css`,
+      });
+    } catch (error) {
+      res.renderError('Hubo un problema al cargar los productos', error);
+    }
+  }
+
+  chat = async (req, res) => res.renderPage('chat', 'Chat');
+
+  user = async (req, res) => {
+    try {
+      res.renderPageEstruc('user','Usuario')
+    } catch (error) {
+      res.renderError(error)
+    }
+  }
 }
 export default ViewsController;

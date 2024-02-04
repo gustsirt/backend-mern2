@@ -1,7 +1,7 @@
-import CartMongo from "./cart.daomongo.js";
+import { CartClass } from "../index.js";
 import usersModel from "./models/user.model.js";
 
-const carts = new CartMongo();
+const cartsService = new CartClass();
 
 class UserDaoMongo {
   constructor() {
@@ -13,7 +13,7 @@ class UserDaoMongo {
   getUserById = async (uid) => await this.model.findOne({_id: uid})
   getUserByMail = async (uemail) => await this.model.findOne({email: uemail})
   createUser = async (newUser) => {
-    newUser.cart = await carts.create();
+    newUser.cart = await cartsService.create();
     await this.model.create(newUser)
   }
   updateUser = async (uid, userUpdate) => await this.model.findOneAndUpdate({_id: uid}, userUpdate)

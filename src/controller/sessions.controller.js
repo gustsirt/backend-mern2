@@ -38,7 +38,7 @@ class SessionsController {
         res.renderPage("register","Nuevo Registro", {answer: 'Ocurrio un error, vuelva a intentarlo' })
       }
     }
-  } // OK // Respuesta Visual
+  }  // Respuesta Visual
 
   login = async (req, res) => {
     const userData = validateFields(req.body, this.requieredfield.login);
@@ -47,7 +47,7 @@ class SessionsController {
       if (this.admins.includes(userData.email) && isValidPassword(userData.password, {password: this.admin_pass}) ) {
   
         const token = createToken({id: 0, role: "Admin"})
-        return res.sendTokenCookieSucess(token, "Log In exitoso con Usuario Administrador")
+        return res.sendTokenCookieSuccess(token, "Log In exitoso con Usuario Administrador")
       }
   
       const userFound = await userService.getUserByMail(userData.email);
@@ -57,13 +57,12 @@ class SessionsController {
       }
       
       const token = createToken({id: userFound._id, role: userFound.role})
-      res.sendTokenCookieSucess(token, "Log In exitoso con Id: "+userFound.first_name)
+      res.sendTokenCookieSuccess(token, "Log In exitoso con Id: "+userFound.first_name)
   
     } catch (error) {
-      console.log(error)
       res.sendCatchError(error)
     }
-  } // OK
+  } 
 
   loginSession = async (req, res) => {
     const userData = validateFields(req.body, this.requieredfield.login);
@@ -94,7 +93,6 @@ class SessionsController {
       res.redirect('/products');
   
     } catch (error) {
-      console.error(error);
       if (error instanceof CustomError) {
         //resError(res, 400, "Email o contraseña equivocado")
         res.sendUserError(error)

@@ -43,7 +43,7 @@ class ProductsController {
       const prevLink = prevPage ? `&page=${prevPage}` : "";
       const nextLink = nextPage ? `&page=${nextPage}` : "";
   
-      res.sendSucess ({
+      res.sendSuccess ({
         ...resp,
         prevLink: prevLink,
         nextLink: nextLink,
@@ -51,7 +51,7 @@ class ProductsController {
     } catch (error) {
       res.sendCatchError(error, "An error occurred in the API request");
     }
-  }; // OK
+  }; 
   
 
   getProductsById = async (req, res) => {
@@ -62,7 +62,7 @@ class ProductsController {
     } catch (error) {
       res.sendCatchError(error)
     }
-  }; // OK
+  }; 
 
   createProduct = async (req, res) => {
     const fields = req.body;
@@ -81,11 +81,11 @@ class ProductsController {
     try {
       const newProduct = validateFields(fields, requiredFields);
       const product = await this.service.addProduct(newProduct);
-      res.sendSucess(product);
+      res.sendSuccess(product);
     } catch (error) {
       res.sendCatchError(error)
     }
-  }; // OK
+  }; 
 
   updateProductById = async (req, res) => {
     try {
@@ -96,7 +96,7 @@ class ProductsController {
     } catch (error) {
       res.sendCatchError(error)
     }
-  }; // OK
+  }; 
 
   deleteProductById = async (req, res) => {
     try {
@@ -116,7 +116,7 @@ class ProductsController {
     } catch (error) {
       res.sendCatchError(error)
     }
-  }; // OK
+  }; 
 
   getCategorys = async (req, res) => {
     try {
@@ -125,7 +125,7 @@ class ProductsController {
     } catch (error) {
       res.sendCatchError(error)
     }
-  }; // OK
+  }; 
 }
 
 export default ProductsController;

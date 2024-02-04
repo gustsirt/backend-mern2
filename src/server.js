@@ -2,7 +2,7 @@ import program from './config/commander.js';
 import configObj from './config/index.js'
 import express from 'express';
 import {createServer} from 'node:http'
-// const serverIo = require('./middleware/serverIO.js');
+import serverIO from './helpers/serverIO.js';
 import cookieParser from 'cookie-parser'
 import appRouter from './routes/index.js'
 import __dirname from './utils/dirname.js';
@@ -24,6 +24,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(cookieParser(configObj.cookies_code))
 
 // serverIo(server);
+serverIO(server);
 configObj.connectDB();
 
 // session

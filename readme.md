@@ -11,12 +11,3 @@
 ### Se inicia con: npm run dev  o nom run nodemon
 
 ---
-Arreglar:
-
-* Borrar los "// OK"
-* CartDaoMongo
-* revisar view router TERMINAR FALTANTES
-
-REVISADO:
-
-* Products

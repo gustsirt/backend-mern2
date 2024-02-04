@@ -48,7 +48,6 @@ export default class CustomRouter {
       try {
         await callback.apply(this, params);
       } catch (error) {
-        console.error(error);
         params[1].status(500).send(error);
       }
     });
