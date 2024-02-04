@@ -51,7 +51,7 @@ const handleResponses = (req, res, next) => {
       ...others,
       ...additional
     }
-    console.log("renderPageEstruc Object: ",renderObject);
+    //console.log("renderPageEstruc Object: ",renderObject);
     res.render(page, renderObject)
   };
   res.renderError = (answer = "Ocurrio un error, vuelva a intentarlo", error) => res.renderPage(pageError.page, pageError.title, {answer: answer, answerDetail: error.toString(), ...additional});
