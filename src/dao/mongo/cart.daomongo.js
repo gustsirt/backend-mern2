@@ -1,28 +1,31 @@
-import CustomError from '../../utils/errors.js';
-import cartModel from './models/carts.model.js';
-import ProductMongo from './products.daomongo.js';
+import DaoMongo from "./custom.dao.mongo.js";
+import cartModel from "../models/carts.model.js";
 
-const productsService = new ProductMongo();
-
-class CartDaoMongo {
+export default class CartDaoMongo  extends DaoMongo{
   constructor() {
-    this.model = cartModel;
+    super (cartModel);
   }
 
-  create = async () => await this.model.create({});
+  getPopulate = async (filter = {}) => await this.model.find(filter).populate('products.product');
 
-  getCarts = async () => await this.model.find({});
-  getCartsPopulate = async () => await this.model.find().populate('products.product');
-  getCartsById = async cid => await this.model.findById({ _id: cid });
-  getCartsByIdPopulate = async cid => await this.model.findById({ _id: cid }).populate('products.product');
+  getByPopulate = async filter => await this.model.findOne(filter).populate('products.product');
 
-  async increaseProductQuantity(cid, pId) {
-    const result = await this.model.updateOne(
+  edithProductQuantity = async (cid, pId, quantity) => {
+    const update = { $inc: { "products.$.quantity": quantity } };
+    if (quantity === 0) { // Eliminar producto si la cantidad es 0
+      update.$pull = { products: { product: pId } };
+    }
+    update.$set = { lastupdated: new Date() };
+    await this.model.updateOne({ _id: cid, "products.product": pId }, update);
+  }
+  /* --> REEMPLAZADAS POR updateProductQuantity
+  increaseProductQuantity = async (cid, pId) => {
+    return await this.model.findByIdAndUpdate(
       { _id: cid, "products.product": pId },
-      { $inc: { "products.$.quantity": 1 } }
+      { $inc: { "products.$.quantity": 1 } },
+      { new: true }
     );
-    return await this.model.findById(cid);
-  }
+  };
   decreaseProductQuantity = async (cid, pId) => {
     const result = await this.model.updateOne(
       { _id: cid, "products.product": pId },
@@ -30,36 +33,39 @@ class CartDaoMongo {
     );
     return await this.model.findById(cid);
   }
-  updateProductQuantity = async (cid, pId, quantity) => {
-    const result = await this.model.updateOne(
-      { _id: cid, "products.product": pId },
-      { $set: { "products.$.quantity": quantity } }
-    );
-    return await this.model.findById(cid);
-  }
   removeProduct = async (cid, pId) => {
-    const result = await this.model.updateOne(
-      { _id: cid },
-      { $pull: { products: { product: pId }}}
-    );
-    return await this.model.findById(cid);
+  const result = await this.model.updateOne(
+    { _id: cid },
+    { $pull: { products: { product: pId }}}
+  );
+  return await this.model.findById(cid);
 
+  }*/
+
+  updateProductQuantity = async (cid, pId, quantity) => {
+    return await this.model.findByIdAndUpdate(
+      { _id: cid, "products.product": pId },
+      { $set: { "products.$.quantity": quantity } },
+      { $set: { lastupdated: new Date()} },
+      { new: true }
+    );
   }
 
   updateCartProducts = async (cid, newProducts) => {
-    const result = await this.model.updateOne(
+    return await this.model.findByIdAndUpdate(
       { _id: cid },
-      { $set: { products: newProducts } }
+      { $set: { products: newProducts } },
+      { $set: { lastupdated: new Date()} },
+      { new: true }
     );
-    return await this.model.findById(cid);
   }
+  
+  /* --> se incorpora detro del anterior
   removeCartProducts = async (cid) => {
     const result = await this.model.updateOne(
       { _id: cid },
       { $set: { products: [] } }
     );
     return await this.model.findById(cid);
-  }
+  }*/
 }
-
-export default CartDaoMongo;

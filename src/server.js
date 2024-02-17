@@ -1,14 +1,17 @@
 import program from './config/commander.js';
 import configObj from './config/index.js'
-import express from 'express';
+
 import {createServer} from 'node:http'
-import serverIO from './helpers/serverIO.js';
-import cookieParser from 'cookie-parser'
-import appRouter from './routes/index.js'
-import __dirname from './utils/dirname.js';
+import express from 'express';
 import handlebars from 'express-handlebars';
+import cookieParser from 'cookie-parser'
 import passport from 'passport';
+
+import serverIO from './helpers/serverIO.js';
+import __dirname from './utils/dirname.js';
+import appRouter from './routes/index.js'
 import initializePassport from './config/passport.config.js';
+import handleResponses from './middleware/handleResponses.js';
 
 const {mode} = program.opts();
 console.log('Mode config: ' + mode);
@@ -21,7 +24,9 @@ const server = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+
 app.use(cookieParser(configObj.cookies_code))
+app.use(handleResponses)
 
 // serverIo(server);
 serverIO(server);

@@ -2,7 +2,7 @@ import configObject from "./index.js";
 import passport from "passport";
 import jwt from "passport-jwt";
 import GithubStrategy from "passport-github2";
-import { UserClass } from "../dao/index.js";
+import { UserClass } from "../dao/factory.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;

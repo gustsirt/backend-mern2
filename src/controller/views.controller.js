@@ -1,5 +1,5 @@
 import configObject from "../config/index.js";
-import { ProductClass } from "../dao/index.js";
+import { ProductClass } from "../dao/factory.js";
 import CustomError from "../utils/errors.js";
 
 const productsService = new ProductClass()

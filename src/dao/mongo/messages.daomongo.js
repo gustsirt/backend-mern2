@@ -1,18 +1,8 @@
-import messagesModel from "./models/messages.model.js"
+import DaoMongo from "./custom.dao.mongo.js";
+import messagesModel from "../models/messages.model.js"
 
-class MessageDaoMongo {
-  constructor (){
-    this.model = messagesModel
+export default class MessageDaoMongo  extends DaoMongo{
+  constructor() {
+    super (messagesModel);
   }
-
-  addMessage = async (newMessage) => {
-    await this.model.create(newMessage)
-    return await this.getMessages()
-  }
-
-  getMessages = async () => await this.model.find({})
-
-  clearMessages = async() => await this.model.deleteMany({})
 }
-
-export default MessageDaoMongo;

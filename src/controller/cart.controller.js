@@ -1,87 +1,59 @@
-import { CartClass, ProductClass } from "../dao/index.js";
+import { cartsService, productsService} from "../repository/service.js";
+import CustomController from "./custom.controller.js";
 
-const productsService = new ProductClass();
-
-class CartsController {
+class CartsController extends CustomController {
   constructor() {
-    this.service = new CartClass();
-  }
+    super(cartsService);
+  };
 
-  getCarts = async (req, res) => {
+  gets = async (req, res) => {
     try {
       const populate = req.query.populate || true;
 
       let carts
       if(populate) {
-        carts = await this.service.getCartsPopulate();
+        carts = await this.service.getPopulate();
       } else {
-        carts = await this.service.getCarts();
+        carts = await this.service.get();
       }
     
       res.sendSuccess(carts)
     } catch (error) {
       res.sendCatchError(error)
     }
-  }
+  } // + populate
 
-  getCartById = async (req, res) => {
+  getId = async (req, res) => {
     try {
       const cid = req.params.cid;
       const populate = req.query.populate || true;
 
       let carts
       if(populate) {
-        carts = await this.service.getCartsByIdPopulate(cid);
+        carts = await this.service.getByPopulate({_uid: cid});
       } else {
-        carts = await this.service.getCartsById(cid);
+        carts = await this.service.getBy({_uid: cid});
       }
     
       res.sendSuccess(carts)
     } catch (error) {
       res.sendCatchError(error)
     }
-  }
-
-  create = async (req, res) => {
-    try{
-      const resp = await this.service.create();
-      res.sendSuccess(resp)
-    } catch(err){
-      res.sendCatchError(err)
-    }
-  }
+  } // + populate
 
   addProduct = async (req, res) => {
     try{
       const {cid, pid} = req.params;
 
-      const cart = await this.service.getCartsById(cid);
+      const cart = await this.service.getBy({_id: cid});
       if (!cart) return res.sendNotFound('Carrito no encontrado');
-      const product = await productsService.getProductsById(pid);
+      const product = await productsService.getBy({_id: pid});
       if (!product) return res.sendNotFound('Producto no encontrado');
     
-      const updatedCart = await this.service.increaseProductQuantity(cid, pid);
+      const updatedCart = await this.service.edithProductQuantity(cid, pid, 1);
       
       res.sendSuccess(updatedCart)
     } catch(error){
-      res.sendCatchError(error)
-    }
-  }
-
-  decreaseProductQuantityById = async (req, res) => {
-    try {
-      const { cid, pid } = req.params;
-  
-      const cart = await this.service.getCartsById(cid);
-      if (!cart) return res.sendNotFound('Carrito no encontrado');
-  
-      const product = await products.getProductsById(pid);
-      if (!product) return res.sendNotFound('Producto no encontrado');
-  
-      const updatedCart = await this.service.decreaseProductQuantity(cid, pid);
-
-      res.sendSuccess(updatedCart)
-    } catch (error) {
       res.sendCatchError(error)
     }
   }
@@ -93,9 +65,9 @@ class CartsController {
       
       if (isNaN(quantity) ) res.sendUserError("Se ha introducido mal la cantidad")
 
-      const cart = await this.service.getCartsById(cid);
+      const cart = await this.service.getBy({_id: cid});
       if (!cart) return res.sendNotFound('Carrito no encontrado');
-      const product = await productsService.getProductsById(pid);
+      const product = await productsService.getBy({_id: pid});
       if (!product) return res.sendNotFound('Producto no encontrado');
 
       const updatedCart = await this.service.updateProductQuantity(cid, pid, quantity);
@@ -110,12 +82,12 @@ class CartsController {
     try{
       const {cid, pid} = req.params;
 
-      const cart = await this.service.getCartsById(cid);
+      const cart = await this.service.getBy({_id: cid});
       if (!cart) return res.sendNotFound('Carrito no encontrado');
-      const product = await productsService.getProductsById(pid);
+      const product = await productsService.getBy({_id: pid});
       if (!product) return res.sendNotFound('Producto no encontrado');
     
-      const updatedCart = await this.service.removeProduct(cid, pid);
+      const updatedCart = await this.service.edithProductQuantity(cid, pid, 0);
     
       res.sendSuccess(updatedCart)
     } catch(error){
@@ -123,12 +95,12 @@ class CartsController {
     }
   } 
 
-  updateProducts = async (req, res) => {
+  updateId = async (req, res) => {
     try{
       const { cid } = req.params;
       const newProducts = req.body
     
-      const cart = await this.service.getCartsById(cid);
+      const cart = await this.service.getBy({_id: cid});
       if (!cart) return res.sendNotFound('Carrito no encontrado');
 
       const updatedCart = await this.service.updateCartProducts(cid, newProducts);
@@ -139,14 +111,14 @@ class CartsController {
     }
   }
 
-  removeProducts = async (req, res) => {
+  deleteId = async (req, res) => {
     try{
       const { cid } = req.params;
 
-      const cart = await this.service.getCartsById(cid);
+      const cart = await this.service.getBy({_id: cid});
       if (!cart) return res.sendNotFound('Carrito no encontrado');
     
-      const updatedCart = await this.service.removeCartProducts(cid);
+      const updatedCart = await this.service.updateCartProducts(cid, []);
     
       res.sendSuccess(updatedCart)
     } catch(error){

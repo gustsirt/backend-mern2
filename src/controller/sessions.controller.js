@@ -1,5 +1,5 @@
 import configObject from "../config/index.js";
-import { UserClass } from "../dao/index.js";
+import { UserClass } from "../dao/factory.js";
 import createToken from "../utils/createToken.js";
 import CustomError from "../utils/errors.js";
 import { createHash, isValidPassword } from "../utils/passwords.js";

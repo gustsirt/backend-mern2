@@ -1,11 +1,9 @@
-import { Router } from "express";
 import MessagesController from "../../controller/messages.controller.js";
+import CustomRouter from "./custom.route.js";
 
-const router = Router();
-
-const mControl = new MessagesController()
-
-// DELETE http://localhost:PORT/api/messages
-router.delete('/', mControl.clearMessages)
-
-export default router;
+const cControl = new MessagesController()
+export default class MessagesCRouter extends CustomRouter {
+  constructor() {
+    super(cControl);
+  }
+}

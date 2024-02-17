@@ -1,18 +1,17 @@
-import { Router } from "express";
 import CartsController from "../../controller/cart.controller.js";
-
-const router = Router();
-const cControl = new CartsController();
+import CustomRouter from "./custom.route.js";
 
 // http://localhost:PORT/api/carts/
-router
-  .get('/', cControl.getCarts)
-  .get('/:cid', cControl.getCartById)
-  .post('/', cControl.create)
-  .post('/:cid/product/:pid', cControl.addProduct)
-  .put('/:cid', cControl.updateProducts) //+ body produc
-  .delete('/:cid', cControl.removeProducts) //+ body produc
-  .put('/:cid/product/:pid', cControl.updateProductQuantity) //+ body quantity
-  .delete('/:cid/product/:pid', cControl.removeProductById);
 
-export default router;
+const cControl = new CartsController()
+export default class CartCRouter extends CustomRouter {
+  constructor() {
+    super(cControl);
+  }
+
+  init() {
+    this.post  ('/:cid/product/:pid', this.controller.addProduct)
+    this.put   ('/:cid/product/:pid', this.controller.updateProductQuantity) //+ body quantity
+    this.delete('/:cid/product/:pid', this.controller.removeProductById)
+  }
+}

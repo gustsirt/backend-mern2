@@ -1,13 +1,16 @@
-import { ProductClass } from "../dao/index.js";
 import { convertSort, convertAvailability, checkCategory } from "../helpers/mongoHelper.js";
+import { productsService } from "../repository/service.js";
 import validateFields from "../utils/validatefiels.js";
+import CustomController from "./custom.controller.js";
 
-class ProductsController {
+
+
+class ProductsController extends CustomController {
   constructor() {
-    this.service = new ProductClass();
+    super(productsService);
   };
 
-  getProducts = async (req, res) => {
+  gets = async (req, res) => {
     try {
       let {
         limit = 10,
@@ -37,7 +40,7 @@ class ProductsController {
       if (campo2 && filtro2) query[campo2] = filtro2;
       if (campo3 && filtro3) query[campo3] = filtro3;
   
-      const resp = await this.service.getProducts(query, options);
+      const resp = await this.service.getPaginate(query, options);
   
       const { prevPage, nextPage } = resp;
       const prevLink = prevPage ? `&page=${prevPage}` : "";
@@ -53,18 +56,7 @@ class ProductsController {
     }
   }; 
   
-
-  getProductsById = async (req, res) => {
-    try {
-      const { pid } = req.params;
-      const product = await this.service.getProductsById(pid);
-      res.sendSuccessOrNotFound (product, "Id")
-    } catch (error) {
-      res.sendCatchError(error)
-    }
-  }; 
-
-  createProduct = async (req, res) => {
+  create = async (req, res) => {
     const fields = req.body;
 
     const requiredFields = [
@@ -80,39 +72,8 @@ class ProductsController {
 
     try {
       const newProduct = validateFields(fields, requiredFields);
-      const product = await this.service.addProduct(newProduct);
+      const product = await this.service.create(newProduct);
       res.sendSuccess(product);
-    } catch (error) {
-      res.sendCatchError(error)
-    }
-  }; 
-
-  updateProductById = async (req, res) => {
-    try {
-      const pid = req.params.pid;
-      const changedProduct = req.body;
-      const product = await this.service.updateProduct(pid, changedProduct);
-      res.sendSuccessOrNotFound (product, "Id")
-    } catch (error) {
-      res.sendCatchError(error)
-    }
-  }; 
-
-  deleteProductById = async (req, res) => {
-    try {
-      const pid = req.params.pid;
-      const product = await this.service.deleteProductById(pid);
-      res.sendSuccessOrNotFound (product, "Id")
-    } catch (error) {
-      res.sendCatchError(error)
-    }
-  };
-
-  deleteProductByCode = async (req, res) => {
-    try {
-      const pcode = req.query.code;
-      const product = await this.service.deleteProductByCode(pcode);
-      res.sendSuccessOrNotFound (product, "Code")
     } catch (error) {
       res.sendCatchError(error)
     }

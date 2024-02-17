@@ -1,4 +1,4 @@
-import { ProductClass } from "../dao/index.js";
+import { ProductClass } from "../dao/factory.js";
 
 const productService = new ProductClass();
 

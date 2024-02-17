@@ -1,4 +1,4 @@
-import { MessageClass, ProductClass } from '../dao/index.js';
+import { MessageClass, ProductClass } from '../dao/factory.js';
 import CustomError from '../utils/errors.js';
 import { Server } from 'socket.io'
 

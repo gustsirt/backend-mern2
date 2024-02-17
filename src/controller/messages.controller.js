@@ -1,19 +1,8 @@
-import { MessageClass } from "../dao/index.js";
+import CustomController from "./custom.controller.js";
+import { messagesService } from "../repository/service.js";
 
-
-class MessagesController {
+export default class MessagesController extends CustomController {
   constructor() {
-    this.service = new MessageClass
-  };
-
-  clearMessages = async (req, res) => {
-    try{
-      await this.service.clearMessages();
-      res.sendSuccess({})
-    } catch(error){
-      res.sendCatchError(error)
-    }
+    super(messagesService);
   }
 }
-
-export default MessagesController;
