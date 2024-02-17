@@ -27,11 +27,10 @@ form.addEventListener("submit", async (e) => {
       answer.innerHTML = "";
     },3000)
   } else {
-    localStorage.setItem("token", resp.token)
-    Swal.fire(resp.data).then(
-      () => {
-        fetch ("/products")
-      }
-    )
+    //localStorage.setItem("token", resp.token)
+    Swal.fire(resp.data)
+    .then(() => {
+      window.location.href = "/products"
+    })
   }
 });

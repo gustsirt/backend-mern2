@@ -1,2 +1,7 @@
 node_modules/
+<<<<<<< HEAD
 .env*
+=======
+.env.*
+prueba.htmlW
+>>>>>>> C26-Arquitectura

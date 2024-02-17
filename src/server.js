@@ -1,15 +1,17 @@
-import 'dotenv/config'
+import program from './config/commander.js';
+import configObj from './config/index.js'
 import express from 'express';
-
 import {createServer} from 'node:http'
-// const serverIo = require('./middleware/serverIO.js');
+import serverIO from './helpers/serverIO.js';
 import cookieParser from 'cookie-parser'
 import appRouter from './routes/index.js'
-import { __dirname } from './helpers/index.js';
+import __dirname from './utils/dirname.js';
 import handlebars from 'express-handlebars';
-import { connectDB, sessionAtlas } from './config/index.js'
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+
+const {mode} = program.opts();
+console.log('Mode config: ' + mode);
 
 const port = process.env.PORT;
 const app = express();
@@ -19,10 +21,11 @@ const server = createServer(app);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-app.use(cookieParser(process.env.SECRET_CODE))
+app.use(cookieParser(configObj.cookies_code))
 
 // serverIo(server);
-connectDB();
+serverIO(server);
+configObj.connectDB();
 
 // session
 //sessionAtlas(app);

@@ -1,35 +1,69 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import program from './commander.js';
 
-//conexion Mongo Atlas a traves de mongoose
-//-------------------------------------------------------------------
-import mongoose from 'mongoose';
+const opts = program.opts();
 
-export const connectDB = async () => {
-  await mongoose.connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@gustsirt.jaw8omb.mongodb.net/ecommerce?retryWrites=true&w=majority`,
-  );
-  console.log('Base de datos conectada');
-};
+dotenv.config({
+  path: opts.mode == 'production' ? './.env.production' : './.env.development'
+})
 
-//conexion Mongo Atlas session
-//-------------------------------------------------------------------
+import {connect} from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-export const sessionAtlas = (app) => {
-  app.use(
-    session({
-      store: MongoStore.create({
-        mongoUrl: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@gustsirt.jaw8omb.mongodb.net/ecommerce?retryWrites=true&w=majority`,
-        mongoOptions: {
-          //useNewUrlParser: true, // estas 2opciones luego ya son por defecto y no es necesario ponerlo
-          //useUnifiedTopology: true,
-        },
-        ttl: 3600, // milisegundos --> hs
-      }),
-      secret: process.env.SECRET_CODE,
-      resave: true,
-      saveUninitialized: true,
-    })
-  );
-};
+
+const configObject = {
+  //conexion Mongo Atlas a traves de mongoose
+  port: process.env.PORT,
+  jwt_code: process.env.JWT_SECRET_CODE,
+  cookies_code: process.env.COOKIES_SECRET_CODE,
+  mongo_uri: process.env.MONGO_URI,
+  uadmins: process.env.USERS_ADMIN,
+  uadmin_pass: process.env.USER_ADMIN_PASS,
+  gh_client_id: process.env.GITHUB_CLIENT_ID,
+  gh_client_secret: process.env.GITHUB_CLIENT_SECRET,
+  development: opts.mode == 'development',
+
+  connectDB: async () => {
+    //await mongoose.connect(process.env.MONGO_URI);
+    //console.log('Base de datos conectada');
+    MongoSingleton.getInstance();
+  },
+
+  //conexion Mongo Atlas session
+  sessionAtlas: (app) => {
+    app.use(
+      session({
+        store: MongoStore.create({
+          mongoUrl: process.env.MONGO_URI,
+          mongoOptions: {
+            //useNewUrlParser: true, // estas 2opciones luego ya son por defecto y no es necesario ponerlo
+            //useUnifiedTopology: true,
+          },
+          ttl: 3600, // milisegundos --> hs
+        }),
+        secret: process.env.COOKIES_SECRET_CODE,
+        resave: true,
+        saveUninitialized: true,
+      })
+    );
+  },
+}
+
+class MongoSingleton {
+  static instance //
+  constructor() {
+    connect(process.env.MONGO_URI);
+  }
+
+  static getInstance() {
+    if(!this.instance){
+      console.log('Conectado a Base de Datos');
+      return this.instance = new MongoSingleton();
+    }
+    console.log('Base de Datos ya conectada');
+    return this.instance;
+  }
+}
+
+export default configObject

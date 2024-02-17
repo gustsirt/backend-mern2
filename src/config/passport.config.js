@@ -1,9 +1,8 @@
-import "dotenv/config";
+import configObject from "./index.js";
 import passport from "passport";
-import GithubStrategy from "passport-github2";
 import jwt from "passport-jwt";
-import { UserClass } from "../daos/index.js";
-const JWT_PRIVATE_KEY = process.env.SECRET_CODE;
+import GithubStrategy from "passport-github2";
+import { UserClass } from "../dao/index.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -22,12 +21,11 @@ const initializePassport = () => {
   passport.use("jwt", new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: JWT_PRIVATE_KEY,
+        secretOrKey: configObject.jwt_code,
       },
       async (jwt_payload, done) => {
         try {
-          //console.log(jwt_payload); // resultado token
-          return done(null, jwt_payload);
+          return done(null, jwt_payload); // resultado token
         } catch (error) {
           return done(error);
         }
@@ -38,22 +36,20 @@ const initializePassport = () => {
   // Github
   passport.use("github",new GithubStrategy(
       {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: `http://localhost:${process.env.PORT}/api/sessions/githubcallback`,
+        clientID: configObject.gh_client_id,
+        clientSecret: configObject.gh_client_secret,
+        callbackURL: `http://localhost:${configObject.port}/api/sessions/githubcallback`,
       },
       async (accesToken, refreshToken, profile, done) => {
         try {
-          //console.log(profile);
           let user = await userService.getUserByMail(profile._json.email);
-          //console.log(user);
           if (!user) {
             // para registrar en caso de que no exista
             let userNew = {
               first_name: profile.username,
               last_name: profile.username,
               email: profile._json.email,
-              password: " ",
+              password: " "
             };
             let result = await userService.createUser(userNew);
             return done(null, result);

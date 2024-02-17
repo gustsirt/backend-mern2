@@ -1,4 +1,4 @@
-const { Schema, model } = require('mongoose');
+import { Schema, model } from 'mongoose';
 
 const cartSchema = new Schema({
   products: {
@@ -20,4 +20,4 @@ const cartSchema = new Schema({
   this.populate('products.product');
 });*/
 
-exports.cartModel = model('carts', cartSchema);
+export default model('carts', cartSchema)
