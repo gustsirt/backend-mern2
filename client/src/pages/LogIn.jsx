@@ -11,6 +11,7 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm({
+    mode: "onBlur",
     defaultValues: {
       email: 'email@prueba.com',
       password: '123456'
@@ -28,7 +29,7 @@ const LogIn = () => {
       const respJson = await fetch(`${uriBase}api/sessions/login`, requestOptions)
       const resp = await respJson.json()
 
-      console.log(resp);
+      //console.log(resp);
 
       if(resp?.isError === false) {
         setToken(`Bearer ${resp.payload.token}`)

@@ -31,6 +31,12 @@ const Root = () => {
             <li>
               <NavLink to="refcolores/">Colores a Usar</NavLink>
             </li>
+            <li>
+              <NavLink to="login/">LogIn</NavLink>
+            </li>
+            <li>
+              <NavLink to="register/">Registrarse</NavLink>
+            </li>
           </ul>
         </nav>
       </header>

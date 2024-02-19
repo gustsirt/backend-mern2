@@ -4,6 +4,7 @@ import Root from './pages/Root.jsx';
 import LogIn from './pages/LogIn.jsx';
 import Products from './pages/Products.jsx';
 import Colores from './pages/temporal/Colores.jsx';
+import Register from './pages/Register.jsx';
 
 // createBrowserRouter reemplazaria --> createHashRouter (se pone hash para que lo tome github pages)
 const router = createHashRouter([
@@ -17,8 +18,8 @@ const router = createHashRouter([
       { path: 'clients/', element: <Products /> },
       { path: 'client/:cid', element: <Products /> },
       { path: 'refcolores/', element: <Colores /> },
-      { path: 'login/', element: <Products /> },
-      { path: 'register/', element: <Products /> },
+      { path: 'login/', element: <LogIn /> },
+      { path: 'register/', element: <Register /> },
     ],
   },
 ]);
