@@ -1,0 +1,37 @@
+$fuenteT: 'Viga'; // titulo 1
+$fuenteH: 'Viga'; // titulos
+$fuenteP: 'Raleway'; // parrafo
+
+$color: #009bdd;;
+
+// Definicion de Gama de colores
+$cblanco: white;
+$cgris1: #f8f9fa;
+$cgris2: #e9ecef;
+$cgris3: #dee2e6;
+$cgris4: #ced4da;
+$cgris5: #adb5bd;
+$cgris6: #6c757d;
+$cgris7: #495057;
+$cgris8: #343a40;
+$cgris9: #212529;
+$cnegro:  black;
+
+$ccla1: saturate(lighten($color, 7%),7%);
+$ccla2: saturate(lighten($color, 14%),14%);
+$ccla3: saturate(lighten($color, 21%),21%);
+$ccla4: saturate(lighten($color, 28%),28%);
+$ccla5: saturate(lighten($color, 35%),35%);
+$ccla6: saturate(lighten($color, 42%),42%);
+$ccla7: saturate(lighten($color, 49%),49%);
+$ccla8: saturate(lighten($color, 56%),56%);
+$ccla9: saturate(lighten($color, 63%),63%);
+$cosc1: desaturate(darken($color, 7%),7%);
+$cosc2: desaturate(darken($color, 14%),14%);
+$cosc3: desaturate(darken($color, 21%),21%);
+$cosc4: desaturate(darken($color, 28%),28%);
+$cosc5: desaturate(darken($color, 35%),35%);
+$cosc6: desaturate(darken($color, 42%),42%);
+$cosc7: desaturate(darken($color, 49%),49%);
+$cosc8: desaturate(darken($color, 56%),56%);
+$cosc9: desaturate(darken($color, 63%),63%);

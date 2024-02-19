@@ -1,0 +1,46 @@
+@import '../../styles/variables';
+
+.colores{
+  width: 700px;
+  display: flex;
+  flex-direction: column;
+  height: 440px;
+  flex-wrap: wrap;
+  div {
+    width: 200px;
+    height: 40px;
+  }
+  .colSeg { background-color: black; color: black;}
+  .colDat { background-color: black; color: black;}
+  .colGst { background-color: black; color: black;}
+  .ccl1 { background-color: $ccla1; color: black; }
+  .ccl2 { background-color: $ccla2; color: black; }
+  .ccl3 { background-color: $ccla3; color: black; }
+  .ccl4 { background-color: $ccla4; color: black; }
+  .ccl5 { background-color: $ccla5; color: black; }
+  .ccl6 { background-color: $ccla6; color: black; }
+  .ccl7 { background-color: $ccla7; color: black; }
+  .ccl8 { background-color: $ccla8; color: black; }
+  .ccl9 { background-color: $ccla9; color: black; }
+  .ccl10 { background-color: $cblanco; color: black; }
+  .cos1 { background-color: $cosc1; color: white; }
+  .cos2 { background-color: $cosc2; color: white; }
+  .cos3 { background-color: $cosc3; color: white; }
+  .cos4 { background-color: $cosc4; color: white; }
+  .cos5 { background-color: $cosc5; color: white; }
+  .cos6 { background-color: $cosc6; color: white; }
+  .cos7 { background-color: $cosc7; color: white; }
+  .cos8 { background-color: $cosc8; color: white; }
+  .cos9 { background-color: $cosc9; color: white; }
+  .cos10 { background-color: $cnegro; color: white; }
+  .col { background-color: $color; color: black;}
+  .gri1 { background-color: $cgris1; color: black; }
+  .gri2 { background-color: $cgris2; color: black; }
+  .gri3 { background-color: $cgris3; color: black; }
+  .gri4 { background-color: $cgris4; color: black; }
+  .gri5 { background-color: $cgris5; color: black; }
+  .gri6 { background-color: $cgris6; color: white; }
+  .gri7 { background-color: $cgris7; color: white; }
+  .gri8 { background-color: $cgris8; color: white; }
+  .gri9 { background-color: $cgris9; color: white; }
+}

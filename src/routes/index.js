@@ -7,7 +7,6 @@ import MessagesCRouter from "./api/messages.route.js";
 import CartCRouter from "./api/cart.route.js";
 import UserCRouter from "./api/users.route.js";
 import sessionsRoute from "./api/sessions.route.js";
-import { handleAuthFront } from "../middleware/handlePoliciesPASP.js";
 
 const router = Router()
 
@@ -20,12 +19,6 @@ router.use('/api/carts/', (new CartCRouter()).getRouter())
 router.use('/api/sessions/', sessionsRoute);
 router.use('/api/messages', (new MessagesCRouter()).getRouter())
 router.use('/api/users/', (new UserCRouter()).getRouter());
-
-// TODO PRUEBAS
-router.get('/current', handleAuthFront(['USER']), ()=> {
-  console.log("datos sensibles");
-  console.log("datos sensibles");
-})
 
 router.use('*', (req, res) => res.status(404).send('Not Found'))
 router.use((err, req, res, next) => {

@@ -17,24 +17,24 @@ let additional = { development }
 
 const handleResponses = (req, res, next) => {
   // RESPONSES
-  const responses = (statusCode, isError = false , message = "", data = {}) => res.status(statusCode).json({ isError, message, data});
+  const responses = (statusCode, isError = false , message = "", payload = {}) => res.status(statusCode).json({ isError, message, payload});
 
   // SIMPLES
-  res.sendSuccess = (data, message = "Success") => responses(200, false, message, data);
-  res.sendCreated = (data, message = "Created") => responses(201, false, message, data);
-  res.sendNoContent = (data, message = "No content") => responses(204, false, message, data);
-  res.sendUserError = (message = "Bad Request", data) => responses(400, true, message, data);
-  res.sendUserUnAuthorized = (message = "Unauthorized", data) => responses(401, true, message, data);
-  res.sendUserForbidden = (message = "Forbidden", data) => responses(403, true, message, data);
-  res.sendNotFound = (message = "Not Found", data) => responses(404, true, message, data);
-  res.sendServerError = (message = "Internal Server Error", data) => responses(500, true, message, data);
+  res.sendSuccess = (payload, message = "Success") => responses(200, false, message, payload);
+  res.sendCreated = (payload, message = "Created") => responses(201, false, message, payload);
+  res.sendNoContent = (payload, message = "No content") => responses(204, false, message, payload);
+  res.sendUserError = (message = "Bad Request", payload) => responses(400, true, message, payload);
+  res.sendUserUnAuthorized = (message = "Unauthorized", payload) => responses(401, true, message, payload);
+  res.sendUserForbidden = (message = "Forbidden", payload) => responses(403, true, message, payload);
+  res.sendNotFound = (message = "Not Found", payload) => responses(404, true, message, payload);
+  res.sendServerError = (message = "Internal Server Error", payload) => responses(500, true, message, payload);
 
   // EXTRAS
   res.tokenCookie = (token) => res.cookie('token', token, cookiesoptions);
 
   // MULTIPLES
   res.sendSuccessOrNotFound = (variable, title) => variable ? res.sendSuccess(variable) : res.sendUserError(`${title} not found`);
-  res.sendTokenCookieSuccess = (token, data) => res.tokenCookie(token).sendSuccess(data);
+  res.sendTokenCookieSuccess = (token, payload) => res.cookie('token', token, cookiesoptions).status(200).json({ isError: false, message: "Success", payload});
   res.sendCatchError = (error, message = "Internal Server Error") => (error instanceof CustomError) ? res.sendUserError(error.error, error) : res.sendServerError(message, error.toString());
   
   // RENDERS

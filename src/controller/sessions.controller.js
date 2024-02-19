@@ -1,10 +1,11 @@
 import configObject from "../config/index.js";
-import { UserClass } from "../dao/factory.js";
+import { usersService } from "../repository/service.js";
 import createToken from "../utils/createToken.js";
 import CustomError from "../utils/errors.js";
 import { createHash, isValidPassword } from "../utils/passwords.js";
 import validateFields from "../utils/validatefiels.js";
 
+import { UserClass } from "../dao/factory.js";
 const userService = new UserClass();
 
 class SessionsController {
@@ -50,85 +51,33 @@ class SessionsController {
         return res.sendTokenCookieSuccess(token, "Log In exitoso con Usuario Administrador")
       }
   
-      const userFound = await userService.getUserByMail(userData.email);
+      const userFound = await usersService.getBy({email: userData.email});
   
       if (!userFound || !isValidPassword(userData.password, userFound)) {
         throw new CustomError(`Email o contraseña equivocado`);
       }
       
       const token = createToken({id: userFound._id, role: userFound.role})
-      res.sendTokenCookieSuccess(token, "Log In exitoso con Id: "+userFound.first_name)
+
+      //res.sendTokenCookieSuccess(token, {})
+      res.sendSuccess({token}, "Log In exitoso con: " + userFound.first_name);
   
     } catch (error) {
       res.sendCatchError(error)
     }
-  } 
-
-  loginSession = async (req, res) => {
-    const userData = validateFields(req.body, this.requieredfield.login);
-  
-    try {
-      if (userData.email == configObject.uadmin && isValidPassword(userData.password, {password: configObject.uadmin_pass}) ) {
-        req.session.user = {
-          first_name: "Admin",
-          email: userData.email,
-          role: "Admin"
-        };
-        return res.redirect('/products');
-      }
-  
-      const userFound = await users.getUserByMail(userData.email);
-      if (!userFound || isValidPassword(createHash(userData.password), userFound)) {
-        throw new CustomError(`Email o contraseña equivocado`);
-      }
-      
-      req.session.user = {
-        user: userFound._id,
-        first_name: userFound.first_name,
-        last_name: userFound.last_name,
-        email: userFound.email,
-        role: userFound.role,
-      };
-      
-      res.redirect('/products');
-  
-    } catch (error) {
-      if (error instanceof CustomError) {
-        //resError(res, 400, "Email o contraseña equivocado")
-        res.sendUserError(error)
-      } else {
-        //resError(res, 500, "Ocurrio un error, vuelva a intentarlo")
-        res.sendServerError(error)
-      }
-    }
-  }
+  } // OK
 
   logout = (req, res) => {
-    /*req.session.destroy((err) => {
-      if (err) return res.send({ status: 'error', error: err });
-    });*/
     res.clearCookie('token').redirect('/');
   }
 
   // GITHUB
   github = async (req,res)=>{}
   githubcallback = (req, res)=>{
-    //req.session.user = req.user
     const token = createToken({id: req.user._id, role: req.user.role})
     
     res.tokenCookie(token).redirect('/products');
   }
-
-  // TODO Pruebas --> http://localhost:PORT/api/sessions/current
-  pruebasCurrent = (req, res) => {
-    //router.get('/current', handleResponses, passportCall('jwt'), /*authPJwt('admin'),*/ (req, res) => {
-      try{
-        const datosP = {message: "Datos sensibles", reqUser: req.user}
-        res.renderPage('current', 'PRUEBA', {contenido: JSON.stringify(datosP)}) 
-      } catch (error) {
-        return res.renderError(error.error) 
-      }
-    }
 }
 
 export default SessionsController;
