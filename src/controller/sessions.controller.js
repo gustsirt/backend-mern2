@@ -24,20 +24,22 @@ class SessionsController {
       const userData = validateFields(req.body, this.requieredfield.register);
       userData.password = createHash(userData.password)
   
-      const userFound = await userService.getUserByMail(userData.email);
+      const userFound = await userService.getBy({email: userData.email});
   
       if (userFound) throw new CustomError(`Ya existe un usuario con ese email. pruebe con otro`)
   
-      await userService.createUser(userData)
+      await userService.create(userData)
   
-      res.renderPage("login","Login", {answer: 'Se ha registrado satisfactoriamente' })
+      res.sendSuccess({}, "Registro exitoso. Ahora inicia sesión con el usuario registrado")
+      // res.renderPage("login","Login", {answer: 'Se ha registrado satisfactoriamente' })
   
     } catch (error) {
-      if (error instanceof CustomError) {
-        res.renderPage("register","Nuevo Registro", {answer: error.message })
-      } else {
-        res.renderPage("register","Nuevo Registro", {answer: 'Ocurrio un error, vuelva a intentarlo' })
-      }
+      res.sendCatchError(error)
+      // if (error instanceof CustomError) {
+      //   res.renderPage("register","Nuevo Registro", {answer: error.message })
+      // } else {
+      //   res.renderPage("register","Nuevo Registro", {answer: 'Ocurrio un error, vuelva a intentarlo' })
+      // }
     }
   }  // Respuesta Visual
 
@@ -63,6 +65,7 @@ class SessionsController {
       res.sendSuccess({token}, "Log In exitoso con: " + userFound.first_name);
   
     } catch (error) {
+      //console.log(error);
       res.sendCatchError(error)
     }
   } // OK

@@ -29,11 +29,9 @@ const LogIn = () => {
       const respJson = await fetch(`${uriBase}api/sessions/login`, requestOptions)
       const resp = await respJson.json()
 
-      //console.log(resp);
-
       if(resp?.isError === false) {
         setToken(`Bearer ${resp.payload.token}`)
-        Swal.fire({icon: "success", text: resp.message}).then((res) => { navigate("products/", {replace: true}) })
+        Swal.fire({icon: "success", text: resp.message}).then((res) => { navigate("/products/", {replace: true}) })
       } else {
         Swal.fire({icon: "error", text: "Acceso no autorizado"})
       }
