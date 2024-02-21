@@ -7,11 +7,14 @@ const cControl = new CartsController()
 export default class CartCRouter extends CustomRouter {
   constructor() {
     super(cControl);
+    this.init();
+    this.initCustomRoutes();
   }
 
-  init() {
+  initCustomRoutes() {
     this.post  ('/:cid/product/:pid', this.controller.addProduct)
     this.put   ('/:cid/product/:pid', this.controller.updateProductQuantity) //+ body quantity
     this.delete('/:cid/product/:pid', this.controller.removeProductById)
+    
   }
 }

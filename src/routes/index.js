@@ -14,13 +14,13 @@ const router = Router()
 router.use('/', viewsRouter);
 
 // definiendo las API
-router.use('/api/products/', (new ProductCRouter()).getRouter())
-router.use('/api/carts/', (new CartCRouter()).getRouter())
-router.use('/api/sessions/', sessionsRoute);
+router.use('/api/products', (new ProductCRouter()).getRouter())
+router.use('/api/carts', (new CartCRouter()).getRouter())
+router.use('/api/sessions', sessionsRoute);
 router.use('/api/messages', (new MessagesCRouter()).getRouter())
-router.use('/api/users/', (new UserCRouter()).getRouter());
+router.use('/api/users', (new UserCRouter()).getRouter());
 
-router.use('*', (req, res) => res.status(404).send('Not Found'))
+//router.use('*', (req, res) => res.status(404).send('Not Found'))
 router.use((err, req, res, next) => {
   console.log(err)
   res.status(500).json({message: "Error Server", err})})
