@@ -3,11 +3,13 @@ import { ContextConfig } from "../context/ContextConfig.jsx";
 //import { ContextUser } from "./context/ContextUser.jsx";
 import Swal from 'sweetalert2';
 import ProductsList from "../components/products/ProductsList.jsx";
+import ServiceProducts from "../services/products.jsx";
 
 const AddProducts = () => {
   const { uriBase } = useContext(ContextConfig);
   //const { token } = useContext(ContextUser);
   const [products, setProducts] = useState([]);
+  const serviceProducts = new ServiceProducts()
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,17 +22,11 @@ const AddProducts = () => {
           // },
         // };
         //const resp = await fetch(`${uriBase}api/products/`, requestOptions);
-        const resp = await fetch(`${uriBase}api/products/`);
-
-        if (!resp.ok) {
-          throw new Error(`Error en la solicitud: ${resp.status} ${resp.statusText}`);
-        }
-
-        const respJson = await resp.json();
-        //console.log(respJson.payload)
+        const resp = await serviceProducts.get()
+        console.log(resp);
 
         if (respJson?.isError === false) {
-          setProducts(respJson.payload.docs);
+          setProducts(resp.payload.docs);
         } else {
           Swal.fire({ icon: "error", text: respJson.message || "Error al obtener productos" });
         }
@@ -47,12 +43,12 @@ const AddProducts = () => {
   return (
     <div className="page-container">
       <h1 className="title">Editar Productos</h1>
-      <div className="flex-row-50">
-        <div className="row-50">
+      <div className="flex-row">
+        <div className="row-70">
           // TODO FALTA agregar paginacion
           <ProductsList products={products}/>
         </div>
-        <div className="row-50">
+        <div className="row-30">
         </div>
       </div>
     </div>

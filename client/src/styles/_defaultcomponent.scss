@@ -1,12 +1,14 @@
 // background-color base es $cgris2
 
-.flex-row-50 {
+.flex-row {
   display: flex;
   width: 100%;
 
-  .row-50 {
-    width: 50%;
-  }
+  .row-30 { width: 30%; }
+  .row-40 { width: 40%; }
+  .row-50 { width: 50%; }
+  .row-60 { width: 60%; }
+  .row-70 { width: 70%; }
 }
 
 .flex-colum {
