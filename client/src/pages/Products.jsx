@@ -8,7 +8,7 @@ const Products = () => {
   const { uriBase } = useContext(ContextConfig);
   //const { token } = useContext(ContextUser);
   const [products, setProducts] = useState([]);
-
+  // TODO FALTA agregar paginacion
   useEffect(() => {
     const fetchProducts = async () => {
       try {
