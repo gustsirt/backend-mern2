@@ -14,29 +14,19 @@ const Root = () => {
   return (
     <>
       <header className="header">
-        <Link to="/">
-          <img src="./img/logo.png" alt="Logotipo" />
-        </Link>
+        <Link to="/"><img src="./img/logo.png" alt="Logotipo" /></Link>
         <nav className="nav">
           <ul>
-            <li>
-              <NavLink to="/">Inicio</NavLink>
-            </li>
-            <li>
-              <NavLink to="products/">Productos</NavLink>
-            </li>
-            <li>
-              <NavLink to="clients/">Clientes</NavLink>
-            </li>
-            <li>
-              <NavLink to="refcolores/">Colores a Usar</NavLink>
-            </li>
-            <li>
-              <NavLink to="login/">LogIn</NavLink>
-            </li>
-            <li>
-              <NavLink to="register/">Registrarse</NavLink>
-            </li>
+            <li><NavLink to="/">Inicio</NavLink></li>
+            <li><NavLink to="products/">Productos</NavLink></li>
+            <li><NavLink to="addproducts/">*Editar Productos</NavLink></li>
+            <li><NavLink to="chat/">*Chat</NavLink></li>
+            <li><NavLink to="cart/">*Carrito</NavLink></li>
+            <li><NavLink to="order/">*Orden de Compra</NavLink></li>
+            <li><NavLink to="user/">*Usuario</NavLink></li>
+            <li><NavLink to="login/">LogIn</NavLink></li>
+            <li><NavLink to="register/">Registrarse</NavLink></li>
+            <li><NavLink to="refcolores/">Colores a Usar</NavLink></li>
           </ul>
         </nav>
       </header>

@@ -1,0 +1,60 @@
+@import '../../styles/variables';
+
+$prd-background: $ccla7;
+$prd-background2: $cgris3;
+$prd-color: $color;
+
+.product-display {
+  width: 100%;
+  border-radius: 2em;
+  background-color: rgba(255, 255, 255, 0.5) ;
+  display: flex;
+
+  .img-section {
+    width: 50%;
+
+    img {
+      border-radius: 2em;
+      width: 100%;
+    }
+  }
+  .detail-display{
+    width: 50%;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 1em;
+    background-color: $prd-background2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .detail-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+  
+      .cateory, .code {
+        text-transform: uppercase;
+      }
+      .title {
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+      .price {
+        font-size: 1.2em;
+        color: $prd-color;
+        font-weight: bold;
+      }
+    }
+    .add-section {
+      display: flex;
+    }
+  }
+}
+.description-section{
+  width: 100%;
+  margin: 2em;
+  padding: 1.5em;
+  border-radius: 1em;
+  background-color: $prd-background;
+}

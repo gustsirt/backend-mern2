@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 import './styles/index.scss';
 import router from './router';
 
-import ContextProvider from './pages/context/ContextProvider';
+import ContextProvider from './context/ContextProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ContextProvider>

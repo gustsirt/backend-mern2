@@ -1,7 +1,19 @@
 // background-color base es $cgris2
 
+.flex-colum {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.strong {
+  font-weight: bold;
+}
+.strong-semi {
+  font-weight:600;
+}
+
 .page-container {
-  margin: 2em 0;
   padding: 1em;
   width: 100%;
   background-color: $cgris3;
@@ -11,6 +23,49 @@
 
   .title {
     text-align: center;
+  }
+
+  .list-cards {
+    padding: 1em;
+    gap: 1.5em;
+    width: 100%;
+    border-radius: 2em;
+    background-color: $ccla7;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .card {
+      padding: 1em;
+      max-width: 300px;
+      border: 1px solid $cgris2;
+      border-radius: 1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      background-color: $ccla6;
+      @extend .flex-colum;
+
+      .card-title{
+        text-align: center;
+        padding-bottom: 0.7em;
+        @extend .strong-semi;
+      }
+
+      .card-img {
+        margin: 1em 0;
+        width: 100%;
+        border-radius: 1em;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      }
+      .card-body{
+        width: 95%;
+        padding: 0 auto;
+        margin-bottom: 0.5em;
+        @extend .flex-colum;
+      }
+    }
+    .card:hover{
+      box-shadow: 0 0 10px rgba(0,0,0,0.22);
+    }
   }
 }
 

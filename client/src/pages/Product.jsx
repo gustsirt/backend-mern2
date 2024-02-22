@@ -2,12 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { ContextConfig } from "../context/ContextConfig.jsx";
 //import { ContextUser } from "./context/ContextUser.jsx";
 import Swal from 'sweetalert2';
-import ProductsList from "../components/products/ProductsList.jsx";
+import { useParams } from "react-router-dom";
+import ProductDetail from "../components/products/ProductDetail.jsx";
 
-const Products = () => {
+const Product = () => {
   const { uriBase } = useContext(ContextConfig);
   //const { token } = useContext(ContextUser);
-  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState([]);
+  const { pid } = useParams()
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -20,17 +22,17 @@ const Products = () => {
           // },
         // };
         //const resp = await fetch(`${uriBase}api/products/`, requestOptions);
-        const resp = await fetch(`${uriBase}api/products/`);
+        const resp = await fetch(`${uriBase}api/products/${pid}`);
 
         if (!resp.ok) {
           throw new Error(`Error en la solicitud: ${resp.status} ${resp.statusText}`);
         }
 
         const respJson = await resp.json();
-        //console.log(respJson.payload)
-
+        // console.log(respJson)
+        
         if (respJson?.isError === false) {
-          setProducts(respJson.payload.docs);
+          setProduct(respJson.payload);
         } else {
           Swal.fire({ icon: "error", text: respJson.message || "Error al obtener productos" });
         }
@@ -46,10 +48,9 @@ const Products = () => {
 
   return (
     <div className="page-container">
-      <h1 className="title">Productos</h1>
-      <ProductsList  products={products}/>
+      { product.length === 0 ? <p>Cargando...</p> : <ProductDetail product={product} /> }
     </div>
-  );
-};
+  )
+}
 
-export default Products;
+export default Product

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ContextConfig } from "./context/ContextConfig.jsx";
+import { ContextConfig } from "../context/ContextConfig.jsx";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
