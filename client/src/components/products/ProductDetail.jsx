@@ -19,7 +19,7 @@ const ProductDetail = ({product}) => {
         </div>
         <div className="detail-display">
           <div className="detail-section">
-            <p className="cateory">{product.category}</p>
+            <p className="category">{product.category}</p>
             <p className="title">{product.title}</p>
             <p className="code">Cod: {product.code}</p>
             <p className="price">$ {product.price.toLocaleString("es-ES", { style: "decimal" })}</p>

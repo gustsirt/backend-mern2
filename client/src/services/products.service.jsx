@@ -5,15 +5,13 @@ import { ContextConfig } from "../context/ContextConfig.jsx";
 // TODO aca poner todos los fetch products
 export default class ServiceProducts {
   constructor () {
-    this.uriBase = { uriBase } = useContext(ContextConfig);
+    const { uriBase } = useContext ( ContextConfig );
+    this.uriBase =  uriBase;
     this.headers = { "Content-Type": "application/json" };
   }
 
-  get = async () => {
-    const resp = await fetch(`${this.uriBase}api/products/`);
-    console.log(resp);
-    return await resp.json();
-  }
+  get = async () => await (await fetch(`${this.uriBase}api/products/`)).json();
+  
 }
 
 // import dotenv from "dotenv";

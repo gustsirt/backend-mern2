@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-const ProductsListCard = ({product}) => {
+const ProductsEditListCard = ({product, onProductClick}) => {
 
   return (
     <div className="card">
-      <Link to={`/product/${product._id}`}>
+      <button onClick={() => onProductClick(product)}>
         <img className="card-img" src={product.thumbnail} alt={product.title} />
         <p className="card-title">{product.title}</p>
         <div className="card-body">
@@ -12,10 +12,10 @@ const ProductsListCard = ({product}) => {
         </div>
         <div className="card-footer">
         </div>
-      </Link>
+      </button>
     </div>
   )
   
 }
 
-export default ProductsListCard
+export default ProductsEditListCard

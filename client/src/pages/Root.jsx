@@ -19,7 +19,7 @@ const Root = () => {
           <ul>
             <li><NavLink to="/">Inicio</NavLink></li>
             <li><NavLink to="products/">Productos</NavLink></li>
-            <li><NavLink to="addproducts/">*Editar Productos</NavLink></li>
+            <li><NavLink to="addproducts/">*Editar Productos (admin)</NavLink></li>
             <li><NavLink to="chat/">*Chat</NavLink></li>
             <li><NavLink to="cart/">*Carrito</NavLink></li>
             <li><NavLink to="order/">*Orden de Compra</NavLink></li>
