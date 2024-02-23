@@ -12,16 +12,21 @@ export default class ServiceProducts {
 
   get = async () => await (await fetch(`${this.uriBase}api/products/`)).json();
   
+  post = async(newProduct) => {
+    newProduct.status = true;
+
+    const resp = await fetch(`${this.uriBase}api/products/`, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify(newProduct)
+    })
+    return await resp.json()
+  }
 }
 
 // import dotenv from "dotenv";
 
-// dotenv.config();
-
-// const URI_BASE = process.env.REACT_APP_API_URL;
-
-// class ApiService {
-
+// class ApiServic
 //   constructor() {
 //     this.headers = {
 //       "Content-Type": "application/json",

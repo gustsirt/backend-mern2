@@ -29,6 +29,25 @@ const AddProducts = () => {
       Swal.fire({ icon: "error", text: "Error al obtener productos debido a un problema en el sistema" });
     }
   };
+
+  const postProducts = async (newProduct) => {
+    // AGREGAR MODIFICAR PRODUCTO
+    try {
+      console.log("add product - newproducts: ",newProduct);
+      const resp = await serviceProducts.post(newProduct)
+      console.log(resp);;
+
+      if (resp?.isError === false) {
+        Swal.fire({ icon: "sucess", text: `El producto ${resp.payload.title} fue agregado correctamente con ID: ${resp.payload._id}` });
+        fetchProducts()
+      } else {
+        Swal.fire({ icon: "error", text: resp.payload || resp.message || "Error al obtener productos" });
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire({ icon: "error", text: resp.payload || resp.message || "Error al obtener productos debido a un problema en el sistema" });
+    }
+  }
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -48,7 +67,7 @@ const AddProducts = () => {
           <ProductsListEdit products={products} onProductClick={handleProductClick}/>
         </div>
         <div className="row-30">
-          <ProductForm selectedProduct={selectedProduct}/>
+          <ProductForm selectedProduct={selectedProduct} onSubmitF={postProducts}/>
         </div>
       </div>
     </div>

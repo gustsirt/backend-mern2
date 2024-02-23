@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
 import './productform.scss'
 
-const ProductForm = ({selectedProduct }) => {
+const ProductForm = ({selectedProduct, onSubmitF }) => {
   const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
   //console.log(selectedProduct);
   const [idselected, setIdSelected] = useState('')
@@ -16,16 +16,13 @@ const ProductForm = ({selectedProduct }) => {
         setValue('code', selectedProduct.code || '');
         setValue('category', selectedProduct.category || '');
         setValue('price', selectedProduct.price || 0);
+        setValue('stock', selectedProduct.stock || 0);
         setValue('description', selectedProduct.description || '');
         setIdSelected(selectedProduct._id)
     }
   }, [selectedProduct, setValue]);
 
-  const onSubmit = (data) => {
-    // Process form data
-    console.log('idselected: ',idselected);
-    console.log('onSubmit: ',data);
-  };
+  const onSubmit = (data) => onSubmitF(data)
 
   const handleReset = () => {
     setIdSelected('')
@@ -62,6 +59,11 @@ const ProductForm = ({selectedProduct }) => {
         <label htmlFor="price">Precio:</label>
         <input type="number" {...register("price", { required: true, min: 0 })} />
         {errors.price && <p>{errors.price.message}</p>}
+      </div>
+      <div className='form-row'>
+        <label htmlFor="stock">Stock:</label>
+        <input type="number" {...register("stock", { required: true, min: 0 })} />
+        {errors.stock && <p>{errors.stock.message}</p>}
       </div>
       <div className='form-row'>
         <label htmlFor="description">Descripción:</label>
