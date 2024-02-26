@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import "./product.scss"
 
-const ProductDetail = ({product}) => {
+const ProductDetail = ({product, cart, addProduct}) => {
   // console.log(product);
   return (
     <div className="product-container">
@@ -26,6 +26,7 @@ const ProductDetail = ({product}) => {
           </div>
           <div className="add-section">
             <p>Stock: {product.stock}</p>
+            { (cart && product.stock > 0) && (<button onClick={() => addProduct()}>Agregar Producto al Carrito</button>)}
           </div>
         </div>
       </div>

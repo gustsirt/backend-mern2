@@ -1,4 +1,5 @@
-import ProductsController from "../../controller/products.controller.js";
+ import ProductsController from "../../controller/products.controller.js";
+import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
 import CustomRouter from "./custom.route.js";
 
 // * http://localhost:PORT/api/products
@@ -10,8 +11,8 @@ export default class ProductCRouter extends CustomRouter {
     this.init();
     this.initCustomRoutes();
   }
-
   initCustomRoutes() {
-    this.get    ("/group/categorys", this.controller.getCategorys )
+    this.get    ("/group/categorys", handleAuth(['PUBLIC']), this.controller.getCategorys )
   }
 }
+

@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
 export default class CustomRouter {
   constructor(controller) {
     this.router = Router(); // instanciar const router = Router()
@@ -7,12 +7,12 @@ export default class CustomRouter {
     this.init();
   }
   init() {
-    this.get    ('/',       this.controller.gets)
-    this.get    ('/:eid',   this.controller.getId)
-    this.get    ('/filter', this.controller.getBy)
-    this.post   ('/',       this.controller.create)
-    this.put    ('/:eid',   this.controller.updateId)
-    this.delete ('/:eid',   this.controller.deleteId)
+    this.get    ('/',       handleAuth(['PUBLIC']), this.controller.gets)
+    this.get    ('/:eid',   handleAuth(['PUBLIC']), this.controller.getId)
+    this.get    ('/filter', handleAuth(['PUBLIC']), this.controller.getBy)
+    this.post   ('/',       handleAuth(['ADMIN']) , this.controller.create)
+    this.put    ('/:eid',   handleAuth(['ADMIN']) , this.controller.updateId)
+    this.delete ('/:eid',   handleAuth(['ADMIN']) , this.controller.deleteId)
   } //queda vacia, se usa en las instancias
   getRouter() { return this.router; } // export default routerClass
 

@@ -2,6 +2,9 @@
 
 $headercol1: $color;
 $headercol2: $cgris3;
+$userFondo: $cgris7;
+$userText: $ccla1;
+$userAlternative: $cnegro;
 
 .header {
   width: 100%;
@@ -16,7 +19,11 @@ $headercol2: $cgris3;
 
   nav{
     height: 100%;
-    margin: auto 0;
+    width: 100%;
+    margin: auto 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     ul{
       width: 100;
       display: flex;
@@ -41,6 +48,24 @@ $headercol2: $cgris3;
   }
 }
 
+.user-widget{
+  width: auto;
+  display: flex;
+  align-items: center;
+  
+  .link-access {
+    width: 12em;
+    
+
+  }
+  
+  .user-area {
+    padding: 0.5em;
+    width: 13em;
+    background-color: $userFondo;
+    color: $userText;
+  }
+}
 
 .main {
   padding: 2em 0;

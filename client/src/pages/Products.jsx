@@ -47,7 +47,7 @@ const Products = () => {
   return (
     <div className="page-container">
       <h1 className="title">Productos</h1>
-      <ProductsList  products={products}/>
+      { products.length === 0 ? <p>Cargando...</p> : <ProductsList  products={products}/>}
     </div>
   );
 };

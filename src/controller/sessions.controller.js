@@ -47,11 +47,12 @@ class SessionsController {
     const userData = validateFields(req.body, this.requieredfield.login);
   
     try {
-      if (this.admins.includes(userData.email) && isValidPassword(userData.password, {password: this.admin_pass}) ) {
+      // if (this.admins.includes(userData.email) && isValidPassword(userData.password, {password: this.admin_pass}) ) {
   
-        const token = createToken({id: 0, role: "Admin"})
-        return res.sendTokenCookieSuccess(token, "Log In exitoso con Usuario Administrador")
-      }
+      //   const token = createToken({id: 0, role: "Admin"})
+      //   res.sendSuccess({token}, "Log In exitoso con: Usuario Administardor");
+      //   //return res.sendTokenCookieSuccess(token, "Log In exitoso con Usuario Administrador")
+      // }
   
       const userFound = await usersService.getBy({email: userData.email});
   
@@ -71,7 +72,11 @@ class SessionsController {
   } // OK
 
   logout = (req, res) => {
-    res.clearCookie('token').redirect('/');
+    //res.clearCookie('token').redirect('/');
+  }
+
+  getUserSession = (req, res) => {
+    res.sendSuccess(req.user)
   }
 
   // GITHUB

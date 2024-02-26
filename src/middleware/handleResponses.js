@@ -22,7 +22,7 @@ const handleResponses = (req, res, next) => {
   // SIMPLES
   res.sendSuccess = (payload, message = "Success") => responses(200, false, message, payload);
   res.sendCreated = (payload, message = "Created") => responses(201, false, message, payload);
-  res.sendNoContent = (payload, message = "No content") => responses(204, false, message, payload);
+  res.sendNoContent = (message = "No content", payload) => responses(204, false, message, payload);
   res.sendUserError = (message = "Bad Request", payload) => responses(400, true, message, payload);
   res.sendUserUnAuthorized = (message = "Unauthorized", payload) => responses(401, true, message, payload);
   res.sendUserForbidden = (message = "Forbidden", payload) => responses(403, true, message, payload);

@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form";
 import './productform.scss'
 
 const ProductForm = ({selectedProduct, onSubmitF }) => {
-  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      status: true,
+    }
+  });
   //console.log(selectedProduct);
   const [idselected, setIdSelected] = useState('')
 
@@ -17,6 +21,7 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
         setValue('category', selectedProduct.category || '');
         setValue('price', selectedProduct.price || 0);
         setValue('stock', selectedProduct.stock || 0);
+        setValue('status', selectedProduct.status || '');
         setValue('description', selectedProduct.description || '');
         setIdSelected(selectedProduct._id)
     }
@@ -64,6 +69,10 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
         <label htmlFor="stock">Stock:</label>
         <input type="number" {...register("stock", { required: true, min: 0 })} />
         {errors.stock && <p>{errors.stock.message}</p>}
+      </div>
+      <div className='form-row'>
+        <label htmlFor="status">Visible?:</label>
+        <input type="checkbox" {...register("status")} />
       </div>
       <div className='form-row'>
         <label htmlFor="description">Descripción:</label>

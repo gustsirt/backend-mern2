@@ -17,9 +17,11 @@
   justify-content: center;
   align-items: center;
 }
+
 .strong {
   font-weight: bold;
 }
+
 .strong-semi {
   font-weight:600;
 }
@@ -31,6 +33,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   .title {
     text-align: center;
@@ -74,9 +77,95 @@
         @extend .flex-colum;
       }
     }
+    .horizontal-card {
+      padding: 1em;
+      width: 100%;
+      border: 1px solid $cgris2;
+      border-radius: 1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      background-color: $ccla6;
+    }
     .card:hover{
       box-shadow: 0 0 10px rgba(0,0,0,0.22);
     }
+    .horizontal-card {
+      padding: 1em 0;
+      width: 100%;
+      border: 1px solid $cgris2;
+      border-radius: 1em;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      background-color: $ccla6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .card-img {
+        margin: 0.5em;
+        width: 5em;
+        border-radius: 1em;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      }
+
+      .button-cart {
+        width: 1.5em;
+        height: 1.5em;
+        border: none;
+        background-color: transparent;
+      }
+      .button-cart:hover {
+        width: 1.7em;
+        height: 1.7em;
+        border: none;
+        color: $color;
+      }
+    }
+    .horizontal-card:hover{
+      box-shadow: 0 0 10px rgba(0,0,0,0.22);
+    }
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.button-center {
+  margin: 1em;
+  padding: 0.5em;
+  width: 8em;
+  background-color: $color;
+  color: $cosc6;
+  border: none;
+  border-radius: 0.5em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.button-center:hover {
+  background-color: $cosc6;
+  color: $color;
+}
+
+.button-square-XRED {
+  border: none;
+  text-align: center;
+  background-color: transparent;
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+
+  svg {
+    color: rgb(156, 5, 5);
+    height: 1.7em;
+    width: 1.7em;
+  }
+}
+
+.button-square-XRED:hover {
+  svg {
+    color: rgb(207, 0, 0);
+    height: 1.9em;
+    width: 1.9em;
   }
 }
 

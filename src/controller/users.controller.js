@@ -10,12 +10,12 @@ export default class UsersController extends CustomController {
     const user = await this.service.getBy({_id: id});
 
     return {
-      userId: id,
-      userName: user?.first_name,
-      userLName: user?.last_name,
-      userEmail: user?.email,
-      userRole: user?.role,
-      userCart: user?.cart,
+      id: id,
+      name: user?.first_name,
+      lname: user?.last_name,
+      email: user?.email,
+      role: user?.role,
+      cart: user?.cart,
       ...this.handleAccess(user?.role)
     };
   } // no es un Controler de ROUTER sino de middelware AUTH
