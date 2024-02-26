@@ -39,6 +39,7 @@ const Order = () => {
           setVenta(true)
           setDetail(resp.payload.detail)
           setProducts(resp.payload.productList)
+          // console.log("venta: ",venta);
         } else {
           Swal.fire({ icon: "error", text: resp.message || "Error"})
         }
@@ -52,12 +53,32 @@ const Order = () => {
     getCartProduct()
   }, [user])
 
+  useEffect(()=>{
+    // console.log("venta: ",venta);
+    // console.log(detail);
+    // console.log(products);
+  },[venta])
+  // const aaa = new Date().toLocaleDateString()
   if (venta) {
-
+  return (
+    <div className="page-container">
+      <h1 className="title">{`Orden de Compra: ${detail.code}`}</h1>
+      <div>
+        <p>Nombre: {detail.firstName}</p>
+        <p>Email: {detail.purchaser}</p>
+        <p>Fecha y hora: {detail.purchase_datetime}</p>
+      </div>
+      <OrderList products={products} isventa={venta}/>
+      <div>
+        <h2 className="strong">Cantidad de articulos: {products.reduce((acc, ele)=>acc+ele.quantity,0)}</h2>
+        <h2 className="strong">Monto total: $ {products.reduce((acc, ele)=>acc+ele.amount,0).toLocaleString("es-ES", { style: "decimal" })}</h2>
+      </div>
+    </div>
+  )
   } else {
   return (
     <div className="page-container">
-      <h1 className="title">Finzalizar Compra</h1>
+      <h1 className="title">Finalizar Compra</h1>
       <OrderList products={cartProducts} isventa={venta}/>
       {user.cart && (<>
           <div>
