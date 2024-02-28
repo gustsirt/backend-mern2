@@ -70,12 +70,13 @@ const sendEmail = async () => {
     const response = await mailService.sendEmail(html)
 
     console.log(response);
+    console.log(response.json());
     if (response.ok) {
       // Mostrar mensaje de éxito
       console.log("Correo electrónico enviado correctamente");
     } else {
       // Mostrar mensaje de error
-      console.log("Error al enviar el correo electrónico:", data.message);
+      console.log("Error al enviar el correo electrónico:", response.message);
     }
   } catch (error) {
     console.error("Error inesperado:", error);

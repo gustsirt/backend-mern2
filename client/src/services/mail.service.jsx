@@ -7,14 +7,14 @@ export default class MailService {
     this.headers.append("Authorization", token);
   }
 
-  sendEmail = async(html) => {
+  sendEmail = async (html) => {
     const response = await fetch(`${this.uriBase}api/mail/send`, {
       method: "POST",
       mode: 'no-cors',
       headers: this.headers,
       body: JSON.stringify(html)
     })
-    return await response.json()
+    return response
   }
 }
 

@@ -5,13 +5,13 @@ const uControl = new UsersController();
 
 // ? AUTH JWT BEARER - PASSPORT
 
-/* export const handleAuth = (policies) => {
+export const handleAuth = (policies) => {
   // Policies => ['PUBLIC', 'USER', 'USER_PREMIUM', 'ADMIN']
   return async (req, res, next) => {
     try {
       passport.authenticate('jwt', {session: false}, async function (err, user, info) {
         if (err) next(err)
-        console.log(1111,user);
+        //console.log(1111,user);
         if (user) {
           req.user = await uControl.getDataUserById(user.id)
         }
@@ -28,41 +28,41 @@ const uControl = new UsersController();
       next(error)
     }
   };
-}; */
+};
 
 // ? TRATANDO DE USAR AUTH JWT SIN PASSPORT
-import  jwt from "jsonwebtoken";
-import configObject from "../config/index.js";
-const JWT_PRIVATE_KEY = configObject.jwt_code;
-export const handleAuth = (policies) => {
-  return async (req, res, next) => {
-    try {
-      console.log('00000');
-      if(policies[0] === 'PUBLIC') return next();
-      console.log(req.headers);
-      const authHeader = req.headers.Authorization;
-      if (!authHeader) return res.sendUserUnAuthorized("No authenticaded")
-      console.log("111 "); // llega
-      const token = authHeader.split(" ")[1];
-      const decodedUser = await verifyToken(token, JWT_PRIVATE_KEY); // Valida el token
+// import  jwt from "jsonwebtoken";
+// import configObject from "../config/index.js";
+// const JWT_PRIVATE_KEY = configObject.jwt_code;
+// export const handleAuth = (policies) => {
+//   return async (req, res, next) => {
+//     try {
+//       //console.log('00000');
+//       if(policies[0] === 'PUBLIC') return next();
+//       //console.log(req.headers);
+//       const authHeader = req.headers.Authorization;
+//       if (!authHeader) return res.sendUserUnAuthorized("No authenticaded")
+//       //console.log("111 "); // llega
+//       const token = authHeader.split(" ")[1];
+//       const decodedUser = await verifyToken(token, JWT_PRIVATE_KEY); // Valida el token
 
-      console.log("1212 ", decodedUser); // llega
-      if (!decodedUser) return res.sendUserUnAuthorized("Unauthorized");
+//       //console.log("1212 ", decodedUser); // llega
+//       if (!decodedUser) return res.sendUserUnAuthorized("Unauthorized");
 
-      console.log("2222 ",decodedUser);
-      req.user = await uControl.getDataUserById(decodedUser.id)
-      //console.log("3333 ", req.user );
+//       //console.log("2222 ",decodedUser);
+//       req.user = await uControl.getDataUserById(decodedUser.id)
+//       //console.log("3333 ", req.user );
 
-      if(req.user.role.toUpperCase() === 'ADMIN') return next();
+//       if(req.user.role.toUpperCase() === 'ADMIN') return next();
 
-      if(!policies.includes(req.user.role.toUpperCase())) return res.sendUserForbidden('User not authorized')
-      //console.log("3444 ")
-      next();
-    } catch (error) {
-      next(error)
-    }
-  };
-};
+//       if(!policies.includes(req.user.role.toUpperCase())) return res.sendUserForbidden('User not authorized')
+//       //console.log("3444 ")
+//       next();
+//     } catch (error) {
+//       next(error)
+//     }
+//   };
+// };
 
 export const verifyToken = async (token, secretKey) => {
   try {
