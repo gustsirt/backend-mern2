@@ -9,10 +9,11 @@ const router = Router();
 const sControl = new SessionsController();
 
 // http://localhost:PORT/api/sessions/
-router.post('/register', sControl.register);
-router.post('/login', sControl.login);
-router.get ('/logout', sControl.logout);
-router.get ('/user', handleAuth(['USER']), sControl.getUserSession);
+router
+  .post('/register', sControl.register)
+  .post('/login', sControl.login)
+  .get ('/logout', sControl.logout)
+  .get ('/user', handleAuth(['USER']), sControl.getUserSession)
 
 // TODO PRUEBAS
 router.get('/current', handleAuth(['ADMIN']), (req, res) => {

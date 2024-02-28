@@ -5,16 +5,18 @@ import { ContextConfig } from "../context/ContextConfig.jsx";
 import { ContextUser } from "../context/ContextUser.jsx";
 import ServiceCarts from "../services/cart.service.jsx";
 import OrderList from "../components/order/OrderList.jsx";
+import MailService from "../services/mail.service.jsx";
 
 const Order = () => {
   const {uriBase} = useContext(ContextConfig)
   const { user, token } = useContext(ContextUser);
   const [cartProducts, setCartProducts] = useState([]);
   const cartService = new ServiceCarts(uriBase, token);
+  const mailService = new MailService(uriBase, token);
   const [venta, setVenta] = useState(false)
   const [detail, setDetail] = useState(null);
   const [products, setProducts] = useState(null);
-
+  
   const getCartProduct = async () => {
     if (user.cart) {
       try {
@@ -59,6 +61,27 @@ const Order = () => {
     // console.log(products);
   },[venta])
   // const aaa = new Date().toLocaleDateString()
+
+  const [html, setHtml] = useState(`    <div className="page-container">
+  <h1 className="title">Finalizar Compra</h1></div>`)
+
+const sendEmail = async () => {
+  try {
+    const response = await mailService.sendEmail(html)
+
+    console.log(response);
+    if (response.ok) {
+      // Mostrar mensaje de éxito
+      console.log("Correo electrónico enviado correctamente");
+    } else {
+      // Mostrar mensaje de error
+      console.log("Error al enviar el correo electrónico:", data.message);
+    }
+  } catch (error) {
+    console.error("Error inesperado:", error);
+  }
+}
+
   if (venta) {
   return (
     <div className="page-container">
@@ -78,6 +101,7 @@ const Order = () => {
   } else {
   return (
     <div className="page-container">
+      <button onClick={sendEmail}>Prueba</button>
       <h1 className="title">Finalizar Compra</h1>
       <OrderList products={cartProducts} isventa={venta}/>
       {user.cart && (<>

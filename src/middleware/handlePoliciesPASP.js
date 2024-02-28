@@ -37,16 +37,19 @@ const JWT_PRIVATE_KEY = configObject.jwt_code;
 export const handleAuth = (policies) => {
   return async (req, res, next) => {
     try {
+      console.log('00000');
       if(policies[0] === 'PUBLIC') return next();
-      const authHeader = req.headers.authorization;
+      console.log(req.headers);
+      const authHeader = req.headers.Authorization;
       if (!authHeader) return res.sendUserUnAuthorized("No authenticaded")
-      //console.log("111 ");
+      console.log("111 "); // llega
       const token = authHeader.split(" ")[1];
       const decodedUser = await verifyToken(token, JWT_PRIVATE_KEY); // Valida el token
-      //console.log("1212 ", decodedUser);
+
+      console.log("1212 ", decodedUser); // llega
       if (!decodedUser) return res.sendUserUnAuthorized("Unauthorized");
 
-      //console.log("2222 ",decodedUser);
+      console.log("2222 ",decodedUser);
       req.user = await uControl.getDataUserById(decodedUser.id)
       //console.log("3333 ", req.user );
 
