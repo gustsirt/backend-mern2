@@ -14,9 +14,9 @@ const transport = nodemailer.createTransport({
   }
 })
 
-transport.verify()
-  .then(() => console.log("gmail enviado cone exito"))
-  .catch((error) => console.log("Error Nodemailer: ",error));
+// transport.verify()
+//   .then(() => console.log("gmail enviado cone exito"))
+//   .catch((error) => console.log("Error Nodemailer: ",error));
   
 export const sendMail = async ( to, subject, bodyhtml) => {
   return await transport.sendMail({

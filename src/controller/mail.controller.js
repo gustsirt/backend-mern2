@@ -16,7 +16,7 @@ class MailController {
       const to       = user.email
       const subjet   = 'Detalle de tu Compra'
       const bodyhtml = generateHtml(detail, products)
-      console.log(bodyhtml);
+      //console.log(bodyhtml);
       sendMail(to, subjet, bodyhtml)
 
       res.sendSuccess('mail enviado')
