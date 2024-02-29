@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "nodemon src/server.js",
+    "nodemon": "nodemon src/server.js --mode development",
     "dev": "node --watch src/server.js --mode development",
     "start": "node src/server.js --mode production",
     "startN20": "node --env-file .env src/server.js"
@@ -23,6 +23,7 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
+    "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "mongoose-paginate-v2": "^1.7.4",
