@@ -1,6 +1,4 @@
-import configObject from "../config/index.js";
 import CustomError from "../utils/errors.js";
-const {development} = configObject;
 
 const cookiesoptions = {
   maxAge: (1000*60*60*24),
@@ -8,12 +6,6 @@ const cookiesoptions = {
   //secure: true,
   //sameSite:'strict'
 }
-const pageError = {
-  page: 'error',
-  title: 'Error'
-}
-
-let additional = { development }
 
 const handleResponses = (req, res, next) => {
   // RESPONSES
@@ -37,27 +29,6 @@ const handleResponses = (req, res, next) => {
   res.sendTokenCookieSuccess = (token, payload) => res.cookie('token', token, cookiesoptions).status(200).json({ isError: false, message: "Success", payload});
   res.sendCatchError = (error, message = "Internal Server Error") => (error instanceof CustomError) ? res.sendUserError(error.error, error) : res.sendServerError(message, error.toString());
   
-  // RENDERS
-  if(req.user) additional = {...additional, ...req.user}
-    
-  res.renderPage = (page, title, configObject = {}) => res.render(page, {title, ...configObject, ...additional})
-  res.renderPageEstruc = (page, title, options = {}, others = {}) => {
-    const {control = {}, arrays = {}, pageControl = {}} = options
-    const renderObject = {
-      title,
-      ...control,
-      ...arrays,
-      ...pageControl,
-      ...others,
-      ...additional
-    }
-    //console.log("renderPageEstruc Object: ",renderObject);
-    res.render(page, renderObject)
-  };
-  res.renderError = (answer = "Ocurrio un error, vuelva a intentarlo", error) => res.renderPage(pageError.page, pageError.title, {answer: answer, answerDetail: error.toString(), ...additional});
-
-  res.renderPageTokenCookie = (token, page, title, configObject = {}) => res.tokenCookie(token).renderPage(page, title, configObject);
-
   next();
 }
 

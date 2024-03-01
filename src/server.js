@@ -4,7 +4,6 @@ import configObj from './config/index.js'
 import {createServer} from 'node:http'
 import express from 'express';
 import cors from 'cors';
-import handlebars from 'express-handlebars';
 //import cookieParser from 'cookie-parser'
 import passport from 'passport';
 
@@ -38,11 +37,6 @@ configObj.connectDB();
 // passport
 app.use(passport.initialize())
 initializePassport()
-
-// handlebars
-app.engine('hbs', handlebars.engine({ extname: '.hbs' }));
-app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
 
 app.use(appRouter);
 

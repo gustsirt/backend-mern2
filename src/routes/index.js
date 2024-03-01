@@ -1,7 +1,5 @@
 import { Router } from "express";
 
-import viewsRouter from './views.route.js'
-
 import ProductCRouter from "./api/products.route.js";
 import MessagesCRouter from "./api/messages.route.js";
 import CartCRouter from "./api/cart.route.js";
@@ -11,9 +9,6 @@ import mailRoute from "./api/mail.route.js";
 import { routerPruebas } from "./api/pruebas.route.js";
 
 const router = Router()
-
-// definiendo vistas
-router.use('/', viewsRouter);
 
 // definiendo las API
 router.use('/api/products', (new ProductCRouter()).getRouter())
