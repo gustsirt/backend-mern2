@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { faker } from "@faker-js/faker";
+import generateProducts from "../../utils/mockingproducts.js";
+import CustomError from "../../services/errors/errors.js";
 
 export const routerPruebas = Router()
 
 routerPruebas
-  .get('/', (req, res) => {
+  .get('/mockingproducts', (req, res) => {
     let products = []
 
     for (let i = 0; i < 100; i++) { products.push(generateProducts()) }
@@ -14,16 +15,14 @@ routerPruebas
         payload: products
     })
   })
-
-  const generateProducts = () => {
-    return {
-        title: faker.commerce.productName(),
-        description: faker.commerce.productDescription(),
-        price: faker.commerce.price(),
-        thumbnail: faker.image.url(),
-        code: faker.commerce.isbn(),
-        stock: faker.string.numeric(),
-        category: faker.vehicle.type(),
+  .get('/error', (req, res) => {
+    try {
+      throw new CustomError(`Prueba`)
+    } catch (error) {
+      console.log(error)
+      res.sendCatchError(error);
     }
-}
+  })
+
+
 

@@ -1,7 +1,7 @@
 import configObject from "../config/index.js";
 import { usersService } from "../repository/service.js";
 import createToken from "../utils/createToken.js";
-import CustomError from "../utils/errors.js";
+import CustomError from "../services/errors/errors.js";
 import { createHash, isValidPassword } from "../utils/passwords.js";
 import validateFields from "../utils/validatefiels.js";
 

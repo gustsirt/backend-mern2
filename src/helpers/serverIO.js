@@ -1,5 +1,5 @@
 import { MessageClass, ProductClass } from '../dao/factory.js';
-import CustomError from '../utils/errors.js';
+import CustomError from '../services/errors/errors.js';
 import { Server } from 'socket.io'
 
 Server

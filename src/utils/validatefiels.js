@@ -1,4 +1,4 @@
-import CustomError from "./errors.js";
+import CustomError from "../services/errors/errors.js";
 
 const validateFields = (fields, requiredFields) => {
   const missingFields = [];

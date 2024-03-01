@@ -17,7 +17,7 @@ router.use('/api/sessions', sessionsRoute);
 router.use('/api/messages', (new MessagesCRouter()).getRouter())
 router.use('/api/mail', mailRoute)
 router.use('/api/users', (new UserCRouter()).getRouter());
-router.use('/api/pruebas', routerPruebas)
+router.use('/api/pruebas', routerPruebas) //mocking
 
 
 router.use('*', (req, res) => res.status(404).send('Not Found'))
