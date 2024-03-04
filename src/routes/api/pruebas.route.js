@@ -19,9 +19,12 @@ routerPruebas
     try {
       throw new CustomError(`Prueba`)
     } catch (error) {
-      console.log(error)
       res.sendCatchError(error);
     }
+  })
+  .get('/loggerTest', (req, res) => {
+    req.logger.http("Alert")
+    res.sendSuccess()
   })
 
 

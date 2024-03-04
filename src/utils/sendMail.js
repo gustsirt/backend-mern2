@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import configObject from '../config/index.js';
 import __dirname from './dirname.js';
+import { logger } from './logger.js';
 
 const transport = nodemailer.createTransport({
   service: 'gmail', //host: smt.gmail.com
@@ -14,9 +15,9 @@ const transport = nodemailer.createTransport({
   }
 })
 
-// transport.verify()
-//   .then(() => console.log("gmail enviado cone exito"))
-//   .catch((error) => console.log("Error Nodemailer: ",error));
+transport.verify()
+  .then(() => logger.info("gmail enviado cone exito"))
+  .catch((error) => logger.info("Error Nodemailer: ",error));
   
 export const sendMail = async ( to, subject, bodyhtml) => {
   return await transport.sendMail({

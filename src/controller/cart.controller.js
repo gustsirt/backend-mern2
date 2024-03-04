@@ -75,7 +75,6 @@ class CartsController extends CustomController {
 
   updateProductQuantity = async (req, res) => {
     try {
-      console.log(req.body);
       const {cid, pid} = req.params;
       const {quantity} = req.body
       
@@ -193,8 +192,6 @@ class CartsController extends CustomController {
         detail.amount += item.quantity*product.price;
       }
 
-      console.log(req.user);
-      
       const resp = await ticketsService.create(detail)
 
       // await cartsService.updateCartProducts(eid, productsNotProcessed)
@@ -204,7 +201,7 @@ class CartsController extends CustomController {
 
       res.sendSuccess({detail: resp, productList, productsNotProcessed})
     } catch(error){
-      console.log(error);
+      logger.error(error);
       res.sendCatchError(error)
     }
   }

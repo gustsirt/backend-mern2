@@ -1,3 +1,5 @@
+import CustomError from "../../services/errors/errors.js"
+
 class ProductManager {
   constructor () {
     this.counterId = 0
@@ -15,20 +17,18 @@ class ProductManager {
   getProducts = () => {return this.products}
 
   getProductsById = (id) => {
-    return this.products[id] ? this.products[id] : console.error("Not found");
+    return this.products[id] ? this.products[id] : null
   }
 
   addProduct ( { title, description, price, code, thumbnail, stock } ) {
 
     if (!title || !description || !price || !code || !thumbnail || !stock ) {
-      console.error("ERROR: debe completar todos los campos");
-      return;
+      throw new CustomError("ERROR: debe completar todos los campos");
     }
 
     const existe = this.products.some((p) => p.code === code);
     if (existe) {
-      console.error("ERROR: codigo repetido");
-      return
+      throw new CustomError("ERROR: codigo repetido");
     }
 
     const nuevoproducto = {

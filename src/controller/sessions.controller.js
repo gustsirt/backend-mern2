@@ -66,7 +66,7 @@ class SessionsController {
       res.sendSuccess({token}, "Log In exitoso con: " + userFound.first_name);
   
     } catch (error) {
-      //console.log(error);
+      logger.error(error);
       res.sendCatchError(error)
     }
   } // OK

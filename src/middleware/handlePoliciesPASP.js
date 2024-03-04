@@ -11,7 +11,7 @@ export const handleAuth = (policies) => {
     try {
       passport.authenticate('jwt', {session: false}, async function (err, user, info) {
         if (err) next(err)
-        //console.log(1111,user);
+
         if (user) {
           req.user = await uControl.getDataUserById(user.id)
         }
@@ -37,26 +37,23 @@ export const handleAuth = (policies) => {
 // export const handleAuth = (policies) => {
 //   return async (req, res, next) => {
 //     try {
-//       //console.log('00000');
+
 //       if(policies[0] === 'PUBLIC') return next();
-//       //console.log(req.headers);
+
 //       const authHeader = req.headers.Authorization;
 //       if (!authHeader) return res.sendUserUnAuthorized("No authenticaded")
-//       //console.log("111 "); // llega
+
 //       const token = authHeader.split(" ")[1];
 //       const decodedUser = await verifyToken(token, JWT_PRIVATE_KEY); // Valida el token
 
-//       //console.log("1212 ", decodedUser); // llega
 //       if (!decodedUser) return res.sendUserUnAuthorized("Unauthorized");
 
-//       //console.log("2222 ",decodedUser);
 //       req.user = await uControl.getDataUserById(decodedUser.id)
-//       //console.log("3333 ", req.user );
 
 //       if(req.user.role.toUpperCase() === 'ADMIN') return next();
 
 //       if(!policies.includes(req.user.role.toUpperCase())) return res.sendUserForbidden('User not authorized')
-//       //console.log("3444 ")
+
 //       next();
 //     } catch (error) {
 //       next(error)
@@ -82,7 +79,6 @@ export const verifyToken = async (token, secretKey) => {
 
         if (user) {
           req.user = await uControl.getDataUserById(user.id)
-          //console.log(req.user);
         }
 
         if(policies[0] === 'PUBLIC') return next();

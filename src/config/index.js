@@ -10,6 +10,7 @@ dotenv.config({
 import {connect} from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import { logger } from '../utils/logger.js';
 
 
 const configObject = {
@@ -28,7 +29,6 @@ const configObject = {
 
   connectDB: async () => {
     //await mongoose.connect(process.env.MONGO_URI);
-    //console.log('Base de datos conectada');
     MongoSingleton.getInstance();
   },
 
@@ -60,10 +60,10 @@ class MongoSingleton {
 
   static getInstance() {
     if(!this.instance){
-      console.log('Conectado a Base de Datos');
+      logger.info('Conectado a Base de Datos');
       return this.instance = new MongoSingleton();
     }
-    console.log('Base de Datos ya conectada');
+    logger.info('Base de Datos ya conectada');
     return this.instance;
   }
 }

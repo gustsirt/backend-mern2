@@ -9,7 +9,7 @@ const cookiesoptions = {
 
 const handleResponses = (req, res, next) => {
   // RESPONSES
-  const responses = (statusCode, isError = false , message = "", payload = {}) => res.status(statusCode).json({ isError, message, payload});
+  const responses = (statusCode, isError = false , message = "", payload = null) => res.status(statusCode).json({ statusCode, isError, message, payload});
 
   // SIMPLES
   res.sendSuccess          = (payload, message = "Success")             => responses(200, false, message, payload);

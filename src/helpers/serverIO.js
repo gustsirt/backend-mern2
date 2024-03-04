@@ -1,6 +1,7 @@
 import { MessageClass, ProductClass } from '../dao/factory.js';
 import CustomError from '../services/errors/errors.js';
 import { Server } from 'socket.io'
+import { logger } from '../utils/logger.js';
 
 Server
 export default function (server) {
@@ -11,7 +12,7 @@ export default function (server) {
   const messages = new MessageClass();
 
   io.on('connection', ios => {
-    //console.log("Nuevo cliente conectado");
+    logger.info("Nuevo cliente conectado");
   
     //REAL TIME PRODUCT
     ios.on('nuevoProducto', async newProduct => {
