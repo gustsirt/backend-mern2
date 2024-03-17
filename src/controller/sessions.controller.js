@@ -44,18 +44,22 @@ class SessionsController {
   }  // Respuesta Visual
 
   login = async (req, res) => {
+    console.log(req.body);
     const userData = validateFields(req.body, this.requieredfield.login);
   
     try {
-      // if (this.admins.includes(userData.email) && isValidPassword(userData.password, {password: this.admin_pass}) ) {
+     // Admin Verification
+      if (this.admins.includes(userData.email)) {
+        if (isValidPassword(userData.password, {password: this.admin_pass})) {
+          const token = createToken({id: 0, role: "admin"})
+          return res.sendSuccess({token}, "Successful login with: Administrator User")
+        } else {
+          throw new UserError(`Email o contraseña equivocado`);
+        }
+      }
   
-      //   const token = createToken({id: 0, role: "Admin"})
-      //   res.sendSuccess({token}, "Log In exitoso con: Usuario Administardor");
-      //   //return res.sendTokenCookieSuccess(token, "Log In exitoso con Usuario Administrador")
-      // }
-  
-      const userFound = await usersService.getBy({email: userData.email});
-  
+      // User Verification
+      const userFound = await this.service.getBy({email: userData.email});
       if (!userFound || !isValidPassword(userData.password, userFound)) {
         throw new CustomError(`Email o contraseña equivocado`);
       }
@@ -77,6 +81,40 @@ class SessionsController {
 
   getUserSession = (req, res) => {
     res.sendSuccess(req.user)
+  }
+
+  userRecovery = async (req, res, next) => {
+    try {    
+      console.log("estoy aqui");  
+      const { email } = req.body
+      const userFound = await this.service.getBy({email});
+      const token = createToken({id: userFound._id, role: userFound.role}, '1h')
+
+      // enviar mail de recuperación
+      const user = { name: userFound.first_name, email: userFound.email}
+      const subject   = 'Recuperar Contraseña'
+      const options = {
+        user,
+        url: `${configObject.cors_origin}/#/recoverypassword`,
+        token
+      }
+      const resp = await sendEmailwithLayout(options, subject, "recoveryUser")
+      
+      res.sendSuccess(resp)
+    } catch (error) {
+      next(error);
+    }
+  }
+  userRecoveryPassword = async (req, res, next) => {
+    try {
+      let { password } = req.body
+      password = createHash(password)
+      await this.service.update({_id: req.user.id}, {password})
+      
+      res.sendSuccess("User updated")
+    } catch (error) {
+      next(error);
+    }
   }
 
   // GITHUB

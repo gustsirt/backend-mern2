@@ -15,28 +15,8 @@ const Order = () => {
   const mailService = new MailService(uriBase, token);
   const [venta, setVenta] = useState(false)
   const [detail, setDetail] = useState(null);
-  /* EJEMPLO detail {
-    "code": "INVOICE1709169063213",
-    "firstName": "Gustavo",
-    "purchaser": "gustavo.sirtori@gmail.com",
-    "quantity": 1,
-    "amount": 2524099,
-    "_id": "65dfd9a73d07ff2af618d87e",
-    "purchase_datetime": "2024-02-29T01:11:03.361Z",
-    "__v": 0
-} */
+
   const [products, setProducts] = useState(null);
-  /* EJEMPLO products [
-    {
-        "id": "657f74321a08d129f8cb9cb1",
-        "title": "Bicicleta Cube Ruta Nuroad Pro 28 2022",
-        "unitprice": 2524099,
-        "code": "CUB22RGNUPR850G",
-        "thumbnail": "https://newsport.vtexassets.com/arquivos/ids/17990457-800-auto?v=638381499849530000&width=800&height=auto&aspect=true",
-        "quantity": 1,
-        "amount": 2524099
-    }
-]*/
   const getCartProduct = async () => {
     if (user.cart) {
       try {
@@ -76,9 +56,6 @@ const Order = () => {
   }, [user])
 
   useEffect(()=>{
-    //console.log("venta: ",venta);
-    //console.log(detail);
-    //console.log(products);
   },[venta, user])
   // const aaa = new Date().toLocaleDateString()
 
@@ -86,18 +63,14 @@ const sendEmail = async () => {
   try {
     const response = await mailService.sendEmail({detail, products})
 
-    //console.log(response);
-    //console.log(await response.json());
     if (response.ok) {
       // Mostrar mensaje de éxito
       Swal.fire({ icon: "success", text: "Correo electrónico enviado correctamente"})
     } else {
       // Mostrar mensaje de error
-      Swal.fire({ icon: "error", text: "Error al enviar el correo electrónico: "+response.message})
-      //console.log("Error al enviar el correo electrónico:", response.message);
+      Swal.fire({ icon: "error", text: "Error al enviar el correo electrónico: "+response.message});
     }
   } catch (error) {
-    //console.error("Error inesperado:", error);
     Swal.fire({ icon: "error", text: "Error inesperado: "+error})
   }
 }

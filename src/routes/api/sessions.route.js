@@ -14,6 +14,8 @@ router
   .post('/login', sControl.login)
   .get ('/logout', sControl.logout)
   .get ('/user', handleAuth(['USER']), sControl.getUserSession)
+  .post('/userrecovery', sControl.userRecovery)
+  .put ('/userrecovery', handleAuth(["USER"]), sControl.userRecoveryPassword)
 
 // TODO PRUEBAS
 router.get('/current', handleAuth(['ADMIN']), (req, res) => {

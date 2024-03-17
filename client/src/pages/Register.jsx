@@ -1,13 +1,10 @@
-import { useContext } from "react";
-import { ContextConfig } from "../context/ContextConfig.jsx";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2'
+import useSwalAlert from "../../hook/useSwalAlert";
+import useSessionService from "../services/useSessionService.jsx";
 
 const Register = () => {
-  const { uriBase } = useContext(ContextConfig);
-  const navigate = useNavigate();
-
+  const { messageAndRedirect } = useSwalAlert()
+  const { sessionRegister } = useSessionService();
   const { register, handleSubmit, getValues, formState: { errors, isDirty, isValid } } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -18,25 +15,17 @@ const Register = () => {
   
   const onSubmit = async data => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-      };
-      const respJson = await fetch(`${uriBase}api/sessions/register`, requestOptions);
-      const resp = await respJson.json();
+      const resp = await sessionRegister(data)
       //console.log(resp);
 
       if (resp?.isError === false) {
-        Swal.fire({ icon: "success", text: resp.message }).then(() => {
-          navigate("/login/", { replace: true });
-        });
+        messageAndRedirect(resp.message, "success", "/login/")
       } else {
-        Swal.fire({ icon: "error", text: resp.message || "Error en el registro" });
+        messageAndRedirect(resp.message || "Error en el registro", "error")
       }
     } catch (error) {
       // console.error(error);
-      Swal.fire({ icon: "error", text: "Error en el registro debido a un problema en el sistema" });
+      messageAndRedirect("Error en el registro debido a un problema en el sistema", "error")
     }
   };
   

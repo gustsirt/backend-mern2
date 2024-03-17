@@ -3,6 +3,8 @@ import { createHashRouter } from 'react-router-dom';
 import Layout from './pages/Layout.jsx';
 
 import LogIn from './pages/LogIn.jsx';
+import Recovery from './pages/Recovery.jsx';
+import RecoveryPassword from './pages/RecoveryPassword.jsx';
 import Register from './pages/Register.jsx';
 import LogOut from './pages/LogOut.jsx';
 import Products from './pages/Products.jsx';
@@ -22,6 +24,8 @@ const router = createHashRouter([
     children: [
       { index: true, element: <LogIn /> },
       { path: 'login/', element: <LogIn /> },
+      { path: 'recovery/', element: <Recovery /> },
+      { path: 'recoverypassword/', element: <RecoveryPassword /> },
       { path: 'register/', element: <Register /> },
       { path: 'products/', element: <Products /> },
       { path: 'product/:pid', element: <Product /> },

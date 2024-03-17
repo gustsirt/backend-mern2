@@ -14,10 +14,6 @@ const transport = nodemailer.createTransport({
       rejectUnauthorized: false
   }
 })
-
-transport.verify()
-  .then(() => logger.info("gmail enviado cone exito"))
-  .catch((error) => logger.info("Error Nodemailer: ",error));
   
 export const sendMail = async ( to, subject, bodyhtml) => {
   return await transport.sendMail({
@@ -33,3 +29,27 @@ export const sendMail = async ( to, subject, bodyhtml) => {
     //   }]
   })
 }
+
+export const generateHtml = (options, layout = '') => {
+  
+  const template = Handlebars.compile(fs.readFileSync(__dirname+`/utils/sendMailUtil/${layout}.hbs`, 'utf-8'))
+    
+  const html = template(options);
+
+  return html
+};
+
+export const sendEmailwithLayout = async (option, subject, layout) => {
+  try {
+    const to       = option.user.email
+    const bodyhtml = generateHtml(option, layout)
+
+    await sendMail(to, subject, bodyhtml)
+
+    return "E-mail send"
+  } catch (error) {
+    throw Error("Error sending email: " + error)
+  }
+}
+
+export default sendEmailwithLayout;

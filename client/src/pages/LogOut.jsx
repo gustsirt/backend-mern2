@@ -11,7 +11,7 @@ const Logout = () => {
     setToken(null);
     localStorage.removeItem('token');
 
-    Swal.fire({icon: "success", text: 'Has cerrado sessión'}).then((res) => { navigate("/", {replace: true}) })
+    Swal.fire({icon: "success", text: 'Has cerrado sessión'}).then(() => { navigate("/", {replace: true}) })
   }, [setToken]);
 
   return null;

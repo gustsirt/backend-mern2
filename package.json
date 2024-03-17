@@ -6,10 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "nodemon src/server.js --mode development",
-    "dev": "node --watch src/server.js --mode development",
-    "start": "node src/server.js --mode production",
-    "startN20": "node --env-file .env src/server.js"
+    "nodemon": "nodemon src/app.js --mode development",
+    "dev": "node --watch src/app.js --mode development",
+    "start": "node src/app.js --mode production"
   },
   "author": "Sirtori Gustavo <gustavo.sirtori@gmail.com>",
   "license": "ISC",
@@ -38,6 +37,9 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1"
+    "@faker-js/faker": "^8.4.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.34.1"
   }
 }
