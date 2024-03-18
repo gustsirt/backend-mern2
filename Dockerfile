@@ -19,4 +19,9 @@ EXPOSE 8080
 # comando que se ejecuta para iniciar el proyecto, debe estar en package.json
 CMD ["npm", "start"]
 
-#para subir poner el comando : docker build -t <nombreimagen> . (el punto es la ubicacion)
+#Comando :
+# Para crear:            docker build -t <nombreimagen> .
+# Para ver:              docker images
+# Para correr la iamgen: docker run -p 8080:8080 <nombre imagen>
+#                   puerto web (instancia) : puerto imagen (pueden ser distintos)
+#                   un puerto imagen 8080 puede tener muchos puertos web asociados (pero distintos y unicos)

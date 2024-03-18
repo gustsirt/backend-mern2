@@ -1,10 +1,10 @@
 import cluster from 'cluster'
-import { cpus } from 'os'
+//import { cpus } from 'os'
 import { logger } from './utils/logger.js'
 
 import { appListen } from './server.js'
 
-const nCpus = cpus().length;
+const nCpus = 1 // cpus().length; // se pone en uno para no hacer sobre peso en la PC
 
 if (cluster.isPrimary) {
   logger.info('Primary cluster')
