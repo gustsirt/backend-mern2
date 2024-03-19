@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer';
 import configObject from '../config/index.js';
 import __dirname from './dirname.js';
-import { logger } from './logger.js';
+//import { logger } from './logger.js';
+import Handlebars from 'handlebars';
+import fs from 'fs';
 
 const transport = nodemailer.createTransport({
   service: 'gmail', //host: smt.gmail.com

@@ -11,14 +11,17 @@ function useSessionService() {
 
   const sessionLogIn = async (element) => {
     try {
-      const response = await fetch(`${uriBase}api/session/login`, {
+      const response = await fetch(`${uriBase}api/sessions/login`, {
         method: "POST",
         headers,
         body: JSON.stringify(element),
       });
+
       const responseJson = await response.json();
-      const token = responseJson.data.token;
+      console.log(responseJson);
+      const token = responseJson.payload.token;
       setToken(`Bearer ${token}`)
+      
       return responseJson;
     } catch (error) {
       return { isError: true, message: "Ocurrió un error", error };
@@ -27,7 +30,7 @@ function useSessionService() {
 
   const sessionRegister = async (element) => {
     try {
-      const response = await fetch(`${uriBase}api/session/register`, {
+      const response = await fetch(`${uriBase}api/sessions/register`, {
         method: "POST",
         headers,
         body: JSON.stringify(element),
@@ -41,7 +44,7 @@ function useSessionService() {
   const sessionUser = async (token) => {
     try {
       headers.append("Authorization", token);
-      const response = await fetch(`${uriBase}api/session/user`, {
+      const response = await fetch(`${uriBase}api/sessions/user`, {
         method: "GET",
         headers,
       })
@@ -54,7 +57,7 @@ function useSessionService() {
 
   const userRecovery = async (element) => {
     try {
-      const response = await fetch(`${uriBase}api/session/userrecovery`, {
+      const response = await fetch(`${uriBase}api/sessions/userrecovery`, {
         method: "POST",
         headers,
         body: JSON.stringify(element),
@@ -68,7 +71,7 @@ function useSessionService() {
   const userRecoveryPassword = async (element, token) => {
     try {
       headers.append("Authorization", `Bearer ${token}`);
-      const response = await fetch(`${uriBase}api/session/userrecovery`, {
+      const response = await fetch(`${uriBase}api/sessions/userrecovery`, {
         method: "PUT",
         headers,
         body: JSON.stringify(element),

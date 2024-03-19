@@ -8,6 +8,7 @@ export default class CustomController {
       const element = await this.service.get();
       res.sendSuccessOrNotFound(element);
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
@@ -20,6 +21,7 @@ export default class CustomController {
       const element = await this.service.getBy(filter);
       res.sendSuccessOrNotFound(element);
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
@@ -30,6 +32,7 @@ export default class CustomController {
       const element = await this.service.getBy({_id: eid});
       res.sendSuccessOrNotFound(element);
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
@@ -40,6 +43,7 @@ export default class CustomController {
       const element = await this.service.create(newElement);
       res.sendSuccess(element)
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
@@ -51,6 +55,7 @@ export default class CustomController {
       const element = await this.service.update({_id: eid}, newElement);
       res.sendSuccess(element);
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
@@ -61,6 +66,7 @@ export default class CustomController {
       const element = await this.service.delete({_id: eid});
       res.sendSuccessOrNotFound(element);
     } catch (error) {
+      req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }

@@ -12,6 +12,7 @@ const ProductsEditListCard = ({product, onProductClick, onXClick}) => {
               <p>Code: {product.code}</p>
               <p>Stock: {product.stock}</p>
               <p className="strong">$ {product.price.toLocaleString("es-ES", { style: "decimal" })}</p>
+              <p>Dueño: {product.owner}</p>
           </div>
           <div className="card-footer">
           </div>

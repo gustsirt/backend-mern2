@@ -9,9 +9,14 @@ export default class ProductCRouter extends CustomRouter {
   constructor() {
     super(cControl);
     this.init();
-    this.initCustomRoutes();
   }
-  initCustomRoutes() {
+  init() {
+    this.get    ('/',       handleAuth(['PUBLIC']), this.controller.gets)
+    this.get    ('/:eid',   handleAuth(['PUBLIC']), this.controller.getId)
+    this.get    ('/filter', handleAuth(['PUBLIC']), this.controller.getBy)
+    this.post   ('/',       handleAuth(['USER_PREMIUM','ADMIN']) , this.controller.create)
+    this.put    ('/:eid',   handleAuth(['USER_PREMIUM','ADMIN']) , this.controller.updateId)
+    this.delete ('/:eid',   handleAuth(['USER_PREMIUM','ADMIN']) , this.controller.deleteId)
     this.get    ("/group/categorys", handleAuth(['PUBLIC']), this.controller.getCategorys )
   }
 }

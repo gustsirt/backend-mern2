@@ -33,6 +33,7 @@ logger.info('Mode: ' + mode);
 app.use(handleResponses)
 
 //serverIO(server);
+configObj.connectDB();
 
 // passport
 app.use(passport.initialize())
@@ -44,7 +45,6 @@ const port = process.env.PORT;
 //server.listen(port, (err) => { //para IO server
 
 export const appListen = () => {
-  configObj.connectDB();
   return app.listen(port, (err) => {
   if (err) { logger.fatal("Error fatal en server: ", err); }
   logger.info(`Server andando en port ${port}`);

@@ -1,16 +1,16 @@
 import configObject from "../config/index.js";
-import { usersService } from "../repository/service.js";
 import createToken from "../utils/createToken.js";
 import CustomError from "../services/errors/errors.js";
 import { createHash, isValidPassword } from "../utils/passwords.js";
 import validateFields from "../utils/validatefiels.js";
 
 import { UserClass } from "../dao/factory.js";
+import sendEmailwithLayout from "../utils/sendMail.js";
 const userService = new UserClass();
 
 class SessionsController {
   constructor() {
-    this.service = "";
+    this.service = userService;
   }
   requieredfield = {
     register: ['first_name', 'last_name', 'email', 'birthday', 'password'],
@@ -44,7 +44,6 @@ class SessionsController {
   }  // Respuesta Visual
 
   login = async (req, res) => {
-    console.log(req.body);
     const userData = validateFields(req.body, this.requieredfield.login);
   
     try {
@@ -54,7 +53,7 @@ class SessionsController {
           const token = createToken({id: 0, role: "admin"})
           return res.sendSuccess({token}, "Successful login with: Administrator User")
         } else {
-          throw new UserError(`Email o contraseña equivocado`);
+          throw new CustomError(`Email o contraseña equivocado`);
         }
       }
   
@@ -70,12 +69,12 @@ class SessionsController {
       res.sendSuccess({token}, "Log In exitoso con: " + userFound.first_name);
   
     } catch (error) {
-      logger.error(error);
+      req.logger.error(error);
       res.sendCatchError(error)
     }
   } // OK
 
-  logout = (req, res) => {
+  logout = () => {
     //res.clearCookie('token').redirect('/');
   }
 
@@ -85,7 +84,6 @@ class SessionsController {
 
   userRecovery = async (req, res, next) => {
     try {    
-      console.log("estoy aqui");  
       const { email } = req.body
       const userFound = await this.service.getBy({email});
       const token = createToken({id: userFound._id, role: userFound.role}, '1h')
@@ -102,6 +100,7 @@ class SessionsController {
       
       res.sendSuccess(resp)
     } catch (error) {
+      req.logger.error(error);
       next(error);
     }
   }
@@ -113,12 +112,13 @@ class SessionsController {
       
       res.sendSuccess("User updated")
     } catch (error) {
+      req.logger.error(error);
       next(error);
     }
   }
 
   // GITHUB
-  github = async (req,res)=>{}
+  github = async ()=>{}
   githubcallback = (req, res)=>{
     const token = createToken({id: req.user._id, role: req.user.role})
     

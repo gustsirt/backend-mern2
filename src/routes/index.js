@@ -21,8 +21,8 @@ router.use('/api/pruebas', routerPruebas) //mocking
 
 
 router.use('*', (req, res) => res.status(404).send('Not Found'))
-router.use((err, req, res, next) => {
-  logger.error(err)
+router.use((err, req, res) => {
+  req.logger.error(err)
   res.status(500).json({message: "Error Server", err})})
 
 export default router;

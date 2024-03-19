@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { ContextUser } from "../context/ContextUser.jsx";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import useSwalAlert from "../../hook/useSwalAlert.jsx";
@@ -8,7 +6,6 @@ import useSessionService from "../services/useSessionService.jsx";
 
 const LogIn = () => {
   const { sessionLogIn } = useSessionService();
-  const { setToken } = useContext( ContextUser );
   const { messageAndRedirect } = useSwalAlert()
   
   const { register, handleSubmit } = useForm({
@@ -22,10 +19,8 @@ const LogIn = () => {
   const onSubmit = async data => {
     try {
       const resp = await sessionLogIn(data)
-      console.log(resp);
 
       if(resp?.isError === false) {
-        setToken(`Bearer ${resp.payload.token}`)
         messageAndRedirect(resp.message, "success", "/products/")
       } else {
         messageAndRedirect("Acceso no autorizado", "error")

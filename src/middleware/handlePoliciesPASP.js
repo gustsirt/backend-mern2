@@ -11,11 +11,9 @@ export const handleAuth = (policies) => {
     try {
       passport.authenticate('jwt', {session: false}, async function (err, user, info) {
         if (err) next(err)
-
         if (user) {
           req.user = await uControl.getDataUserById(user.id)
         }
-
         if(policies[0] === 'PUBLIC') return next();
 
         if (!user) return res.sendUserError('Invalid token')
@@ -61,14 +59,14 @@ export const handleAuth = (policies) => {
 //   };
 // };
 
-export const verifyToken = async (token, secretKey) => {
-  try {
-    const decodedUser = await jwt.verify(token, secretKey);
-    return decodedUser;
-  } catch (error) {
-    return null;
-  }
-};
+// export const verifyToken = async (token, secretKey) => {
+//   try {
+//     const decodedUser = await jwt.verify(token, secretKey);
+//     return decodedUser;
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
 // ? AUTH JWT COKKIES - PASSPORT
 /* export const handleAuthFront = (policies) => {

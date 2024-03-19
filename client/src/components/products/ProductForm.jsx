@@ -14,6 +14,7 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
   useEffect(() => {
     // Actualizar el estado del formulario cuando selectedProduct cambie
     if (selectedProduct) {
+        setValue('description', selectedProduct.description || '');
         setValue('_id', selectedProduct._id || '');
         setValue('title', selectedProduct.title || '');
         setValue('thumbnail', selectedProduct.thumbnail || '');
@@ -21,8 +22,8 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
         setValue('category', selectedProduct.category || '');
         setValue('price', selectedProduct.price || 0);
         setValue('stock', selectedProduct.stock || 0);
-        setValue('status', selectedProduct.status || '');
-        setValue('description', selectedProduct.description || '');
+        setValue('status', selectedProduct.status ||true);
+        setValue('owner', selectedProduct.owner || '');
         setIdSelected(selectedProduct._id)
     }
   }, [selectedProduct, setValue]);
@@ -36,6 +37,10 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
 
   return (
     <form className="product-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className='form-row'>
+        <label htmlFor="owner">Dueño del articulo:</label>
+        <input type="text" disabled {...register("owner")} />
+      </div>
       <div className='form-row'>
         <label htmlFor="_id">ID:</label>
         <input type="text" disabled {...register("_id")} />
