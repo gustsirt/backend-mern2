@@ -18,5 +18,6 @@ export default class UserCRouter extends CustomRouter {
     this.put    ('/:eid',   handleAuth(['ADMIN']) , this.controller.updateId)
     this.delete ('/:eid',   handleAuth(['ADMIN']) , this.controller.deleteId)
     this.get    ('/premium/:uid', this.controller.switchuser) // realizado por el ejercicio
+    this.get    ('/admin/:uid', this.controller.switchuseradmin) // realizado por el ejercicio
   }
 }
