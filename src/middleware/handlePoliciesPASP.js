@@ -16,10 +16,10 @@ export const handleAuth = (policies) => {
         }
         if(policies[0] === 'PUBLIC') return next();
 
-        if (!user) return res.sendUserError('Invalid token')
+        if (!user) return res.sendUserUnAuthorized('Invalid token')
 
         if(user.role.toUpperCase() === 'ADMIN') return next();
-        if(!policies.includes(user.role.toUpperCase())) return res.sendUserError('User not authorized')
+        if(!policies.includes(user.role.toUpperCase())) return res.sendUserForbidden('User not authorized')
         next();
       })(req, res, next);      
     } catch (error) {
