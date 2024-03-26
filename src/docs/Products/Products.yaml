@@ -1,3 +1,7 @@
+tags:
+  - name: Products
+    description: Todo lo relacionado a los productos
+
 paths:
   /api/products:
     get:
@@ -6,31 +10,11 @@ paths:
       tags:
         - Products
       parameters:
-        - in: query
-          name: limit
-          schema:
-            type: integer
-          description: El numero de items a devolver
-        - in: query
-          name: page
-          schema:
-            type: integer
-          description: El numero de pagina a ver
-        - in: query
-          name: category
-          schema:
-            type: string
-          description: permite filtrar por categoria
-        - in: query
-          name: availability
-          schema:
-            type: boolean
-          description: Muestra los articulos con stock (o todos)
-        - in: query
-          name: sort
-          schema:
-            type: number
-          description: 1 o -1, permite ordenar por precio
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/category'
+        - $ref: '#/components/parameters/availability'
+        - $ref: '#/components/parameters/sort'
       responses:
         "200":
           description: Productos obtenidos correctamente. Incluye la paginación. Por defecto se agrupan de a 10 articulos.
@@ -38,10 +22,75 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  $ref: '#/components/schemas/baseApiPaginationProducts'
+                allOf:
+                - $ref: '#/components/schemas/Response_Base'
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      docs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Products'
+                      totalDocs:
+                        type: number
+                        description: Número total de documentos
+                      limit:
+                        type: number
+                        description: Límite de la paginación
+                      totalPages:
+                        type: number
+                        description: Número total de páginas
+                      page:
+                        type: number
+                        description: Página actual
+                      pagingCounter:
+                        type: number
+                        description: Contador de la paginación
+                      hasPrevPage:
+                        type: boolean
+                        description: Indica si hay páginas anteriores
+                      hasNextPage:
+                        type: boolean
+                        description: Indica si hay páginas siguientes
+                      prevLink:
+                        type: string
+                        description: Enlace a la página anterior (si aplica)
+                      nextLink:
+                        type: string
+                        description: Enlace a la página siguiente (si aplica)
+                example:
+                  statusCode: 200
+                  isError: false
+                  message: Operación Exitosa
+                  payload:
+                    docs: [{
+                      _id: 657f74321a08d129f8cb9cb0,
+                      title: Bicicleta Cube Ruta Attain Pro 28,
+                      description: Cuadro Aluminium 6061 T6 Superlite ...,
+                      code: CUB22RTATPR850G,
+                      status: true,
+                      price: 2096900,
+                      stock: 13,
+                      owner: admin,
+                      category: ruta,
+                      thumbnail: https://newsport.vtexassets.com/arquivos/ids/16221341-800-auto?v=638219245482200000&width=800&height=auto&aspect=true,
+                      lastupdated: 2024-02-24T20:48:33.000Z
+                      },
+                      ... (resto de los productos)]
+                    totalDocs: 8,
+                    limit: 10,
+                    totalPages: 1,
+                    page: 1,
+                    pagingCounter: 1,
+                    hasPrevPage: false,
+                    hasNextPage: false,
+                    prevPage: null,
+                    nextPage: null,
+                    prevLink: ,
+                    nextLink: 
         "500":
-          description: Error interno del server, usualmente por query defectuosa
+          $ref: '#/components/responses/500Server'
     post:
       summary: Permite crear un producto. Necesita usuario Premium o Admin
       security:
@@ -137,182 +186,9 @@ paths:
       summary: Obtiene un listado de las Categorias de los productos
       security: []
       tags:
-        - Products Category
+        - Products
       responses:
         "200":
           description: Listado de categorias. Usar para listarlas
         "500":
           description: Error interno del server.
-
-components:
-  schemas:
-    baseApiResponse:
-      type: Object
-      properties:
-        statusCode:
-          type: integer
-          description: Código de estado de la respuesta
-        isError:
-          type: boolean
-          description: Indica si hubo un error
-        message:
-          type: string
-          description: Mensaje de respuesta
-      example:
-        statusCode: 200
-        isError: false
-        message: Operación Exitosa
-    baseApiPaginationProducts:
-      allOf:
-        - $ref: '#/components/schemas/BaseAPIResponse'
-      properties:
-        payload:
-          type: object
-          properties:
-            docs:
-              type: array
-              items:
-                $ref: '#/components/schemas/Products'
-            totalDocs:
-              type: number
-              description: Número total de documentos
-            limit:
-              type: number
-              description: Límite de la paginación
-            totalPages:
-              type: number
-              description: Número total de páginas
-            page:
-              type: number
-              description: Página actual
-            pagingCounter:
-              type: number
-              description: Contador de la paginación
-            hasPrevPage:
-              type: boolean
-              description: Indica si hay páginas anteriores
-            hasNextPage:
-              type: boolean
-              description: Indica si hay páginas siguientes
-            prevLink:
-              type: string
-              description: Enlace a la página anterior (si aplica)
-            nextLink:
-              type: string
-              description: Enlace a la página siguiente (si aplica)
-      example:
-        payload:
-          docs: [{
-            _id: 657f74321a08d129f8cb9cb0,
-            title: Bicicleta Cube Ruta Attain Pro 28,
-            description: Cuadro Aluminium 6061 T6 Superlite ...,
-            code: CUB22RTATPR850G,
-            status: true,
-            price: 2096900,
-            stock: 13,
-            owner: admin,
-            category: ruta,
-            thumbnail: https://newsport.vtexassets.com/arquivos/ids/16221341-800-auto?v=638219245482200000&width=800&height=auto&aspect=true,
-            lastupdated: 2024-02-24T20:48:33.000Z
-            },
-            ... (resto de los productos)]
-          totalDocs: 8,
-          limit: 10,
-          totalPages: 1,
-          page: 1,
-          pagingCounter: 1,
-          hasPrevPage: false,
-          hasNextPage: false,
-          prevPage: null,
-          nextPage: null,
-          prevLink: ,
-          nextLink:   
-    Products:
-      type: object
-      properties:
-        _id: 
-          type: string
-          description: Id autogenerados de Mogno.
-        title:
-          type: string
-          description: Titulo del producto
-        description:
-          type: string
-          description: Descripcion del producto
-        code:
-          type: string
-          description: Codigo o SKU del producto
-        status:
-          type: boolean
-          description: Si esta activo o no
-        category:
-          type: string
-          description: Categoria o agrupación
-        price:
-          type: number
-          description: Precio en Pesos
-        stock:
-          type: number
-          description: Unidades disponibles
-        owner: 
-          type: string
-          description: Quien usuario creo el producto
-        thumbnail:
-          type: string
-          description: Url de la imagen del producto
-        lastupdated:
-          type: date
-          description: Fecha y hora de la ultima actualizacion
-      example:
-        _id: 65a47e2ad026e760184f5513
-        title: Bicicleta Merida Ciclismo Ruta Scultura 300 Rim
-        description: Cuadro Frame Scultura Lite - Aluminio  ... 
-        code: MEBC21RR030052G
-        status: true
-        price: 1989600
-        stock: 20
-        owner: admin
-        category: ruta
-        thumbnail: https://newsport.vtexassets.com/arquivos/ids/14890321-800-auto?v=63805…
-  requestBodies:
-    Products:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Titulo del producto
-        description:
-          type: string
-          description: Descripcion del producto
-        code:
-          type: string
-          description: Codigo o SKU del producto
-        status:
-          type: boolean
-          description: Si esta activo o no
-        category:
-          type: string
-          description: Categoria o agrupación
-        price:
-          type: number
-          description: Precio en Pesos
-        stock:
-          type: number
-          description: Unidades disponibles
-        thumbnail:
-          type: string
-          description: Url de la imagen del producto
-      example:
-        title: Bicicleta Merida Ejemplo
-        description: Cuadro Frame Scultura Lite -  ... 
-        code: MEBCXXXXXX00001
-        status: true
-        price: 1989600
-        stock: 20
-        category: ruta
-        thumbnail: https://newsport.vtexassets.com/arquivos/ids/14890321-800-auto?v=63805…
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT

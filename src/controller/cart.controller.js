@@ -4,7 +4,7 @@ import CustomController from "./custom.controller.js";
 class CartsController extends CustomController {
   constructor() {
     super(cartsService);
-  };
+  }
 
   gets = async (req, res) => {
     try {
@@ -201,7 +201,7 @@ class CartsController extends CustomController {
 
       res.sendSuccess({detail: resp, productList, productsNotProcessed})
     } catch(error){
-      logger.error(error);
+      req.logger.error(error);
       res.sendCatchError(error)
     }
   }

@@ -1,0 +1,50 @@
+components:
+  schemas:
+    Response_Base:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: Código de estado de la respuesta
+        isError:
+          type: boolean
+          description: Indica si hubo un error
+        message:
+          type: string
+          description: Mensaje de respuesta
+      example:
+        statusCode: 200
+        isError: false
+        message: Operación Exitosa
+
+  responses:
+    500Server:
+      description: Error interno del server.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: integer
+                description: Código de estado de la respuesta
+              isError:
+                type: boolean
+                description: Indica si hubo un error
+              message:
+                type: string
+                description: Mensaje de respuesta
+              payload:
+                type: object
+                description: Datos de la respuesta
+            example:
+              statusCode: 500
+              isError: true
+              message: Error interno del server
+              payload: {}
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

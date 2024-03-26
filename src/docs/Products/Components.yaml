@@ -1,0 +1,129 @@
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: Id autogenerados de Mogno.
+        title:
+          type: string
+          description: Titulo del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        code:
+          type: string
+          description: Codigo o SKU del producto
+        status:
+          type: boolean
+          description: Si esta activo o no
+        category:
+          type: string
+          description: Categoria o agrupación
+        price:
+          type: number
+          description: Precio en Pesos
+        stock:
+          type: number
+          description: Unidades disponibles
+        owner: 
+          type: string
+          description: Quien usuario creo el producto
+        thumbnail:
+          type: string
+          description: Url de la imagen del producto
+        lastupdated:
+          type: date
+          description: Fecha y hora de la ultima actualizacion
+      example:
+        _id: 65a47e2ad026e760184f5513
+        title: Bicicleta Merida Ciclismo Ruta Scultura 300 Rim
+        description: Cuadro Frame Scultura Lite - Aluminio  ... 
+        code: MEBC21RR030052G
+        status: true
+        price: 1989600
+        stock: 20
+        owner: admin
+        category: ruta
+        thumbnail: https://newsport.vtexassets.com/arquivos/ids/14890321-800-auto?v=63805…
+
+  requestBodies:
+    Products:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Titulo del producto
+        description:
+          type: string
+          description: Descripcion del producto
+        code:
+          type: string
+          description: Codigo o SKU del producto
+        status:
+          type: boolean
+          description: Si esta activo o no
+        category:
+          type: string
+          description: Categoria o agrupación
+        price:
+          type: number
+          description: Precio en Pesos
+        stock:
+          type: number
+          description: Unidades disponibles
+        thumbnail:
+          type: string
+          description: Url de la imagen del producto
+      example:
+        title: Bicicleta Merida Ejemplo
+        description: Cuadro Frame Scultura Lite -  ... 
+        code: MEBCXXXXXX00001
+        status: true
+        price: 1989600
+        stock: 20
+        category: ruta
+        thumbnail: https://newsport.vtexassets.com/arquivos/ids/14890321-800-auto?v=63805…
+
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: El numero de items a devolver
+      required: false
+      schema:
+        type: integer
+        default: 10
+    page:
+      name: page
+      in: query
+      description: El numero de pagina a ver
+      required: false
+      schema:
+        type: integer
+        default: 1
+    category:
+      name: category
+      in: query
+      description: permite filtrar por categoria
+      required: false
+      schema:
+        type: string
+        example: ruta
+    availability:
+      name: availability
+      in: query
+      description: Muestra los articulos con stock (o todos)
+      required: false
+      schema:
+        type: boolean
+        default: true
+    sort:
+      name: sort
+      in: query
+      description: 1 o -1, permite ordenar por precio
+      required: false
+      schema:
+        type: number
+        default: 1

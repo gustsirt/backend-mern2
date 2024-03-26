@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "nodemon": "nodemon src/app.js --mode development",
     "dev": "node --watch src/app.js --mode development",
-    "start": "node src/app.js --mode production"
+    "start": "node src/app.js --mode production",
+    "swagger": "node src/swagger.js"
   },
   "author": "Sirtori Gustavo <gustavo.sirtori@gmail.com>",
   "license": "ISC",

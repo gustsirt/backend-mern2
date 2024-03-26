@@ -1,0 +1,10 @@
+components:
+  parameters:
+    populate:
+      name: populate
+      in: query
+      description: Devuelve los carritos extendidos
+      required: false
+      schema:
+        type: boolean
+        default: true
