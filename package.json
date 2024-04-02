@@ -5,7 +5,12 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "ptest01": "mocha test/products/products01.test.js",
+    "ptest02": "mocha test/products/products02.test.js",
+    "ptest03": "mocha test/products/products03.test.js",
+    "stest01": "mocha test/sessions/sessions01.test.js",
+    "stest02": "mocha test/sessions/sessions02.test.js",
+    "stest03": "mocha test/sessions/sessions03.test.js",
     "nodemon": "nodemon src/app.js --mode development",
     "dev": "node --watch src/app.js --mode development",
     "start": "node src/app.js --mode production",
@@ -42,6 +47,8 @@
     "@faker-js/faker": "^8.4.1",
     "eslint": "^8.57.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-react": "^7.34.1"
+    "eslint-plugin-react": "^7.34.1",
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0"
   }
 }
