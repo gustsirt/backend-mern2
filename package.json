@@ -11,6 +11,7 @@
     "stest01": "mocha test/sessions/sessions01.test.js",
     "stest02": "mocha test/sessions/sessions02.test.js",
     "stest03": "mocha test/sessions/sessions03.test.js",
+    "supertest01": "mocha test/supertest01.js",
     "nodemon": "nodemon src/app.js --mode development",
     "dev": "node --watch src/app.js --mode development",
     "start": "node src/app.js --mode production",
@@ -45,10 +46,11 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "chai": "^5.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.34.1",
-    "chai": "^5.1.0",
-    "mocha": "^10.4.0"
+    "mocha": "^10.4.0",
+    "supertest": "^6.3.4"
   }
 }
