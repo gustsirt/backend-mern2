@@ -44,10 +44,11 @@ app.use(appRouter);
 const port = process.env.PORT;
 //server.listen(port, (err) => { //para IO server
 
-export const appListen = () => {
-  return app.listen(port, (err) => {
+//export const appListen = () => {
+  //return
+  app.listen(port, (err) => {
   if (err) { logger.fatal("Error fatal en server: ", err); }
   logger.info(`Server andando en port ${port}`);
 });
-}
+//}
 //appListen()

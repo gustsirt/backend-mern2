@@ -1,5 +1,6 @@
 import UsersController from "../../controller/users.controller.js";
 import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
+import uploader from "../../utils/multer.js";
 import CustomRouter from "./custom.route.js";
 
 const cControl = new UsersController()
@@ -17,7 +18,7 @@ export default class UserCRouter extends CustomRouter {
     this.post   ('/',       handleAuth(['ADMIN']) , this.controller.create)
     this.put    ('/:eid',   handleAuth(['ADMIN']) , this.controller.updateId)
     this.delete ('/:eid',   handleAuth(['ADMIN']) , this.controller.deleteId)
-    this.get    ('/premium/:uid', this.controller.switchuser) // realizado por el ejercicio
-    this.get    ('/admin/:uid', this.controller.switchuseradmin) // realizado por el ejercicio
+    this.get    ('/access/:uid/:role', this.controller.switchRole) // role = user_premium o admin
+    this.post   ('/:uid/documents', uploader.array('documents') , this.controller.adddocument)
   }
 }

@@ -12,9 +12,9 @@
     "stest02": "mocha test/sessions/sessions02.test.js",
     "stest03": "mocha test/sessions/sessions03.test.js",
     "supertest01": "mocha test/supertest01.js",
-    "nodemon": "nodemon src/app.js --mode development",
-    "dev": "node --watch src/app.js --mode development",
-    "start": "node src/app.js --mode production",
+    "nodemon": "nodemon src/server.js --mode development",
+    "dev": "node --watch src/server.js --mode development",
+    "start": "node src/server.js --mode production",
     "swagger": "node src/swagger.js"
   },
   "author": "Sirtori Gustavo <gustavo.sirtori@gmail.com>",

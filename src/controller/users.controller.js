@@ -5,78 +5,30 @@ export default class UsersController extends CustomController {
   constructor() {
     super(usersService);
   }
-
-  getDataUserById = async id => {
-    const user = await this.service.getBy({_id: id});
-
-    return {
-      id: id,
-      name: user?.first_name,
-      lname: user?.last_name,
-      email: user?.email,
-      role: user?.role,
-      cart: user?.cart,
-      ...this.handleAccess(user?.role)
-    };
-  } // no es un Controler de ROUTER sino de middelware AUTH
-
-  // AUXILIARY
-  handleAccess = role => {
-    const access = {}
-      if (role === 'user_premium') access.accessPremium = true;
-    return access
-  }
-
-  // cambio de reoles para Desafio Complementario calse 37
-  switchuser = async ( req, res) => {
-    const {uid} = req.params
+  switchRole = async ( req, res ) => {
     try {
-      const user = await this.service.getBy({_id: uid});
-      if (!user) return res.sendNotFound('Usuario no encontrado');
+      const {uid} = req.params
+      const {role} = req.params
+      if ( role != "admin" && role != "user_premium") return res.sendUserError('Rol incorrecto')
+      const userData = await this.service.switchRole(uid, role)
 
-      if (user.role == 'user') {
-        user.role = 'user_premium';
-        user.lastupdated = new Date();
-      } else if (user.role == 'user_premium') {
-        user.role = 'user'
-        user.lastupdated = new Date();
-      }
-      const newuser = await this.service.update({_id: uid}, user);
-      res.sendSuccess({
-        _id: newuser._id,
-        first_name: newuser.first_name,
-        last_name: newuser.last_name,
-        email: newuser.email,
-        role: newuser.role,
-        lastupdated: newuser.lastupdated
-      });
+      res.sendSuccess(userData)
     } catch (error) {
       req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }
-  switchuseradmin = async ( req, res) => {
-    const {uid} = req.params
+  adddocument = async ( req, res ) => {
     try {
-      const user = await this.service.getBy({_id: uid});
-      if (!user) return res.sendNotFound('Usuario no encontrado');
+      const {uid} = req.params
+      const uploadedFiles = req.files;
+      const resp = await this.service.adddocument(uid, uploadedFiles)
+      res.sendSuccess(resp)
+      //Modificar el endpoint /api/users/premium/:uid   para que sólo actualice al usuario a premium si ya ha cargado los siguientes documentos:
+      //Identificación, Comprobante de domicilio, Comprobante de estado de cuenta
+      //En caso de llamar al endpoint, si no se ha terminado de cargar la documentación, devolver un error indicando que el usuario no ha terminado de procesar su documentación. 
+      //(Sólo si quiere pasar de user a premium, no al revés)
 
-      if (user.role != 'admin') {
-        user.role = 'admin';
-        user.lastupdated = new Date();
-      } else if (user.role == 'admin') {
-        user.role = 'user'
-        user.lastupdated = new Date();
-      }
-      const newuser = await this.service.update({_id: uid}, user);
-      res.sendSuccess({
-        _id: newuser._id,
-        first_name: newuser.first_name,
-        last_name: newuser.last_name,
-        email: newuser.email,
-        role: newuser.role,
-        lastupdated: newuser.lastupdated
-      });
     } catch (error) {
       req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
