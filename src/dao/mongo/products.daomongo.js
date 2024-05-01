@@ -1,4 +1,4 @@
-import DaoMongo from "./custom.dao.mongo.js";
+import DaoMongo from "../../libraries/custom/dao.mongo.js";
 import productModel from "../models/products.model.js";
 
 export default class ProductDaoMongo  extends DaoMongo{

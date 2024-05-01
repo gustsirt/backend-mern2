@@ -1,4 +1,4 @@
-import CustomController from "./custom.controller.js";
+import CustomController from "../libraries/custom/controller.js";
 import { messagesService } from "../repository/service.js";
 
 export default class MessagesController extends CustomController {

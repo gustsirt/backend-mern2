@@ -1,5 +1,5 @@
 import LastUpdateDTO from '../dto/lastupdate.dto.js';
-import CustomRepository from './custom.repository.js';
+import CustomRepository from '../libraries/custom/repository.js';
 
 class CustomRepositoryLU extends CustomRepository {
   constructor(dao) {

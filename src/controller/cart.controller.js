@@ -1,5 +1,5 @@
 import { cartsService, productsService, ticketsService} from "../repository/service.js";
-import CustomController from "./custom.controller.js";
+import CustomController from "../libraries/custom/controller.js";
 
 class CartsController extends CustomController {
   constructor() {

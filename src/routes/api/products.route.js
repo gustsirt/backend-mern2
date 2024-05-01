@@ -1,6 +1,6 @@
 import ProductsController from "../../controller/products.controller.js";
-import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
-import CustomRouter from "./custom.route.js";
+import { handleAuth } from "../../libraries/middleware/handlePoliciesPASP.js";
+import CustomRouter from "../../libraries/custom/router.class.js";
 
 // * http://localhost:PORT/api/products
 

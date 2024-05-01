@@ -1,5 +1,5 @@
 import winston from 'winston'
-import program from '../config/commander.js'
+import program from '../../config/commander.js'
 const {mode} = program.opts();
 
 // mode == 'development'

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import MailController from "../../controller/mail.controller.js";
-import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
+import { handleAuth } from "../../libraries/middleware/handlePoliciesPASP.js";
 
 const router = Router();
 const sControl = new MailController()

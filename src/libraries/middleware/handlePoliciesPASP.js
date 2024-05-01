@@ -1,5 +1,5 @@
 import passport from "passport";
-import UsersController from "../controller/users.controller.js";
+import UsersController from "../../controller/users.controller.js";
 
 const uControl = new UsersController();
 

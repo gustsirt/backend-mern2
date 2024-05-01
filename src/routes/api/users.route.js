@@ -1,7 +1,7 @@
 import UsersController from "../../controller/users.controller.js";
-import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
+import { handleAuth } from "../../libraries/middleware/handlePoliciesPASP.js";
 import uploader from "../../utils/multer.js";
-import CustomRouter from "./custom.route.js";
+import CustomRouter from "../../libraries/custom/router.class.js";
 
 const cControl = new UsersController()
 

@@ -1,4 +1,4 @@
-import CustomError from "../services/errors/errors.js";
+import CustomError from "../../services/errors/errors.js";
 
 const cookiesoptions = {
   maxAge: (1000*60*60*24),

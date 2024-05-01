@@ -1,4 +1,4 @@
-import DaoMongo from "./custom.dao.mongo.js";
+import DaoMongo from "../../libraries/custom/dao.mongo.js";
 import usersModel from "../models/user.model.js";
 import CartDaoMongo from "./cart.daomongo.js";
 

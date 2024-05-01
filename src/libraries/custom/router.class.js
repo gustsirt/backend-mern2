@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
+import { handleAuth } from "../middleware/handlePoliciesPASP.js";
 export default class CustomRouter {
   constructor(controller) {
     this.router = Router(); // instanciar const router = Router()

@@ -1,4 +1,4 @@
-import configObject from "./index.js";
+import configObject from "./env.js";
 import passport from "passport";
 import jwt from "passport-jwt";
 //import GithubStrategy from "passport-github2";

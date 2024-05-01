@@ -2,7 +2,7 @@ import { Router } from "express";
 //import passport from "passport";
 
 import SessionsController from "../../controller/sessions.controller.js";
-import { handleAuth } from "../../middleware/handlePoliciesPASP.js";
+import { handleAuth } from "../../libraries/middleware/handlePoliciesPASP.js";
 
 
 const router = Router();

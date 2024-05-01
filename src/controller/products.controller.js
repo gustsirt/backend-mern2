@@ -1,7 +1,7 @@
 import { convertSort, convertAvailability, checkCategory } from "../helpers/mongoHelper.js";
 import { productsService } from "../repository/service.js";
 import validateFields from "../utils/validatefiels.js";
-import CustomController from "./custom.controller.js";
+import CustomController from "../libraries/custom/controller.js";
 
 
 

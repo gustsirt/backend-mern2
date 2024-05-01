@@ -1,6 +1,6 @@
 import { CartClass, MessageClass, ProductClass, TicketClass, UserClass } from "../dao/factory.js";
 import CartRepository from "./cart.repository.js";
-import CustomRepository from "./custom.repository.js";
+import CustomRepository from "../libraries/custom/repository.js";
 import CustomRepositoryLU from "./customlu.repository.js";
 import ProductRepository from "./product.repository.js";
 import UsersRepository from "./users.repository.js";

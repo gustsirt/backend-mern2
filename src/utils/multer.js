@@ -1,5 +1,5 @@
 import multer from "multer";
-import { logger } from "./logger.js";
+import { logger } from "../libraries/middleware/logger.js";
 import __dirname from './dirname.js';
 import { dirname } from 'path'
 

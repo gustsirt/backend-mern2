@@ -1,6 +1,6 @@
 import LastUpdateDTO from '../dto/lastupdate.dto.js';
-import CustomRepository from './custom.repository.js';
-import configObject from '../config/index.js';
+import CustomRepository from '../libraries/custom/repository.js';
+import configObject from '../config/env.js';
 import { createHash, isValidPassword } from '../utils/passwords.js';
 import createToken from '../utils/createToken.js';
 import sendEmailwithLayout from '../utils/sendMail.js';
