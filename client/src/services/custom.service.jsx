@@ -7,12 +7,12 @@ export default class ApiService {
     token && this.headers.append("Authorization", token);
   }
 
-  get = async () => await (await fetch(`${this.uriBase}${this.endpoint}`)).json();
+  get = async () => await (await fetch(`${this.uriBase}/${this.endpoint}`)).json();
 
-  getById = async (eid) => await (await fetch(`${this.uriBase}${this.endpoint}${eid}`)).json();
+  getById = async (eid) => await (await fetch(`${this.uriBase}/${this.endpoint}${eid}`)).json();
   
   post = async(element) => {
-    const response = await( await fetch(`${this.uriBase}${this.endpoint}`, {
+    const response = await( await fetch(`${this.uriBase}/${this.endpoint}`, {
       method: "POST",
       headers: this.headers,
       body: JSON.stringify(element)
@@ -21,7 +21,7 @@ export default class ApiService {
   }
 
   put = async (eid, element) => {
-    const response = await(await fetch(`${this.uriBase}${this.endpoint}${eid}`, {
+    const response = await(await fetch(`${this.uriBase}/${this.endpoint}${eid}`, {
       method: "PUT",
       headers: this.headers,
       body: JSON.stringify(element),
@@ -30,7 +30,7 @@ export default class ApiService {
   }
 
   delete = async (eid) => {
-    const response = await(await fetch(`${this.uriBase}${this.endpoint}${eid}`, {
+    const response = await(await fetch(`${this.uriBase}/${this.endpoint}${eid}`, {
       method: "DELETE",
       headers: this.headers,
     })).json();

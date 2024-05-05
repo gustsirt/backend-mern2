@@ -9,7 +9,6 @@ export default class CustomRouter {
   init() {
     this.get    ('/',       handleAuth(['PUBLIC']), this.controller.gets)
     this.get    ('/:eid',   handleAuth(['PUBLIC']), this.controller.getId)
-    this.get    ('/filter', handleAuth(['PUBLIC']), this.controller.getBy)
     this.post   ('/',       handleAuth(['ADMIN']) , this.controller.create)
     this.put    ('/:eid',   handleAuth(['ADMIN']) , this.controller.updateId)
     this.delete ('/:eid',   handleAuth(['ADMIN']) , this.controller.deleteId)

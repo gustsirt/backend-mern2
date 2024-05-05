@@ -3,14 +3,14 @@ import program from './config/commander.js';
 import configObj from './config/env.js'
 import configMongo from './config/mongo.js';
 
-import __dirname from './utils/dirname.js';
+import __dirname from './libraries/dirname.js';
 //import serverIO from './helpers/serverIO.js';
 import cors from 'cors';
 import { addLogger, logger } from './libraries/middleware/logger.js';
 import handleResponses from './libraries/middleware/handleResponses.js';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
-import appRouter from './routes/index.js'
+import appRouter from './config/routes.js'
 
 // App initialization ------------------------------
 const {mode} = program.opts();

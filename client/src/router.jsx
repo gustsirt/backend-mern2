@@ -1,20 +1,19 @@
 import { createHashRouter } from 'react-router-dom';
 
-import Layout from './pages/Layout.jsx';
-
-import LogIn from './pages/LogIn.jsx';
-import Recovery from './pages/Recovery.jsx';
-import RecoveryPassword from './pages/RecoveryPassword.jsx';
-import Register from './pages/Register.jsx';
-import LogOut from './pages/LogOut.jsx';
-import Products from './pages/Products.jsx';
-import Product from './pages/Product.jsx';
-import AddProducts from './pages/AddProducts.jsx';
-import Chat from './pages/Chat.jsx';
-import Cart from './pages/Cart.jsx';
-import Order from './pages/Order.jsx';
-import User from './pages/User.jsx';
-import Colores from './pages/temporal/Colores.jsx';
+import Layout       from './pages/Layout/Layout.jsx';
+import LogIn        from './pages/Sessions/LogIn.jsx';
+import Recovery     from './pages/Sessions/Recovery.jsx';
+import RecoveryPassword from './pages/Sessions/RecoveryPassword.jsx';
+import Register     from './pages/Sessions/Register.jsx';
+import LogOut       from './pages/Sessions/LogOut.jsx';
+import Products     from './pages/Products/Products.jsx';
+import Product      from './pages/Products/Product.jsx';
+import AddProducts  from './pages/Products/AddProducts.jsx';
+import Chat         from './pages/Chat.jsx';
+import Cart         from './pages/Cart/Cart.jsx';
+import Order        from './pages/Cart/Order.jsx';
+import User         from './pages/User.jsx';
+import Colores      from './pages/temporal/Colores.jsx';
 
 // createBrowserRouter reemplazaria --> createHashRouter (se pone hash para que lo tome github pages)
 const router = createHashRouter([

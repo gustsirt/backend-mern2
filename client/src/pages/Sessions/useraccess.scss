@@ -1,0 +1,75 @@
+@import '../../styles/variables';
+
+$cback: $ccla7;
+$cinput-border: $cgris5;
+
+$bot-csubmit-ok: $cnegro;
+$bot-csubmit-ok-font: $cblanco;
+$bot-csubmit-hover: $color;
+$bot-csubmit-disable: $cgris3;
+
+$font-alert: red;
+
+$recovery-clink: $cosc2;
+
+.form-container-vert {
+  margin: auto;
+  margin-bottom: 1em;
+  padding: 0.8em;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  
+  max-width: 500px;
+  min-width: 350px;
+  background-color: $cback;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  justify-content: center;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.1em;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid $cinput-border;
+    border-radius: 5px;
+    margin-bottom: 0.1em;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: $bot-csubmit-ok;
+    color: $bot-csubmit-ok-font;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  button:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    background-color: $bot-csubmit-hover;
+  }
+  button:disabled {
+    background-color: $bot-csubmit-disable;
+  }
+  button:disabled:hover {
+    box-shadow: none;
+    background-color: $bot-csubmit-disable;
+  }
+
+  .error-message {
+    color: $font-alert;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+}
+.recovery-link{
+  color: $recovery-clink;
+}
+.recovery-link:hover{
+  color: $cnegro;
+  filter: drop-shadow(0 1px 1px grey);
+}

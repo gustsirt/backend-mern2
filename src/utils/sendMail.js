@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 import configObject from '../config/env.js';
-import __dirname from './dirname.js';
+import __dirname from '../libraries/dirname.js';
 //import { logger } from './logger.js';
 import Handlebars from 'handlebars';
 import fs from 'fs';

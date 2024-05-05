@@ -9,9 +9,7 @@ export default class MailService {
   }
 
   sendEmail = async (variables) => {
-    //console.log("html: ",variables);
-    //console.log("token: ",this.token);
-    const response = await fetch(`${this.uriBase}api/mail/send`, {
+    const response = await fetch(`${this.uriBase}/api/mail/send`, {
       method: "POST",
       //mode: 'no-cors',
       headers: this.headers,

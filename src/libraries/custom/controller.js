@@ -1,24 +1,13 @@
 export default class CustomController {
-  constructor(service) {
+  constructor(service, fieldAllowed = []) {
     this.service = service;
+    this.fieldAllowed = fieldAllowed;
   }
 
   gets    = async (req, res) => {
+    const filter = req.query || {}
     try {
-      const element = await this.service.get();
-      res.sendSuccessOrNotFound(element);
-    } catch (error) {
-      req.logger.error(error);
-      res.sendCatchError(error, "An error occurred in the API request");
-    }
-  }
-
-  getBy  = async (req, res) => {
-    const {ekey, evalue} = req.query
-    const filter = {}
-    filter[ekey] = evalue;
-    try {
-      const element = await this.service.getBy(filter);
+      const element = await this.service.get(filter);
       res.sendSuccessOrNotFound(element);
     } catch (error) {
       req.logger.error(error);
@@ -68,6 +57,23 @@ export default class CustomController {
     } catch (error) {
       req.logger.error(error);
       res.sendCatchError(error, "An error occurred in the API request");
+    }
+  }
+
+  getUniqueValue = async (req, res) => {
+    const { field } = req.params;
+
+    try {
+      const allowedValue = this.fieldAllowed == [] ? true : this.fieldAllowed.includes(field)
+      
+      if (!allowedValue) {
+        res.sendUserError('The searched field is not allowed');
+      } else {
+        const uniqueValues = await this.service.getUniquesValues(field);
+        res.sendSuccess(uniqueValues);
+      }
+    } catch (error) {
+      res.sendCatchError(error, "An error occurred in the API request")
     }
   }
 }

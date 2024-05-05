@@ -7,6 +7,7 @@ class CustomError extends Error {
     //this.code = code;
     //this.stack = stack; --  Pila de llamadas (automáticamente generada por Error)
   }
+  getMessage = () => { return this.error }
 }
 
 export default CustomError
