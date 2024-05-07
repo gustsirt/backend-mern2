@@ -5,6 +5,7 @@ import { createHash, isValidPassword } from '../../../libraries/passwords.js';
 import createToken from '../../../libraries/createToken.js';
 import sendEmailwithLayout from '../../../libraries/mail/sendMail.js';
 import CustomError from '../../../services/errors/errors.js';
+import dayjs from 'dayjs';
 
 class UsersRepository extends CustomRepository {
   constructor(dao) {
@@ -83,28 +84,14 @@ class UsersRepository extends CustomRepository {
     return new SimplifiqueUser(newUser)
   }
 
-  adddocument = async (uid, uploadedFiles) => {
-    const user = await this.dao.getBy({_id: uid})
-    if (!user) {
-      throw new Error("Usuario no encontrado");
-    }
+  delete = async (hs = 3) => {
+    const timelimit = dayjs().subtract(hs, 'hour').toDate();
 
-    uploadedFiles.forEach(file => {
-      const typeName = file.originalname.includes('perfil')
-      ? 'profiles'
-      : file.originalname.includes('producto') 
-      ? 'products'
-      : 'documents';
-      
-      user.documents.push({
-        name: String(file.originalname),
-        type: typeName,
-        reference: String(file.path)
-      });
+    const result = await this.dao.deleteMany({
+      lastconnection: { $lt: timelimit },
     });
-    await user.save()
 
-    return this.simplifiqueUser(user)
+    return result
   }
 }
 
