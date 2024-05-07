@@ -5,9 +5,8 @@ import useFetchService from '../hook/useFetchService';
 
 const User = () => {
   const { user, updateUser, setUpdateUser } = useContext(ContextUser);
-  const { loading, fetchData} = useFetchService()
+  const { fetchData} = useFetchService()
   
-  //console.log(user);
   const changeRol = async (role) => {
     if (role == "user") { role = user.role; }
     await fetchData(`api/users/access/${user._id}/${role}`)

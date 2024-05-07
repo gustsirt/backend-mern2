@@ -50,11 +50,9 @@ const Order = () => {
 const sendEmail = async () => {
   try {
     const resp = await postTData(`api/mail/send`,{detail, products})
-    if (resp.ok) {
-      // Mostrar mensaje de éxito
+    if (resp.isError == false) {
       message("Correo electrónico enviado correctamente","success")
     } else {
-      // Mostrar mensaje de error
       message("Error al enviar el correo electrónico: "+resp.message,"error");
     }
   } catch (error) {

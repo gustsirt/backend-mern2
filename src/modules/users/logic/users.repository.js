@@ -3,7 +3,7 @@ import CustomRepository from '../../../libraries/custom/repository.js';
 import SimplifiqueUser from './simplifiqueUser.dto.js';
 import { createHash, isValidPassword } from '../../../libraries/passwords.js';
 import createToken from '../../../libraries/createToken.js';
-import sendEmailwithLayout from '../../../utils/sendMail.js';
+import sendEmailwithLayout from '../../../libraries/mail/sendMail.js';
 import CustomError from '../../../services/errors/errors.js';
 
 class UsersRepository extends CustomRepository {

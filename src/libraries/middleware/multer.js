@@ -10,7 +10,6 @@ const storage = multer.diskStorage({
     : file.originalname.includes('producto') 
     ? 'products'
     : 'documents';
-    console.log("destination: ",`${dirname(__dirname)}/public/uploads/${folderName}`);
     cb(null, `${__dirname}/public/uploads/${folderName}`)
   },
   filename: function(req, file, cb) {

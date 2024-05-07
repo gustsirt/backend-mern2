@@ -37,7 +37,6 @@ const Product = () => {
         message(resp.message || "Error al eliminar el producto" ,"error");
       }
     } catch (error) {
-      // console.log(error);
       message("Error al obtener productos debido a un problema en el sistema","error");
     }
     fetchProducts()

@@ -8,7 +8,7 @@ const ProductForm = ({selectedProduct, onSubmitF }) => {
       status: true,
     }
   });
-  //console.log(selectedProduct);
+
   const [idselected, setIdSelected] = useState('')
 
   useEffect(() => {

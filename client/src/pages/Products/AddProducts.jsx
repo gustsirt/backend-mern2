@@ -61,7 +61,6 @@ const AddProducts = () => {
         message(resp.message || "Error al eliminar el producto","error");
       }
     } catch (error) {
-      console.log(error);
       message("Error al obtener productos debido a un problema en el sistema","error")
     }
   };
@@ -130,7 +129,6 @@ const AddProducts = () => {
 
   // Function for Edith
   const handleProductClick = (product) => {
-    //console.log(product);
     setSelectedProduct(product);
   };
 

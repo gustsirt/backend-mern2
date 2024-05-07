@@ -57,8 +57,13 @@ const Cart = () => {
   return (
     <div className="page-container">
       <h1 className="title">Carrito de: {user.name}</h1>
-      <CartList products={cartProducts} oneMoreClick={addOneUnit} oneLessClick={removeOneUnit} onXClick={removeItem}/>
-      <Link className="button-center" to={'/Order'}> Realizar la Compra</Link>
+      { cartProducts.length === 0
+        ? (<div>Carrito vacio...</div>)
+        : (<>
+          <CartList products={cartProducts} oneMoreClick={addOneUnit} oneLessClick={removeOneUnit} onXClick={removeItem}/>
+          <Link className="button-center" to={'/Order'}> Realizar la Compra</Link>
+        </>)
+      }
     </div>
   )
 }

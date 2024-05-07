@@ -11,10 +11,8 @@ class CartRepository extends CustomRepositoryLU {
   }
   gets = async (filter, populate) => {
     if(populate) {
-      console.log(populate);
       return await this.dao.getPopulate(filter);
     } else {
-      console.log(populate);
       return await this.dao.get(filter)
     }
   }
@@ -71,9 +69,9 @@ class CartRepository extends CustomRepositoryLU {
         continue;
       }
 
-      product.stock -= item.stock
+      product.stock -= item.quantity
       product.lastupdated = Date.now()
-      await productsService.update({_id: pid}, product)
+      await this.prodDao.update({_id: pid}, product)
 
       productList.push({
         id: pid,
@@ -92,10 +90,11 @@ class CartRepository extends CustomRepositoryLU {
 
     const ticket = await this.tickDao.create(detail)
 
-    cart.products = cart.products.filter(item => !productsNotProcessed.includes(item.product))
+    cart.products = cart.products.filter(item => 
+      !productList.some(p => p.id === item.product.toString())
+    );
     await cart.save()
 
-    console.log("detail: ",detail);
     return ({isError: false, message: 'Finalizado', ticket, productList, productsNotProcessed})
   }
 }

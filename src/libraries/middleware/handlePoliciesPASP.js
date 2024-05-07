@@ -12,7 +12,6 @@ export const handleAuth = (policies) => {
         if (err) next(err)
         if (user) {
           const newuser = new SimplifiqueUser(await usersService.getBy({_id: user.id}))
-          // TODO console.log(newuser);
           req.user = newuser
         }
         if(policies[0] === 'PUBLIC') return next();

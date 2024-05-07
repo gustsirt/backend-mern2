@@ -57,7 +57,6 @@ class CartsController extends CustomController {
       if (resp.isError) return res.sendNotFound(resp.message)
       res.sendSuccess(resp.cart)
     } catch(error){
-      console.log(error);
       res.sendCatchError(error)
     }
   } 
@@ -90,12 +89,8 @@ class CartsController extends CustomController {
       const { eid } = req.params;
       const resp = await this.service.purchase(eid, req.user)
       if (resp.isError) return res.sendNotFound(resp.message)
-      console.log(resp);
-    
-      res.sendSuccess(resp.message)
+      res.sendSuccess({detail: resp.ticket, productList: resp.productList, productsNotProcessed: resp.productsNotProcessed})
 
-
-      // res.sendSuccess({detail: resp, productList, productsNotProcessed})
     } catch(error){
       req.logger.error(error);
       res.sendCatchError(error)

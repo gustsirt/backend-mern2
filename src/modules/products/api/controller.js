@@ -13,7 +13,6 @@ class ProductsController extends CustomController {
       res.sendSuccess (resp);
 
     } catch (error) {
-      console.log(error);
       res.sendCatchError(error, "An error occurred in the API request");
     }
   }; 

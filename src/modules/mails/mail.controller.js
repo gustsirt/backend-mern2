@@ -1,5 +1,5 @@
-import generateHtml from "../../utils/generateHtml.js";
-import { sendMail } from "../../utils/sendMail.js";
+import generateHtml from "../../libraries/mail/generateHtml.js";
+import { sendMail } from "../../libraries/mail/sendMail.js";
 
 class MailController {
   constructor() {}

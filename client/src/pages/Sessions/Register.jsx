@@ -19,7 +19,6 @@ const Register = () => {
   const onSubmit = async data => {
     try {
       const resp = await postData("api/sessions/register", data)
-      console.log(resp);
       if (resp?.isError === false) {
         messageAndRedirect(resp.message, "success", "/login/")
       } else {

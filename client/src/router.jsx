@@ -9,7 +9,6 @@ import LogOut       from './pages/Sessions/LogOut.jsx';
 import Products     from './pages/Products/Products.jsx';
 import Product      from './pages/Products/Product.jsx';
 import AddProducts  from './pages/Products/AddProducts.jsx';
-import Chat         from './pages/Chat.jsx';
 import Cart         from './pages/Cart/Cart.jsx';
 import Order        from './pages/Cart/Order.jsx';
 import User         from './pages/User.jsx';
@@ -29,7 +28,6 @@ const router = createHashRouter([
       { path: 'products/', element: <Products /> },
       { path: 'product/:pid', element: <Product /> },
       { path: 'addproducts/', element: <AddProducts />},
-      { path: 'chat/', element: <Chat /> },
       { path: 'cart/', element: <Cart /> },
       { path: 'order/', element: <Order /> },
       { path: 'user/', element: <User /> },

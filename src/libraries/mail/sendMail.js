@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer';
-import configObject from '../config/env.js';
-import __dirname from '../libraries/dirname.js';
-//import { logger } from './logger.js';
+import configObject from '../../config/env.js';
+import __dirname from '../dirname.js';
 import Handlebars from 'handlebars';
 import fs from 'fs';
 
@@ -22,19 +21,13 @@ export const sendMail = async ( to, subject, bodyhtml) => {
     from: 'Gustavo Sirtori <gustavo.sirtori@gmail.com>',
     to,
     subject,
-    html: bodyhtml,
-    // attachments: [
-    //   {
-    //     filename: 'think-about.png',
-    //     path: __dirname + '/utils/sendMailUtil/think-about.png',
-    //     contentType: 'Piensa'
-    //   }]
+    html: bodyhtml
   })
 }
 
 export const generateHtml = (options, layout = '') => {
   
-  const template = Handlebars.compile(fs.readFileSync(__dirname+`/utils/sendMailUtil/${layout}.hbs`, 'utf-8'))
+  const template = Handlebars.compile(fs.readFileSync(__dirname+`/libraries/mail/sendMailUtil/${layout}.hbs`, 'utf-8'))
     
   const html = template(options);
 
