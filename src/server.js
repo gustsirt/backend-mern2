@@ -1,35 +1,36 @@
 import express from 'express';
 import program from './config/commander.js';
-import configObj from './config/env.js'
 import configMongo from './config/mongo.js';
 
 import __dirname from './libraries/dirname.js';
-//import serverIO from './helpers/serverIO.js';
 import cors from 'cors';
 import { addLogger, logger } from './libraries/middleware/logger.js';
 import handleResponses from './libraries/middleware/handleResponses.js';
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import appRouter from './config/routes.js'
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: opts.mode == 'production' ? './.env.production' : './.env.development'
+})
 
 // App initialization ------------------------------
 const {mode} = program.opts();
 logger.info('Mode: ' + mode);
 const app = express();
-//const server = createServer(app); //para IO server
 
 // App Configurations --------------------------------
-const port = configObj.port;
+const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-//app.use(cookieParser(configObj.cookies_code))
 
 // App Data Source Configuration --------------------------------
 configMongo.connectDB();
 
 // App Middleware --------------------------------
-app.use(cors()); //{ origin: configObject.cors_origin }
+app.use(cors());
 app.use(addLogger)
 app.use(handleResponses)
 

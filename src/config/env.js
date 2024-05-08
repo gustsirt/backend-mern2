@@ -8,7 +8,6 @@ dotenv.config({
 })
 
 const configObject = {
-  port: process.env.PORT,
   jwt_code: process.env.JWT_SECRET_CODE,
   cookies_code: process.env.COOKIES_SECRET_CODE,
   mongo_uri: process.env.MONGO_URI,
