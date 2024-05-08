@@ -43,7 +43,6 @@ const LayoutNav = () => {
       <li><NavLink to="products/">Productos</NavLink></li>
       { ( user && user.role != "user" ) && ( <>
         <li><NavLink to="addproducts/"><BiSolidEdit/>*</NavLink></li>
-        <li><NavLink to="chat/">*Chat</NavLink></li>
         <li><NavLink to="refcolores/">Colores a Usar</NavLink></li>
       </>)}
     </ul>
