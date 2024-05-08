@@ -12,7 +12,7 @@
     "stest02": "mocha test/sessions/sessions02.test.js",
     "stest03": "mocha test/sessions/sessions03.test.js",
     "supertest01": "mocha test/supertest01.js",
-    "nodemon": "nodemon src/server.js --mode development",
+    "nodemon": "nodemon src/server.js",
     "dev": "node --watch src/server.js --mode development",
     "start": "node src/server.js",
     "swagger": "node src/swagger.js"

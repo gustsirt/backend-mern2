@@ -1,5 +1,4 @@
 import express from 'express';
-import program from './config/commander.js';
 import configMongo from './config/mongo.js';
 
 import __dirname from './libraries/dirname.js';
@@ -11,13 +10,9 @@ import initializePassport from './config/passport.config.js';
 import appRouter from './config/routes.js'
 import dotenv from 'dotenv';
 
-dotenv.config({
-  path: opts.mode == 'production' ? './.env.production' : './.env.development'
-})
+dotenv.config()
 
 // App initialization ------------------------------
-const {mode} = program.opts();
-logger.info('Mode: ' + mode);
 const app = express();
 
 // App Configurations --------------------------------
